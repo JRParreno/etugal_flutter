@@ -10,11 +10,15 @@ class CustomElevatedBtn extends StatelessWidget {
     required this.onTap,
     required this.title,
     this.buttonType = ButtonType.normal,
+    this.borderWidth = 1,
+    this.textStyle,
   });
 
   final VoidCallback onTap;
   final String title;
   final ButtonType buttonType;
+  final double borderWidth;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +31,19 @@ class CustomElevatedBtn extends StatelessWidget {
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7),
-              side: const BorderSide(
+              side: BorderSide(
                 color: ColorName.primary,
+                width: borderWidth,
               ),
             ),
           ),
           onPressed: onTap,
           child: Text(
             title,
-            style: textTheme.bodyMedium?.copyWith(
-              color: ColorName.primary,
-            ),
+            style: textStyle ??
+                textTheme.bodyMedium?.copyWith(
+                  color: ColorName.primary,
+                ),
           ),
         );
       default:
@@ -45,9 +51,10 @@ class CustomElevatedBtn extends StatelessWidget {
           onPressed: onTap,
           child: Text(
             title,
-            style: textTheme.bodyMedium?.copyWith(
-              color: Colors.white,
-            ),
+            style: textStyle ??
+                textTheme.bodyMedium?.copyWith(
+                  color: Colors.white,
+                ),
           ),
         );
     }

@@ -34,8 +34,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -45,14 +43,23 @@ class _HomePageState extends State<HomePage> {
             children: [
               const HomeHeader(),
               SearchField(
+                onChanged: () {
+                  setState(() {});
+                },
+                onClearText: () {
+                  searchCtrl.clear();
+                  setState(() {});
+                  handleOnSubmitSearch();
+                },
                 controller: searchCtrl,
                 hintText: 'Search for a task',
                 prefixIcon: const Icon(
                   Icons.search_outlined,
                   color: ColorName.darkerGreyFont,
                 ),
+                onSubmit: () => handleOnSubmitSearch(searchCtrl.value.text),
               ),
-              const TaskCategoryList(),
+              TaskCategoryList(searchCtrl: searchCtrl),
               TaskList(controller: taskScroll),
             ].withSpaceBetween(height: 15),
           ),
@@ -62,8 +69,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   void handleGetInitialTask() {
-    context.read<HomeTaskBloc>().add(GetHomeTaskEvent());
     context.read<HomeTaskCategoryBloc>().add(GetHomeTaskCategoryEvent());
+  }
+
+  void handleOnSubmitSearch([String keyword = '']) {
+    Future.delayed(const Duration(milliseconds: 150), () {
+      FocusScope.of(context).unfocus();
+    });
+
+    final taskCategoryState = context.read<HomeTaskCategoryBloc>().state;
+
+    if (taskCategoryState is HomeTaskCategorySuccess) {
+      context.read<HomeTaskBloc>().add(
+            GetHomeTaskEvent(
+              taskCategoryId:
+                  taskCategoryState.data.results[taskCategoryState.selected].id,
+              search: keyword,
+            ),
+          );
+    }
   }
 
   void handleOnTapLogout() async {

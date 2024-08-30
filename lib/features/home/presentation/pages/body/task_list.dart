@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:etugal_flutter/features/home/presentation/widgets/task/task_card.dart';
+import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +17,8 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Expanded(
       child: BlocBuilder<HomeTaskBloc, HomeTaskState>(
         builder: (context, state) {
@@ -30,7 +34,33 @@ class TaskList extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(
                 height: 15,
               ),
-              itemCount: 5,
+              itemCount: 3,
+            );
+          }
+
+          if (state is HomeTaskSuccess) {
+            if (state.data.results.isEmpty) {
+              return Center(
+                child: Text(
+                  'No result, try different keyword.',
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: ColorName.darkerGreyFont,
+                  ),
+                ),
+              );
+            }
+
+            return ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final item = state.data.results[index];
+
+                return TaskCard(taskEntity: item);
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 15,
+              ),
+              itemCount: state.data.results.length,
             );
           }
 

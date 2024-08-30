@@ -9,6 +9,7 @@ abstract interface class HomeTaskRepository {
     String? search,
   });
   Future<Either<Failure, TaskListResponseEntity>> getTaskList({
+    int? taskCategoryId,
     String? previous,
     String? next,
     String? search,

@@ -27,7 +27,7 @@ class TaskEntity {
   final String title;
   final String description;
   final String workType;
-  final int reward;
+  final double reward;
   final String address;
   final double longitude;
   final double latitude;

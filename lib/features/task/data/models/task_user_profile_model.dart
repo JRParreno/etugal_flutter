@@ -1,3 +1,4 @@
+import 'package:etugal_flutter/features/task/data/models/index.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 
 class TaskUserProfileModel extends TaskUserProfileEntity {
@@ -18,7 +19,7 @@ class TaskUserProfileModel extends TaskUserProfileEntity {
   factory TaskUserProfileModel.fromJson(Map<String, dynamic> json) {
     return TaskUserProfileModel(
       id: json["id"],
-      user: TaskUserProfileModel.fromJson(json["user"]),
+      user: TaskUserModel.fromJson(json["user"]),
       birthdate: DateTime.parse(json["birthdate"]),
       address: json["address"],
       contactNumber: json["contact_number"],

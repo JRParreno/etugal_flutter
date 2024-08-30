@@ -5,18 +5,34 @@ import 'package:etugal_flutter/features/home/domain/repository/home_task_reposit
 
 import 'package:fpdart/fpdart.dart';
 
-class GetTaskList implements UseCase<TaskListResponseEntity, SearchParams> {
+class GetTaskList
+    implements UseCase<TaskListResponseEntity, GetTaskListParams> {
   final HomeTaskRepository homeTaskRepository;
 
   const GetTaskList(this.homeTaskRepository);
 
   @override
   Future<Either<Failure, TaskListResponseEntity>> call(
-      SearchParams params) async {
+      GetTaskListParams params) async {
     return await homeTaskRepository.getTaskList(
       search: params.keyword,
       next: params.next,
       previous: params.previous,
+      taskCategoryId: params.taskCategoryId,
     );
   }
+}
+
+class GetTaskListParams {
+  final String keyword;
+  final int? taskCategoryId;
+  final String? next;
+  final String? previous;
+
+  const GetTaskListParams({
+    required this.keyword,
+    this.taskCategoryId,
+    this.next,
+    this.previous,
+  });
 }

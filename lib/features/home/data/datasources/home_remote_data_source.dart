@@ -12,6 +12,7 @@ abstract interface class HomeRemoteDataSource {
   });
 
   Future<TaskListResponseModel> getTaskList({
+    int? taskCategoryId,
     String? previous,
     String? next,
     String? search,
@@ -30,7 +31,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }) async {
     String url = '$baseUrl/api/task/category/list';
 
-    if (search != null) {
+    if (search != null && search.isNotEmpty) {
       url += '?search=$search';
     }
 
@@ -48,14 +49,24 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   @override
   Future<TaskListResponseModel> getTaskList({
+    int? taskCategoryId,
     String? previous,
     String? next,
     String? search,
   }) async {
     String url = '$baseUrl/api/task/list';
 
-    if (search != null) {
-      url += '?search=$search';
+    if ((taskCategoryId != null && taskCategoryId > 0) &&
+        (search != null && search.isNotEmpty)) {
+      url += '?search=$search&task_category=$taskCategoryId';
+    } else {
+      if (search != null && search.isNotEmpty) {
+        url += '?search=$search';
+      }
+
+      if (taskCategoryId != null && taskCategoryId > 0) {
+        url += '?task_category=$taskCategoryId';
+      }
     }
 
     try {

@@ -2,9 +2,9 @@
     "dart.flutterSdkPath": "/Users/johnrhayparreno/Projects/flutter_blog_app/.fvm/versions/3.22.0",
     "[dart]": {
         "editor.defaultFormatter": "Dart-Code.dart-code",
-        "editor.formatOnSave": true,
-        "dart.enableSdkFormatter": true,
-        "dart.organizeImports": true
+        // "editor.formatOnSave": true,
+        // "dart.enableSdkFormatter": true,
+        // "dart.organizeImports": true
     },
     "editor.codeActionsOnSave": {
         "source.fixAll": "explicit"

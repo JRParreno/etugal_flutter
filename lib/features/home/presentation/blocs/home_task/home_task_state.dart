@@ -14,18 +14,26 @@ final class HomeTaskLoading extends HomeTaskState {}
 final class HomeTaskSuccess extends HomeTaskState {
   final TaskListResponseEntity data;
   final bool isPaginate;
+  final String search;
+  final int taskCategoryId;
 
   const HomeTaskSuccess({
     required this.data,
+    required this.taskCategoryId,
+    required this.search,
     this.isPaginate = false,
   });
 
   HomeTaskSuccess copyWith({
     TaskListResponseEntity? data,
     bool? isPaginate,
+    int? taskCategoryId,
+    String? search,
   }) {
     return HomeTaskSuccess(
       data: data ?? this.data,
+      search: search ?? this.search,
+      taskCategoryId: taskCategoryId ?? this.taskCategoryId,
       isPaginate: isPaginate ?? this.isPaginate,
     );
   }
@@ -34,6 +42,8 @@ final class HomeTaskSuccess extends HomeTaskState {
   List<Object> get props => [
         data,
         isPaginate,
+        taskCategoryId,
+        search,
       ];
 }
 

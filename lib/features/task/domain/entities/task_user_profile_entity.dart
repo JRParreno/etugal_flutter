@@ -1,3 +1,5 @@
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
+
 class TaskUserProfileEntity {
   TaskUserProfileEntity({
     required this.id,
@@ -14,7 +16,7 @@ class TaskUserProfileEntity {
   });
 
   final int id;
-  final TaskUserProfileEntity user;
+  final TaskUserEntity user;
   final DateTime birthdate;
   final String address;
   final String contactNumber;

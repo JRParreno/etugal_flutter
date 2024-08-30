@@ -1,16 +1,34 @@
-import 'package:etugal_flutter/core/common/widgets/shimmer_loading.dart';
-import 'package:etugal_flutter/features/home/presentation/blocs/home_task_category/home_task_category_bloc.dart';
-import 'package:etugal_flutter/features/home/presentation/widgets/task_category/task_category_chip.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:etugal_flutter/core/common/widgets/shimmer_loading.dart';
+import 'package:etugal_flutter/features/home/presentation/blocs/home_task/home_task_bloc.dart';
+import 'package:etugal_flutter/features/home/presentation/blocs/home_task_category/home_task_category_bloc.dart';
+import 'package:etugal_flutter/features/home/presentation/widgets/task_category/task_category_chip.dart';
+
 class TaskCategoryList extends StatelessWidget {
-  const TaskCategoryList({super.key});
+  const TaskCategoryList({
+    super.key,
+    required this.searchCtrl,
+  });
+
+  final TextEditingController searchCtrl;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeTaskCategoryBloc, HomeTaskCategoryState>(
+    return BlocConsumer<HomeTaskCategoryBloc, HomeTaskCategoryState>(
+      listener: (context, state) {
+        if (state is HomeTaskCategorySuccess) {
+          context.read<HomeTaskBloc>().add(
+                GetHomeTaskEvent(
+                  search: searchCtrl.value.text,
+                  taskCategoryId: state.data.results[state.selected].id,
+                ),
+              );
+        }
+      },
       builder: (context, state) {
         if (state is HomeTaskCategoryLoading) {
           return const ShimmerLoading(

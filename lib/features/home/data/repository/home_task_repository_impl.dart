@@ -31,6 +31,7 @@ class HomeTaskRepositoryImpl implements HomeTaskRepository {
 
   @override
   Future<Either<Failure, TaskListResponseEntity>> getTaskList({
+    int? taskCategoryId,
     String? previous,
     String? next,
     String? search,
@@ -40,6 +41,7 @@ class HomeTaskRepositoryImpl implements HomeTaskRepository {
         search: search,
         next: next,
         previous: previous,
+        taskCategoryId: taskCategoryId,
       );
 
       return right(response);
