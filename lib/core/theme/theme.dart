@@ -18,6 +18,9 @@ class AppTheme with ThemeMixin {
             color: ColorName.blackFont,
           ),
     ),
+    iconTheme: const IconThemeData(
+      color: ColorName.darkerGreyFont,
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: ColorName.whiteNotMuch,
       elevation: 1,
@@ -46,8 +49,27 @@ class AppTheme with ThemeMixin {
       errorBorder: _instance.border(),
       disabledBorder: _instance.border(),
     ),
-    chipTheme: const ChipThemeData(
-      side: BorderSide.none,
+    chipTheme: ChipThemeData(
+      side: const BorderSide(
+        color: ColorName.greyFont,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      selectedColor: ColorName.primary,
+      backgroundColor: ColorName.whiteNotMuch,
+      showCheckmark: false,
+      secondarySelectedColor: ColorName.whiteNotMuch,
+      secondaryLabelStyle: GoogleFonts.poppins(
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal,
+        color: ColorName.primary,
+        letterSpacing: 0.4,
+      ),
+      labelStyle: GoogleFonts.poppins(
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal,
+        color: ColorName.blackFont,
+        letterSpacing: 0.4,
+      ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(

@@ -8,4 +8,7 @@ Future<void> initDependencies() async {
   initAuth(serviceLocator);
   // Shared preferences
   await setupSharedPreferencesDependencies(serviceLocator);
+
+  // Home
+  initHome(serviceLocator);
 }
