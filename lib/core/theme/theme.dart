@@ -18,6 +18,17 @@ class AppTheme with ThemeMixin {
             color: ColorName.blackFont,
           ),
     ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: ColorName.whiteNotMuch,
+      elevation: 1,
+      selectedItemColor: ColorName.primary,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType.fixed,
+      selectedIconTheme: IconThemeData(
+        color: ColorName.primary,
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: GoogleFonts.poppins(
         fontSize: 14,

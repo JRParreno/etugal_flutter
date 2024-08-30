@@ -14,7 +14,7 @@ Future<void> commonBottomSheetDialog({
     builder: (BuildContext context) {
       return Container(
         padding: const EdgeInsets.all(10),
-        height: 200,
+        height: 210,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

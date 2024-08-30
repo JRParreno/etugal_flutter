@@ -1,10 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:etugal_flutter/router/index.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:etugal_flutter/gen/colors.gen.dart';
 
 class ScaffoldWithBottomNav extends StatefulWidget {
   const ScaffoldWithBottomNav({
@@ -23,34 +19,59 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
 
   final icons = [
     Icons.home,
-    Icons.search,
-    Icons.accessibility_new,
-    CupertinoIcons.heart_fill,
+    Icons.assignment,
+    Icons.add_circle,
+    Icons.chat_bubble_outline,
     Icons.person,
+  ];
+
+  final titles = [
+    'Home',
+    'Tasks',
+    'Post',
+    'Chat',
+    'Profile',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: ColorName.primary,
-        items: List.generate(
-          icons.length,
-          (i) => buildIcon(i),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(24), topLeft: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
         ),
-        onTap: (value) {
-          handleonItemTapped(value);
-        },
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(24),
+            topLeft: Radius.circular(24),
+          ),
+          child: BottomNavigationBar(
+            items: List.generate(
+              icons.length,
+              (i) => buildIcon(i),
+            ),
+            currentIndex: selectedItemIndex,
+            onTap: (value) {
+              handleonItemTapped(value);
+            },
+          ),
+        ),
       ),
       body: widget.child,
     );
   }
 
-  Widget buildIcon(int i) {
-    return Icon(
-      icons[i],
-      size: 30,
-      color: Colors.black.withOpacity(selectedItemIndex == i ? 1 : 0.65),
+  BottomNavigationBarItem buildIcon(int i) {
+    return BottomNavigationBarItem(
+      label: titles[i],
+      icon: Icon(
+        icons[i],
+        size: 30,
+      ),
     );
   }
 

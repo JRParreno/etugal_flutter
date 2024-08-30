@@ -7,6 +7,7 @@ import 'package:etugal_flutter/core/notifier/shared_preferences_notifier.dart';
 import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,24 +44,17 @@ GoRouter routerConfig() {
           GetIt.instance<SharedPreferencesNotifier>();
       final bool isLoggedIn = sharedPreferencesNotifier.getValue(
           SharedPreferencesKeys.isLoggedIn, false);
-      final bool isOnBoarded = sharedPreferencesNotifier.getValue(
-          SharedPreferencesKeys.isOnBoarded, false);
 
-      final loggingIn = state.matchedLocation == AppRoutes.login.path;
-      final signingIn = state.matchedLocation == AppRoutes.signup.path;
+      final onBoardingPath = state.matchedLocation == AppRoutes.onBoarding.path;
       final profilePath = state.matchedLocation == AppRoutes.profile.path;
 
-      // if (!isOnBoarded) {
-      //   return AppRoutes.onBoarding.path;
-      // }
+      if (isLoggedIn && onBoardingPath) {
+        return AppRoutes.home.path;
+      }
 
-      // if (isLoggedIn && (loggingIn || signingIn)) {
-      //   return AppRoutes.home.path;
-      // }
-
-      // if (!isLoggedIn && (loggingIn || profilePath)) {
-      //   return AppRoutes.login.path;
-      // }
+      if (!isLoggedIn && (onBoardingPath || profilePath)) {
+        return AppRoutes.onBoarding.path;
+      }
 
       return null;
     },
@@ -107,7 +101,7 @@ GoRouter routerConfig() {
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const Placeholder(),
+                    child: const HomePage(),
                   );
                 },
               ),

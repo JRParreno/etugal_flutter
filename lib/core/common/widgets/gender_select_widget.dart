@@ -38,7 +38,7 @@ class GenderSelectWidget extends StatelessWidget {
                 ],
               ),
               const Divider(
-                height: 20,
+                height: 15,
               ),
             ],
           ),
