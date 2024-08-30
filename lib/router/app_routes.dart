@@ -20,18 +20,6 @@ enum AppRoutes {
     name: 'search',
     path: '/search',
   ),
-  remedyDetail(
-    name: 'remedy_detail',
-    path: '/remedy_detail/:id',
-  ),
-  foodDetail(
-    name: 'food_detail',
-    path: '/food_detail/:id',
-  ),
-  deficiencyDetail(
-    name: 'deficiency_detail',
-    path: '/deficiency_detail/:id',
-  ),
   profile(
     name: 'profile',
     path: '/profile',

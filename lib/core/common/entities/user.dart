@@ -5,8 +5,12 @@ class User {
   final String lastName;
   final String email;
   final String profilePk;
+  final String contactNumber;
+  final String address;
+  final String gender;
+  final String verificationStatus;
+  final String? verificationRemarks;
   final String? profilePhoto;
-  final int age;
 
   User({
     required this.pk,
@@ -15,7 +19,11 @@ class User {
     required this.lastName,
     required this.email,
     required this.profilePk,
-    required this.age,
+    required this.contactNumber,
+    required this.address,
+    required this.gender,
+    required this.verificationStatus,
+    this.verificationRemarks,
     this.profilePhoto,
   });
 }

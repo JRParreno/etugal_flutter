@@ -25,27 +25,36 @@ class AuthRefreshUser extends AuthEvent {}
 class AuthSignupEvent extends AuthEvent {
   final String firstName;
   final String lastName;
-  final int age;
+  final String gender;
   final String password;
   final String confirmPassword;
   final String email;
+  final String address;
+  final String contactNumber;
+  final String birthdate;
 
   const AuthSignupEvent({
     required this.firstName,
     required this.lastName,
-    required this.age,
+    required this.gender,
     required this.password,
     required this.confirmPassword,
     required this.email,
+    required this.address,
+    required this.contactNumber,
+    required this.birthdate,
   });
 
   @override
   List<Object> get props => [
         firstName,
         lastName,
-        age,
+        gender,
         password,
         confirmPassword,
         email,
+        address,
+        contactNumber,
+        birthdate,
       ];
 }

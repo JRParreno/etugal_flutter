@@ -16,6 +16,10 @@ abstract interface class AuthRemoteDataSource {
     required String lastName,
     required String password,
     required String confirmPassword,
+    required String gender,
+    required String contactNumber,
+    required String address,
+    required String birthdate,
   });
 
   Future<UserModel> currentUser();
@@ -56,27 +60,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String lastName,
     required String password,
     required String confirmPassword,
+    required String gender,
+    required String contactNumber,
+    required String address,
+    required String birthdate,
   }) async {
-    try {
-      String url = '${Env.apiURL}/api/signup';
-      Map<String, dynamic> data = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
-        'password': password,
-        'confirm_password': confirmPassword,
-        'age': 0,
-      };
+    // try {
+    String url = '${Env.apiURL}/api/signup';
+    Map<String, dynamic> data = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'password': password,
+      'confirm_password': confirmPassword,
+      'gender': gender,
+      'contact_number': contactNumber,
+      'address': address,
+      'birthdate': birthdate,
+    };
 
-      final response = await dio.post(url, data: data);
-      return SignupResponseModel.fromMap(response.data);
-    } on DioException catch (e) {
-      throw ServerException(
-        e.response?.data['error_message'] ?? 'Something went wrong.',
-      );
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
+    final response = await dio.post(url, data: data);
+    return SignupResponseModel.fromMap(response.data);
+    // } on DioException catch (e) {
+    //   throw ServerException(
+    //     e.response?.data['error_message'] ?? 'Something went wrong.',
+    //   );
+    // } catch (e) {
+    //   throw ServerException(e.toString());
+    // }
   }
 
   @override

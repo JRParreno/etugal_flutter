@@ -10,7 +10,11 @@ class UserModel extends User {
     required super.lastName,
     required super.email,
     required super.profilePk,
-    required super.age,
+    required super.contactNumber,
+    required super.address,
+    required super.gender,
+    required super.verificationStatus,
+    super.verificationRemarks,
     super.profilePhoto,
   });
 
@@ -22,43 +26,13 @@ class UserModel extends User {
       lastName: '',
       email: '',
       profilePk: '',
-      age: -1,
+      address: '',
+      contactNumber: '',
+      gender: '',
+      verificationStatus: '',
+      profilePhoto: '',
+      verificationRemarks: '',
     );
-  }
-
-  UserModel copyWith({
-    String? pk,
-    String? username,
-    String? firstName,
-    String? lastName,
-    String? email,
-    String? profilePk,
-    String? profilePhoto,
-    int? age,
-  }) {
-    return UserModel(
-      pk: pk ?? this.pk,
-      username: username ?? this.username,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      email: email ?? this.email,
-      profilePk: profilePk ?? this.profilePk,
-      profilePhoto: profilePhoto ?? this.profilePhoto,
-      age: age ?? this.age,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'pk': pk,
-      'username': username,
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-      'profilePk': profilePk,
-      'profilePhoto': profilePhoto,
-      'age': age,
-    };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -69,12 +43,17 @@ class UserModel extends User {
       lastName: map['lastName'] as String,
       email: map['email'] as String,
       profilePk: map['profilePk'] as String,
-      profilePhoto: map['profilePhoto'] ?? '',
-      age: map['age'] ?? '',
+      contactNumber: map['contactNumber'] as String,
+      address: map['address'] as String,
+      gender: map['gender'] as String,
+      verificationStatus: map['verificationStatus'] as String,
+      verificationRemarks: map['verificationRemarks'] != null
+          ? map['verificationRemarks'] as String
+          : null,
+      profilePhoto:
+          map['profilePhoto'] != null ? map['profilePhoto'] as String : null,
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);

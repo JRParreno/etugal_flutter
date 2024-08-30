@@ -28,12 +28,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, SingupResponse>> signup(
-      {required String email,
-      required String firstName,
-      required String lastName,
-      required String password,
-      required String confirmPassword}) async {
+  Future<Either<Failure, SingupResponse>> signup({
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String password,
+    required String confirmPassword,
+    required String gender,
+    required String contactNumber,
+    required String address,
+    required String birthdate,
+  }) async {
     try {
       final response = await remoteDataSource.signup(
         email: email,
@@ -41,6 +46,10 @@ class AuthRepositoryImpl implements AuthRepository {
         lastName: lastName,
         password: password,
         confirmPassword: confirmPassword,
+        gender: gender,
+        address: address,
+        contactNumber: contactNumber,
+        birthdate: birthdate,
       );
       return right(response);
     } on ServerException catch (e) {

@@ -1,4 +1,7 @@
-import 'package:etugal_flutter/main.dart';
+import 'package:etugal_flutter/core/common/widgets/common_bottomsheet.dart';
+import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
+import 'package:etugal_flutter/core/common/widgets/gender_select_widget.dart';
+import 'package:etugal_flutter/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -7,6 +10,8 @@ import 'package:etugal_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:etugal_flutter/features/auth/presentation/widgets/auth_field.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -23,8 +28,27 @@ class _SingupPageState extends State<SingupPage> {
   final confirmPasswordCtrl = TextEditingController();
   final firstNameCtrl = TextEditingController();
   final lastNameCtrl = TextEditingController();
+  final genderCtrl = TextEditingController();
+  final contactNumberCtrl = TextEditingController();
+  final addressCtrl = TextEditingController();
+  final birthdateCtrl = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   bool isObscureTextPass = true, isObscureTextConfirmPass = true;
+
+  @override
+  void initState() {
+    super.initState();
+    emailCtrl.text = 'jhonrhayparreno22@gmail.com';
+    firstNameCtrl.text = 'Juan';
+    lastNameCtrl.text = 'Dela Cruz';
+    confirmPasswordCtrl.text = '2020Rtutest@';
+    passwordCtrl.text = '2020Rtutest@';
+    birthdateCtrl.text = '12/22/1997';
+    genderCtrl.text = 'Male';
+    addressCtrl.text = 'Pasay City';
+    contactNumberCtrl.text = '09321764095';
+  }
 
   @override
   void dispose() {
@@ -33,11 +57,17 @@ class _SingupPageState extends State<SingupPage> {
     lastNameCtrl.dispose();
     confirmPasswordCtrl.dispose();
     passwordCtrl.dispose();
+    birthdateCtrl.dispose();
+    genderCtrl.dispose();
+    addressCtrl.dispose();
+    contactNumberCtrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -65,26 +95,127 @@ class _SingupPageState extends State<SingupPage> {
               padding: const EdgeInsets.symmetric(horizontal: 48),
               child: Column(
                 children: [
+                  Column(
+                    children: [
+                      Text(
+                        'Create Account',
+                        style: textTheme.titleLarge?.copyWith(
+                          fontSize: 24,
+                          color: ColorName.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Create a new Account',
+                        style: textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 43),
                   AuthField(
                     controller: emailCtrl,
                     hintText: 'Email',
+                    prefixIcon: const Icon(
+                      Icons.email_outlined,
+                      color: ColorName.greyFont,
+                    ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 15,
                   ),
                   AuthField(
                     controller: firstNameCtrl,
-                    hintText: 'Firstname',
+                    hintText: 'First name',
+                    prefixIcon: const Icon(
+                      Icons.person_outline,
+                      color: ColorName.greyFont,
+                    ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 15,
                   ),
                   AuthField(
                     controller: lastNameCtrl,
-                    hintText: 'Lastname',
+                    hintText: 'Last name',
+                    prefixIcon: const Icon(
+                      Icons.person_outline,
+                      color: ColorName.greyFont,
+                    ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: handleOnTapBirthdate,
+                    child: AuthField(
+                      enabled: false,
+                      controller: birthdateCtrl,
+                      hintText: 'Birthdate',
+                      prefixIcon: const Icon(
+                        Icons.date_range,
+                        color: ColorName.greyFont,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () => commonBottomSheetDialog(
+                      context: context,
+                      title: 'Select Gender',
+                      container: GenderSelectWidget(
+                        onSelectGender: (value) {
+                          genderCtrl.value = TextEditingController.fromValue(
+                            TextEditingValue(text: value),
+                          ).value;
+                        },
+                        selectedGender:
+                            genderCtrl.text.isNotEmpty ? genderCtrl.text : null,
+                      ),
+                    ),
+                    child: AuthField(
+                      enabled: false,
+                      controller: genderCtrl,
+                      hintText: 'Gender',
+                      prefixIcon: const Icon(
+                        Icons.person_outline,
+                        color: ColorName.greyFont,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  AuthField(
+                    controller: contactNumberCtrl,
+                    hintText: 'Contact Number',
+                    keyboardType: TextInputType.phone,
+                    prefixIcon: const Icon(
+                      Icons.phone,
+                      color: ColorName.greyFont,
+                    ),
+                    validator: (value) {
+                      if (value != null &&
+                          RegExp(r'^(09|\+639)\d{9}$').hasMatch(value)) {
+                        return null;
+                      }
+                      return 'Invalid contact number';
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  AuthField(
+                    controller: addressCtrl,
+                    hintText: 'Address',
+                    prefixIcon: const Icon(
+                      Icons.location_pin,
+                      color: ColorName.greyFont,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   AuthField(
                     controller: passwordCtrl,
@@ -97,17 +228,25 @@ class _SingupPageState extends State<SingupPage> {
                         isObscureTextPass
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.white,
+                        color: ColorName.greyFont,
                       ),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.lock_outline,
+                      color: ColorName.greyFont,
                     ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 15,
                   ),
                   AuthField(
                     controller: confirmPasswordCtrl,
                     hintText: 'Confirm Password',
                     isObscureText: isObscureTextConfirmPass,
+                    prefixIcon: const Icon(
+                      Icons.lock_outline,
+                      color: ColorName.greyFont,
+                    ),
                     suffixIcon: IconButton(
                       onPressed: () => setState(() =>
                           isObscureTextConfirmPass = !isObscureTextConfirmPass),
@@ -115,41 +254,62 @@ class _SingupPageState extends State<SingupPage> {
                         isObscureTextConfirmPass
                             ? Icons.visibility_off
                             : Icons.visibility,
-                        color: Colors.white,
+                        color: ColorName.greyFont,
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 15,
                   ),
-                  ElevatedButton(
-                    onPressed: handleOnSubmitForm,
-                    child: const Text(
-                      'Signup',
-                      style: TextStyle(
-                        fontFamily: 'Signika',
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  RichText(
+                    textAlign: TextAlign.justify,
+                    text: TextSpan(
+                      text:
+                          "By tapping “Next”, you confirm that you accept our ",
+                      style: textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.normal,
                       ),
+                      children: [
+                        TextSpan(
+                          text: "Terms of Use ",
+                          style: textTheme.titleSmall?.copyWith(
+                            color: ColorName.primary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "& ",
+                          style: textTheme.titleSmall,
+                        ),
+                        TextSpan(
+                          text: "Privacy Policy",
+                          style: textTheme.titleSmall?.copyWith(
+                            color: ColorName.primary,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 21,
+                  ),
+                  CustomElevatedBtn(
+                    onTap: handleOnSubmitForm,
+                    title: 'Sign Up',
+                  ),
+                  const SizedBox(
+                    height: 21,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      router.pop();
-                    },
+                    onTap: () => context.pushNamed(AppRoutes.login.name),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         text: "Already have an account? ",
-                        style: TextStyle(
-                          color: Colors.white,
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.normal,
                         ),
-                        children: [
+                        children: const [
                           TextSpan(
-                            text: "Login",
+                            text: "Sign In",
                             style: TextStyle(color: ColorName.primary),
                           )
                         ],
@@ -172,12 +332,16 @@ class _SingupPageState extends State<SingupPage> {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
             AuthSignupEvent(
-                firstName: firstNameCtrl.value.text,
-                lastName: lastNameCtrl.value.text,
-                age: 0,
-                password: passwordCtrl.value.text,
-                confirmPassword: confirmPasswordCtrl.value.text,
-                email: emailCtrl.value.text),
+              firstName: firstNameCtrl.value.text,
+              lastName: lastNameCtrl.value.text,
+              gender: genderCtrl.value.text.toLowerCase(),
+              password: passwordCtrl.value.text,
+              confirmPassword: confirmPasswordCtrl.value.text,
+              email: emailCtrl.value.text,
+              address: addressCtrl.value.text,
+              contactNumber: contactNumberCtrl.value.text,
+              birthdate: birthdateCtrl.value.text,
+            ),
           );
     }
   }
@@ -190,5 +354,18 @@ class _SingupPageState extends State<SingupPage> {
         message: message,
       );
     });
+  }
+
+  void handleOnTapBirthdate() async {
+    final birthdate = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900, 1, 1),
+      lastDate: DateTime.now(),
+      currentDate: DateTime.now(),
+    );
+
+    if (birthdate != null) {
+      birthdateCtrl.text = DateFormat.yMd().format(birthdate);
+    }
   }
 }

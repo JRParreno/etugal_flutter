@@ -18,6 +18,10 @@ class UserSignup implements UseCase<SingupResponse, UserSignupParams> {
       lastName: params.lastName,
       password: params.password,
       confirmPassword: params.confirmPassword,
+      gender: params.gender,
+      address: params.address,
+      contactNumber: params.contactNumber,
+      birthdate: params.birthdate,
     );
   }
 }
@@ -25,17 +29,23 @@ class UserSignup implements UseCase<SingupResponse, UserSignupParams> {
 class UserSignupParams {
   final String firstName;
   final String lastName;
-  final int age;
+  final String gender;
   final String password;
   final String confirmPassword;
   final String email;
+  final String address;
+  final String birthdate;
+  final String contactNumber;
 
   const UserSignupParams({
     required this.firstName,
     required this.lastName,
-    required this.age,
+    required this.gender,
     required this.password,
     required this.confirmPassword,
     required this.email,
+    required this.address,
+    required this.contactNumber,
+    required this.birthdate,
   });
 }

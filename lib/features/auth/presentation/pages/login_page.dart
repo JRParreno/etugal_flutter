@@ -1,3 +1,4 @@
+import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
 import 'package:etugal_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {
@@ -47,13 +53,30 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 48),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.12,
+                  Column(
+                    children: [
+                      Text(
+                        'Welcome back!',
+                        style: textTheme.titleLarge?.copyWith(
+                          fontSize: 24,
+                          color: ColorName.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Sign in your account',
+                        style: textTheme.titleSmall,
+                      ),
+                    ],
                   ),
-                  // Assets.images.auth.login.image(),
+                  const SizedBox(height: 43),
                   AuthField(
                     controller: emailCtrl,
                     hintText: 'Email',
+                    prefixIcon: const Icon(
+                      Icons.email_outlined,
+                      color: ColorName.greyFont,
+                    ),
                   ),
                   const SizedBox(
                     height: 26,
@@ -62,29 +85,42 @@ class _LoginPageState extends State<LoginPage> {
                     controller: passwordCtrl,
                     hintText: 'Password',
                     isObscureText: isObscureText,
+                    prefixIcon: const Icon(
+                      Icons.lock_outline,
+                      color: ColorName.greyFont,
+                    ),
                     suffixIcon: IconButton(
                       onPressed: () =>
                           setState(() => isObscureText = !isObscureText),
                       icon: Icon(
                         isObscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Colors.white,
+                        color: ColorName.greyFont,
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 26,
+                    height: 8,
                   ),
-                  ElevatedButton(
-                    onPressed: handleSubmitLogin,
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontFamily: 'Signika',
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      onPressed: () {},
+                      child: Text(
+                        'Forgot Password?',
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.normal,
+                          color: ColorName.primary,
+                        ),
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomElevatedBtn(
+                    onTap: handleSubmitLogin,
+                    title: 'Sign in',
                   ),
                   const SizedBox(
                     height: 26,
@@ -94,15 +130,18 @@ class _LoginPageState extends State<LoginPage> {
                       router.pushNamed(AppRoutes.signup.name);
                     },
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         text: "Don't have an account? ",
-                        style: TextStyle(
-                          color: Colors.white,
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.normal,
                         ),
-                        children: [
+                        children: const [
                           TextSpan(
-                            text: "Register",
-                            style: TextStyle(color: ColorName.primary),
+                            text: "Sign Up",
+                            style: TextStyle(
+                              color: ColorName.primary,
+                              decoration: TextDecoration.underline,
+                            ),
                           )
                         ],
                       ),

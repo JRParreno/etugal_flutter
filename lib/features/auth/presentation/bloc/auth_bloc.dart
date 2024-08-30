@@ -86,10 +86,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final response = await _userSignup.call(UserSignupParams(
       firstName: event.firstName,
       lastName: event.lastName,
-      age: event.age,
+      gender: event.gender,
       password: event.password,
       confirmPassword: event.confirmPassword,
       email: event.email,
+      address: event.address,
+      contactNumber: event.contactNumber,
+      birthdate: event.birthdate,
     ));
 
     response.fold(
