@@ -26,4 +26,29 @@ class AppUserCubit extends Cubit<AppUserState> {
   void userLoggedIn() {
     emit(GettingAppUser());
   }
+
+  void updateVerificationStatus() {
+    final state = this.state;
+
+    if (state is AppUserLoggedIn) {
+      emit(
+        AppUserLoggedIn(
+          state.user.copyWith(verificationStatus: 'PROCESSING_APPLICATION'),
+        ),
+      );
+    }
+  }
+
+  void updateIdPhotoField() {
+    final state = this.state;
+
+    if (state is AppUserLoggedIn) {
+      // define as empty string since this is the only need verification
+      emit(
+        AppUserLoggedIn(
+          state.user.copyWith(idPhoto: ''),
+        ),
+      );
+    }
+  }
 }

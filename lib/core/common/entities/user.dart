@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class User {
   final String pk;
   final String username;
@@ -11,6 +12,7 @@ class User {
   final String verificationStatus;
   final String? verificationRemarks;
   final String? profilePhoto;
+  final String? idPhoto;
 
   User({
     required this.pk,
@@ -25,5 +27,38 @@ class User {
     required this.verificationStatus,
     this.verificationRemarks,
     this.profilePhoto,
+    this.idPhoto,
   });
+
+  User copyWith({
+    String? pk,
+    String? username,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? profilePk,
+    String? contactNumber,
+    String? address,
+    String? gender,
+    String? verificationStatus,
+    String? verificationRemarks,
+    String? profilePhoto,
+    String? idPhoto,
+  }) {
+    return User(
+      pk: pk ?? this.pk,
+      username: username ?? this.username,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      profilePk: profilePk ?? this.profilePk,
+      contactNumber: contactNumber ?? this.contactNumber,
+      address: address ?? this.address,
+      gender: gender ?? this.gender,
+      verificationStatus: verificationStatus ?? this.verificationStatus,
+      verificationRemarks: verificationRemarks ?? this.verificationRemarks,
+      profilePhoto: profilePhoto ?? this.profilePhoto,
+      idPhoto: idPhoto ?? this.idPhoto,
+    );
+  }
 }

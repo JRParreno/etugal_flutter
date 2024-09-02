@@ -18,3 +18,13 @@ class SearchParams {
     this.previous,
   });
 }
+
+class UploadImageParams {
+  final String userId;
+  final String imagePath;
+
+  UploadImageParams({
+    required this.userId,
+    required this.imagePath,
+  });
+}

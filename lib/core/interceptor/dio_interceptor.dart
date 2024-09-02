@@ -36,13 +36,16 @@ class DioInterceptor extends Interceptor {
         final options = err.requestOptions;
         options.headers['Authorization'] =
             'Bearer ${userResponse['accessToken']}';
+        options.headers.remove('Cookie');
 
         final response = await Dio().fetch(options);
 
         handler.resolve(response);
+        return;
       } catch (e) {
         return super.onError(err, handler);
       }
     }
+    return super.onError(err, handler);
   }
 }

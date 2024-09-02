@@ -39,15 +39,15 @@ class _SingupPageState extends State<SingupPage> {
   @override
   void initState() {
     super.initState();
-    emailCtrl.text = 'jhonrhayparreno22@gmail.com';
-    firstNameCtrl.text = 'Juan';
-    lastNameCtrl.text = 'Dela Cruz';
-    confirmPasswordCtrl.text = '2020Rtutest@';
-    passwordCtrl.text = '2020Rtutest@';
-    birthdateCtrl.text = '12/22/1997';
-    genderCtrl.text = 'Male';
-    addressCtrl.text = 'Pasay City';
-    contactNumberCtrl.text = '09321764095';
+    // emailCtrl.text = 'jhonrhayparreno22@gmail.com';
+    // firstNameCtrl.text = 'Juan';
+    // lastNameCtrl.text = 'Dela Cruz';
+    // confirmPasswordCtrl.text = '2020Rtutest@';
+    // passwordCtrl.text = '2020Rtutest@';
+    // birthdateCtrl.text = '12/22/1997';
+    // genderCtrl.text = 'Male';
+    // addressCtrl.text = 'Pasay City';
+    // contactNumberCtrl.text = '09321764095';
   }
 
   @override
@@ -300,7 +300,9 @@ class _SingupPageState extends State<SingupPage> {
                     height: 21,
                   ),
                   GestureDetector(
-                    onTap: () => context.pushNamed(AppRoutes.login.name),
+                    onTap: () {
+                      context.pushNamed(AppRoutes.login.name);
+                    },
                     child: RichText(
                       text: TextSpan(
                         text: "Already have an account? ",

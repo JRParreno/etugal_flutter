@@ -11,4 +11,6 @@ Future<void> initDependencies() async {
 
   // Home
   initHome(serviceLocator);
+  // Profile
+  initProfile(serviceLocator);
 }

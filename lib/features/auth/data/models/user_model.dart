@@ -16,6 +16,7 @@ class UserModel extends User {
     required super.verificationStatus,
     super.verificationRemarks,
     super.profilePhoto,
+    super.idPhoto,
   });
 
   factory UserModel.empty() {
@@ -32,6 +33,7 @@ class UserModel extends User {
       verificationStatus: '',
       profilePhoto: '',
       verificationRemarks: '',
+      idPhoto: '',
     );
   }
 
@@ -52,6 +54,7 @@ class UserModel extends User {
           : null,
       profilePhoto:
           map['profilePhoto'] != null ? map['profilePhoto'] as String : null,
+      idPhoto: map['idPhoto'] != null ? map['idPhoto'] as String : null,
     );
   }
 

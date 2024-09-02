@@ -8,6 +8,10 @@ import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/process_verification_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +135,7 @@ GoRouter routerConfig() {
                   pageBuilder: (context, state) {
                     return buildTransitionPage(
                       localKey: state.pageKey,
-                      child: const Placeholder(),
+                      child: const ProfilePage(),
                     );
                   },
                   routes: [
@@ -149,6 +153,36 @@ GoRouter routerConfig() {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: AppRoutes.uploadGovernmentId.path,
+        name: AppRoutes.uploadGovernmentId.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const UploadGovernmentIdPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.uploadSelfie.path,
+        name: AppRoutes.uploadSelfie.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const UploadSelfiePage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.processVerification.path,
+        name: AppRoutes.processVerification.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const ProcessVerificationPage(),
+          );
+        },
       ),
     ],
   );

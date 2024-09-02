@@ -27,6 +27,18 @@ enum AppRoutes {
   updateProfile(
     name: 'update_profile',
     path: 'update_profile',
+  ),
+  uploadGovernmentId(
+    name: 'upload-government-id',
+    path: '/upload-government-id',
+  ),
+  uploadSelfie(
+    name: 'upload-selfie',
+    path: '/upload-selfie',
+  ),
+  processVerification(
+    name: 'process-verification',
+    path: '/process-verification',
   );
 
   const AppRoutes({

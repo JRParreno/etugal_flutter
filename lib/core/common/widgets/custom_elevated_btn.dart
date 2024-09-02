@@ -7,14 +7,14 @@ enum ButtonType { normal, outline }
 class CustomElevatedBtn extends StatelessWidget {
   const CustomElevatedBtn({
     super.key,
-    required this.onTap,
     required this.title,
     this.buttonType = ButtonType.normal,
     this.borderWidth = 1,
     this.textStyle,
+    this.onTap,
   });
 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final String title;
   final ButtonType buttonType;
   final double borderWidth;
