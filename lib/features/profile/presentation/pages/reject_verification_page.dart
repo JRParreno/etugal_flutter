@@ -1,18 +1,20 @@
+import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
 import 'package:etugal_flutter/gen/assets.gen.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ProcessVerificationPage extends StatefulWidget {
-  const ProcessVerificationPage({super.key});
+class RejectVerificationPage extends StatefulWidget {
+  const RejectVerificationPage({super.key});
 
   @override
-  State<ProcessVerificationPage> createState() =>
+  State<RejectVerificationPage> createState() =>
       _ProcessVerificationPageState();
 }
 
-class _ProcessVerificationPageState extends State<ProcessVerificationPage> {
+class _ProcessVerificationPageState extends State<RejectVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -45,18 +47,25 @@ class _ProcessVerificationPageState extends State<ProcessVerificationPage> {
                       height: 44,
                     ),
                     Text(
-                      'We’re verifying your acccount',
-                      style: textTheme.labelMedium,
+                      'Your appication was rejected',
+                      style: textTheme.labelMedium?.copyWith(color: Colors.red),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'We’ll let you know when your identity checks are all complete. This usually take up to 24 hours.',
-                      style: textTheme.labelMedium?.copyWith(
-                        color: ColorName.darkerGreyFont,
-                      ),
-                      textAlign: TextAlign.center,
+                    BlocBuilder<AppUserCubit, AppUserState>(
+                      builder: (context, state) {
+                        if (state is AppUserLoggedIn) {
+                          return Text(
+                            state.user.verificationRemarks ?? '',
+                            style: textTheme.labelMedium?.copyWith(
+                              color: ColorName.darkerGreyFont,
+                            ),
+                            textAlign: TextAlign.center,
+                          );
+                        }
+                        return const SizedBox();
+                      },
                     ),
                   ],
                 ),

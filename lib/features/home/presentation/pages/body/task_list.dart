@@ -22,19 +22,9 @@ class TaskList extends StatelessWidget {
     return Expanded(
       child: BlocBuilder<HomeTaskBloc, HomeTaskState>(
         builder: (context, state) {
-          if (state is HomeTaskLoading) {
-            return ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return const ShimmerLoading(
-                  width: double.infinity,
-                  height: 124,
-                );
-              },
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 15,
-              ),
-              itemCount: 3,
+          if (state is HomeTaskFailure) {
+            return Center(
+              child: Text(state.message),
             );
           }
 
@@ -64,7 +54,19 @@ class TaskList extends StatelessWidget {
             );
           }
 
-          return const SizedBox();
+          return ListView.separated(
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return const ShimmerLoading(
+                width: double.infinity,
+                height: 124,
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 15,
+            ),
+            itemCount: 3,
+          );
         },
       ),
     );

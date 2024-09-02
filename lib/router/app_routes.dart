@@ -39,7 +39,12 @@ enum AppRoutes {
   processVerification(
     name: 'process-verification',
     path: '/process-verification',
-  );
+  ),
+  rejectVerification(
+    name: 'reject-verification',
+    path: '/reject-verification',
+  ),
+  ;
 
   const AppRoutes({
     required this.name,

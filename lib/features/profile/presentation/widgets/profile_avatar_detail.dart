@@ -92,8 +92,9 @@ class ProfileAvatarDetail extends StatelessWidget {
         return verifyButton(
           context: context,
           title: 'Rejected',
-          backgroundColor: ColorName.containerStroke,
-          onTap: () {},
+          backgroundColor: Colors.red,
+          textColor: ColorName.whiteNotMuch,
+          onTap: () => context.pushNamed(AppRoutes.rejectVerification.name),
         );
       default:
         return const SizedBox();
@@ -105,6 +106,7 @@ class ProfileAvatarDetail extends StatelessWidget {
     required Color backgroundColor,
     required BuildContext context,
     VoidCallback? onTap,
+    Color? textColor,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -117,7 +119,7 @@ class ProfileAvatarDetail extends StatelessWidget {
         child: Text(
           title,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: ColorName.blackFont,
+                color: textColor ?? ColorName.blackFont,
               ),
         ),
       ),

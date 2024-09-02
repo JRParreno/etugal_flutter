@@ -10,6 +10,7 @@ import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bo
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/process_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/router/index.dart';
@@ -181,6 +182,16 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const ProcessVerificationPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.rejectVerification.path,
+        name: AppRoutes.rejectVerification.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const RejectVerificationPage(),
           );
         },
       ),

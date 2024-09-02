@@ -78,7 +78,9 @@ class TaskCard extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: taskEntity.workType.toUpperCase(),
+                      text: taskEntity.workType
+                          .toUpperCase()
+                          .replaceAll('_', ' '),
                       style: textTheme.labelSmall?.copyWith(
                         color: ColorName.primary,
                       ),
