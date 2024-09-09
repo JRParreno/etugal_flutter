@@ -76,7 +76,9 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
   }
 
   void handleonItemTapped(int index) {
-    setState(() => selectedItemIndex = index);
+    if (index != 2) {
+      setState(() => selectedItemIndex = index);
+    }
 
     switch (index) {
       case 0:
@@ -84,6 +86,9 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
         break;
       case 1:
         context.go(AppRoutes.search.path);
+        break;
+      case 2:
+        context.pushNamed(AppRoutes.addPostTask.name);
         break;
       case 4:
         context.go(AppRoutes.profile.path);

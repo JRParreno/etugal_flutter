@@ -44,6 +44,10 @@ enum AppRoutes {
     name: 'reject-verification',
     path: '/reject-verification',
   ),
+  addPostTask(
+    name: 'add-task',
+    path: '/add-task',
+  ),
   ;
 
   const AppRoutes({

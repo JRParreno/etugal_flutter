@@ -1,4 +1,4 @@
-package com.example.etugal_flutter
+package com.thesis.etugal_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

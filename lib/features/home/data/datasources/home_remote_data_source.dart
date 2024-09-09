@@ -29,10 +29,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     String? next,
     String? search,
   }) async {
-    String url = '$baseUrl/api/task/category/list';
+    String url = '$baseUrl/api/task/category/list?limit=50';
 
     if (search != null && search.isNotEmpty) {
-      url += '?search=$search';
+      url += '&search=$search';
     }
 
     try {

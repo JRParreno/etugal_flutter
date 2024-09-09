@@ -13,6 +13,7 @@ import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -192,6 +193,16 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const RejectVerificationPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.addPostTask.path,
+        name: AppRoutes.addPostTask.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const AddPostTaskPage(),
           );
         },
       ),
