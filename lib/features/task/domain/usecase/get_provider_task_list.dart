@@ -24,12 +24,12 @@ class GetProviderTaskList
 }
 
 class GetProviderTaskListParams {
-  final TaskStatusEnum taskStatus;
+  final TaskStatusEnum? taskStatus;
   final String? previous;
   final String? next;
 
   GetProviderTaskListParams({
-    required this.taskStatus,
+    this.taskStatus,
     this.previous,
     this.next,
   });

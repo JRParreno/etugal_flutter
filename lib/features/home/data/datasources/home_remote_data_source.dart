@@ -69,15 +69,15 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       }
     }
 
-    try {
-      final response = await apiInstance.get(next ?? previous ?? url);
-      return TaskListResponseModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw ServerException(
-        e.response?.data['error_message'] ?? 'Something went wrong.',
-      );
-    } catch (e) {
-      throw ServerException(e.toString());
-    }
+    // try {
+    final response = await apiInstance.get(next ?? previous ?? url);
+    return TaskListResponseModel.fromJson(response.data);
+    // } on DioException catch (e) {
+    //   throw ServerException(
+    //     e.response?.data['error_message'] ?? 'Something went wrong.',
+    //   );
+    // } catch (e) {
+    //   throw ServerException(e.toString());
+    // }
   }
 }

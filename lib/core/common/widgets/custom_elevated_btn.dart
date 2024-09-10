@@ -12,6 +12,7 @@ class CustomElevatedBtn extends StatelessWidget {
     this.borderWidth = 1,
     this.textStyle,
     this.onTap,
+    this.backgroundColor,
   });
 
   final VoidCallback? onTap;
@@ -19,6 +20,7 @@ class CustomElevatedBtn extends StatelessWidget {
   final ButtonType buttonType;
   final double borderWidth;
   final TextStyle? textStyle;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +30,11 @@ class CustomElevatedBtn extends StatelessWidget {
       case ButtonType.outline:
         return ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor ?? Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(7),
               side: BorderSide(
-                color: ColorName.primary,
+                color: backgroundColor ?? ColorName.primary,
                 width: borderWidth,
               ),
             ),
@@ -48,6 +50,9 @@ class CustomElevatedBtn extends StatelessWidget {
         );
       default:
         return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor ?? ColorName.primary,
+          ),
           onPressed: onTap,
           child: Text(
             title,

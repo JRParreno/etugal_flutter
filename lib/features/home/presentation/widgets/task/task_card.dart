@@ -12,21 +12,26 @@ class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.taskEntity,
+    this.onTap,
+    this.performer,
   });
 
   final TaskEntity taskEntity;
+  final VoidCallback? onTap;
+  final TaskUserProfileEntity? performer;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () {
-        context.pushNamed(
-          AppRoutes.taskDetail.name,
-          extra: taskEntity,
-        );
-      },
+      onTap: onTap ??
+          () {
+            context.pushNamed(
+              AppRoutes.taskDetail.name,
+              extra: taskEntity,
+            );
+          },
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: ColorName.darkerGreyFont),
@@ -61,11 +66,20 @@ class TaskCard extends StatelessWidget {
                       DateFormat.yMMMMd('en_US').format(taskEntity.createdAt),
                   textTheme: textTheme,
                 ),
-                iconWithText(
-                  icon: Icons.schedule,
-                  title: getTimeAgo(taskEntity.createdAt),
-                  textTheme: textTheme,
-                ),
+                if (performer != null) ...[
+                  iconWithText(
+                    icon: Icons.person,
+                    title:
+                        '${performer!.user.firstName} ${performer!.user.lastName}',
+                    textTheme: textTheme,
+                  ),
+                ] else ...[
+                  iconWithText(
+                    icon: Icons.schedule,
+                    title: getTimeAgo(taskEntity.createdAt),
+                    textTheme: textTheme,
+                  ),
+                ]
               ],
             ),
             Column(

@@ -1,5 +1,5 @@
 enum TaskStatusEnum {
-  prending,
+  pending,
   inProgres,
   accepted,
   competed,
@@ -7,10 +7,10 @@ enum TaskStatusEnum {
   rejected,
 }
 
-TaskStatusEnum getVerificationStatusFromString(String status) {
+TaskStatusEnum getTaskStatusFromString(String status) {
   switch (status) {
     case 'PENDING':
-      return TaskStatusEnum.prending;
+      return TaskStatusEnum.pending;
     case 'IN_PROGRESS':
       return TaskStatusEnum.inProgres;
     case 'ACCEPTED':
@@ -26,9 +26,9 @@ TaskStatusEnum getVerificationStatusFromString(String status) {
   }
 }
 
-String getVerificationStatusFromEnum(TaskStatusEnum status) {
+String getTaskStatusFromEnum(TaskStatusEnum status) {
   switch (status) {
-    case TaskStatusEnum.prending:
+    case TaskStatusEnum.pending:
       return 'PENDING';
     case TaskStatusEnum.inProgres:
       return 'IN_PROGRESS';

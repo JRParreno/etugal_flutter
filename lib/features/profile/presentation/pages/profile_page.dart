@@ -46,13 +46,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         topRight: Radius.circular(25),
                       ),
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
                         Align(
                           alignment: Alignment.topRight,
-                          child: Icon(
-                            Icons.settings_outlined,
-                            size: 32,
+                          child: IconButton(
+                            onPressed: handleOnTapLogout,
+                            icon: const Icon(
+                              Icons.settings_outlined,
+                              size: 32,
+                            ),
                           ),
                         ),
                       ],
@@ -85,6 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void handleOnTapLogout() async {
     final result = await showOkCancelAlertDialog(
       context: context,
+      style: AdaptiveStyle.iOS,
       title: 'Logout',
       message: 'Do you want to logout',
       canPop: true,

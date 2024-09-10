@@ -15,6 +15,8 @@ import 'package:etugal_flutter/features/profile/presentation/pages/upload_govern
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/my_task_detail_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/my_task_list_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/task_detail_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
@@ -29,9 +31,8 @@ GoRouter routerConfig() {
       GlobalKey<NavigatorState>(debugLabel: 'mainNavigator');
   final shellNavigatorHomeKey =
       GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorHomeKey');
-  final shellNavigatorSearchKey =
-      GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorSearchKey');
-
+  final shellNavigatorTaskKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorTaskKey');
   final shellNavigatorProfileKey =
       GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorProfileKey');
 
@@ -116,7 +117,7 @@ GoRouter routerConfig() {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: shellNavigatorSearchKey,
+            navigatorKey: shellNavigatorTaskKey,
             routes: [
               GoRoute(
                 path: AppRoutes.search.path,
@@ -124,7 +125,7 @@ GoRouter routerConfig() {
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const Placeholder(),
+                    child: const MyTaskListPage(),
                   );
                 },
               ),
@@ -215,6 +216,18 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: TaskDetailPage(
+              task: state.extra! as TaskEntity,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.myTaskDetail.path,
+        name: AppRoutes.myTaskDetail.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: MyTaskDetailPage(
               task: state.extra! as TaskEntity,
             ),
           );

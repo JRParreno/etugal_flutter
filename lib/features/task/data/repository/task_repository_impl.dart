@@ -46,13 +46,43 @@ class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<Either<Failure, TaskListResponseEntity>> getProviderTaskList(
-      {required TaskStatusEnum taskStatus,
-      String? previous,
-      String? next}) async {
+      {TaskStatusEnum? taskStatus, String? previous, String? next}) async {
     try {
       final response = await taskRemoteDataSource.getProviderTaskList(
           taskStatus: taskStatus, next: next, previous: previous);
 
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> setTaskPerformer({
+    required int performerId,
+    required int taskId,
+  }) async {
+    try {
+      final response = await taskRemoteDataSource.setTaskPerformer(
+        performerId: performerId,
+        taskId: taskId,
+      );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateTaskStatus({
+    required String taskStatus,
+    required int taskId,
+  }) async {
+    try {
+      final response = await taskRemoteDataSource.updateTaskStatus(
+        taskId: taskId,
+        taskStatus: taskStatus,
+      );
       return right(response);
     } on ServerException catch (e) {
       return left(Failure(e.toString()));

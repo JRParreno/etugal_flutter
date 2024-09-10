@@ -47,6 +47,7 @@ flutter:
   assets:
     - assets/images/on_boarding/
     - assets/images/verification/
+    - assets/images/task/
 
   # fonts:
   #   - family: Signika

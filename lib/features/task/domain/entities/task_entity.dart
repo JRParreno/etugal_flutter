@@ -16,7 +16,8 @@ class TaskEntity {
     required this.latitude,
     required this.status,
     required this.rejectionReason,
-    required this.performer,
+    this.performer,
+    this.applicants,
   });
 
   final int id;
@@ -34,4 +35,5 @@ class TaskEntity {
   final String status;
   final String? rejectionReason;
   final TaskUserProfileEntity? performer;
+  final List<TaskUserProfileEntity>? applicants;
 }

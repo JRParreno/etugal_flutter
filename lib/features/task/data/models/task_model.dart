@@ -17,7 +17,8 @@ class TaskModel extends TaskEntity {
     required super.latitude,
     required super.status,
     required super.rejectionReason,
-    required super.performer,
+    super.performer,
+    super.applicants,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
@@ -39,6 +40,13 @@ class TaskModel extends TaskEntity {
       performer: json["performer"] == null
           ? null
           : TaskUserProfileModel.fromJson(json["performer"]),
+      applicants: json["task_applicants"] == null
+          ? null
+          : List.from(json["task_applicants"])
+              .map(
+                (e) => TaskUserProfileModel.fromJson(e["performer"]),
+              )
+              .toList(),
     );
   }
 }

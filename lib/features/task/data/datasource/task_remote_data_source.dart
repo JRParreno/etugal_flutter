@@ -19,9 +19,17 @@ abstract interface class TaskRemoteDataSource {
     required double latitude,
   });
   Future<TaskListResponseModel> getProviderTaskList({
-    required TaskStatusEnum taskStatus,
+    TaskStatusEnum? taskStatus,
     String? previous,
     String? next,
+  });
+  Future<void> setTaskPerformer({
+    required int performerId,
+    required int taskId,
+  });
+  Future<void> updateTaskStatus({
+    required String taskStatus,
+    required int taskId,
   });
 }
 
@@ -71,15 +79,65 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
 
   @override
   Future<TaskListResponseModel> getProviderTaskList({
-    required TaskStatusEnum taskStatus,
+    TaskStatusEnum? taskStatus,
     String? previous,
     String? next,
   }) async {
     String url = '$baseUrl/api/provider/tasks/';
 
+    if (taskStatus != null) {
+      url += '?status=${getTaskStatusFromEnum(taskStatus)}';
+    }
+
     try {
       final response = await apiInstance.get(next ?? previous ?? url);
       return TaskListResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> setTaskPerformer({
+    required int performerId,
+    required int taskId,
+  }) async {
+    String url = '$baseUrl/api/provider/tasks/$taskId/patch_performer/';
+
+    final data = {
+      "performer": performerId,
+    };
+
+    try {
+      await apiInstance.patch(url, data: data);
+      return;
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> updateTaskStatus({
+    required String taskStatus,
+    required int taskId,
+  }) async {
+    String url = '$baseUrl/api/provider/tasks/$taskId/patch_status/';
+
+    final data = {
+      "status": taskStatus,
+    };
+
+    try {
+      await apiInstance.patch(url, data: data);
+      return;
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

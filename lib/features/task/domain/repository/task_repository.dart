@@ -17,8 +17,16 @@ abstract interface class TaskRepository {
     required double latitude,
   });
   Future<Either<Failure, TaskListResponseEntity>> getProviderTaskList({
-    required TaskStatusEnum taskStatus,
+    TaskStatusEnum? taskStatus,
     String? previous,
     String? next,
+  });
+  Future<Either<Failure, void>> setTaskPerformer({
+    required int performerId,
+    required int taskId,
+  });
+  Future<Either<Failure, void>> updateTaskStatus({
+    required String taskStatus,
+    required int taskId,
   });
 }
