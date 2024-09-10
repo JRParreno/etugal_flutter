@@ -48,6 +48,10 @@ enum AppRoutes {
     name: 'add-task',
     path: '/add-task',
   ),
+  taskDetail(
+    name: 'task_detail',
+    path: '/task_detail',
+  ),
   ;
 
   const AppRoutes({

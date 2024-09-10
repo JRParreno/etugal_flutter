@@ -351,6 +351,7 @@ class _SingupPageState extends State<SingupPage> {
   void onFormError(String message) {
     Future.delayed(const Duration(milliseconds: 600), () {
       showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
         context: context,
         title: 'Signup Error',
         message: message,

@@ -70,6 +70,7 @@ class _UploadSelfiePageState extends State<UploadSelfiePage> {
   void onFormError(String message) {
     Future.delayed(const Duration(milliseconds: 600), () {
       showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
         context: context,
         title: 'Upload Error',
         message: message,

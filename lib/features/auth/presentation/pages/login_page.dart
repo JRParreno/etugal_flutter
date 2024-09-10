@@ -175,6 +175,7 @@ class _LoginPageState extends State<LoginPage> {
   void onFormError(String message) {
     Future.delayed(const Duration(milliseconds: 600), () {
       showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
         context: context,
         title: 'Login Error',
         message: message,

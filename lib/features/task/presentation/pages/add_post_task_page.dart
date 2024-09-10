@@ -143,6 +143,7 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
   }) {
     Future.delayed(const Duration(milliseconds: 600), () {
       showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
         context: context,
         title: header,
         message: message,

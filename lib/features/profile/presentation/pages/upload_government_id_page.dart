@@ -87,6 +87,7 @@ class _UploadGovernmentIdPageState extends State<UploadGovernmentIdPage> {
   void onFormError(String message) {
     Future.delayed(const Duration(milliseconds: 600), () {
       showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
         context: context,
         title: 'Upload Error',
         message: message,

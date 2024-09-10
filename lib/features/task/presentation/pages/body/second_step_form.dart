@@ -118,6 +118,9 @@ class SecondStepForm extends StatelessWidget {
                         googleMapController.complete(controller);
                       },
                       markers: markers,
+                      mapToolbarEnabled: false,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: false,
                     ),
                   ),
                 ].withSpaceBetween(height: 20),

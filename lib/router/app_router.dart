@@ -13,7 +13,9 @@ import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/task_detail_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +205,18 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const AddPostTaskPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.taskDetail.path,
+        name: AppRoutes.taskDetail.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: TaskDetailPage(
+              task: state.extra! as TaskEntity,
+            ),
           );
         },
       ),

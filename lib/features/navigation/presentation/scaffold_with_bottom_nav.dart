@@ -1,5 +1,9 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
+import 'package:etugal_flutter/core/enums/verification_status_enum.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ScaffoldWithBottomNav extends StatefulWidget {
@@ -88,12 +92,34 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
         context.go(AppRoutes.search.path);
         break;
       case 2:
-        context.pushNamed(AppRoutes.addPostTask.name);
+        handleOnTapPostAdd();
+
         break;
       case 4:
         context.go(AppRoutes.profile.path);
         break;
       default:
     }
+  }
+
+  void handleOnTapPostAdd() {
+    final state = context.read<AppUserCubit>().state;
+
+    if (state is AppUserLoggedIn) {
+      if (getVerificationStatusFromString(state.user.verificationStatus) ==
+          VerificationStatus.verified) {
+        context.pushNamed(AppRoutes.addPostTask.name);
+        return;
+      }
+    }
+
+    Future.delayed(const Duration(milliseconds: 600), () {
+      showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
+        context: context,
+        title: 'E-Tugal',
+        message: 'Please verified your account first!',
+      );
+    });
   }
 }
