@@ -89,7 +89,7 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
         context.go(AppRoutes.home.path);
         break;
       case 1:
-        context.go(AppRoutes.search.path);
+        context.go(AppRoutes.myTaskList.path);
         break;
       case 2:
         handleOnTapPostAdd();

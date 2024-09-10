@@ -54,7 +54,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
 
     final data = {
       "title": title,
-      "task_category": taskCategory,
+      "task_category_id": taskCategory,
       "reward": reward,
       "done_date": doneDate,
       "schedule_time": scheduleTime,

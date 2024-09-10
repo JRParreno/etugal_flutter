@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
+import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/enums/work_type.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/domain/usecase/index.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task/add_task_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task_category/add_task_category_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/index.dart';
 import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
 import 'package:etugal_flutter/router/index.dart';
@@ -126,7 +128,15 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
         message: state.message,
         header: 'Success',
         onTapOk: () {
-          context.go(AppRoutes.home.path);
+          context.read<ProviderTaskListBloc>().add(
+                const GetProviderTaskListTaskEvent(
+                  taskStatus: TaskStatusEnum.pending,
+                  index: 0,
+                ),
+              );
+          Future.delayed(const Duration(milliseconds: 500), () {
+            context.go(AppRoutes.myTaskList.path);
+          });
         },
       );
     }

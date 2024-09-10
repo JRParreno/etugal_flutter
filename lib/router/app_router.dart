@@ -120,8 +120,8 @@ GoRouter routerConfig() {
             navigatorKey: shellNavigatorTaskKey,
             routes: [
               GoRoute(
-                path: AppRoutes.search.path,
-                name: AppRoutes.search.name,
+                path: AppRoutes.myTaskList.path,
+                name: AppRoutes.myTaskList.name,
                 pageBuilder: (context, state) {
                   return buildTransitionPage(
                     localKey: state.pageKey,

@@ -256,7 +256,7 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
       context: context,
       style: AdaptiveStyle.iOS,
       title: 'Task Cancellation',
-      message: 'Are you sure? you want to cancel the task?',
+      message: 'Are you sure you want to cancel this task?',
       canPop: true,
       okLabel: 'Ok',
       cancelLabel: 'Cancel',
