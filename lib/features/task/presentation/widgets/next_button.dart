@@ -8,10 +8,12 @@ class NextButton extends StatelessWidget {
     super.key,
     required this.onNext,
     this.isEnabled = false,
+    this.title,
   });
 
   final bool isEnabled;
   final VoidCallback onNext;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class NextButton extends StatelessWidget {
         color: Colors.white,
         child: CustomElevatedBtn(
           onTap: isEnabled ? onNext : null,
-          title: 'Next',
+          title: title ?? 'Next',
         ),
       ),
     );

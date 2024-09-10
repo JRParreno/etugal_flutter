@@ -1,3 +1,4 @@
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,8 @@ class FirstStepForm extends StatelessWidget {
     this.selectedWorkType,
   });
 
-  final String? selectedCategory;
-  final Function(String value) onSelectCategory;
+  final TaskCategoryEntity? selectedCategory;
+  final Function(TaskCategoryEntity value) onSelectCategory;
 
   final WorkType? selectedWorkType;
   final Function(WorkType value) onSelectWorkType;
@@ -79,9 +80,10 @@ class FirstStepForm extends StatelessWidget {
                                   (item, index) {
                                     return TaskCategoryChip(
                                       taskCategoryEntity: item,
-                                      selected: item.title == selectedCategory,
+                                      selected: selectedCategory != null &&
+                                          item.title == selectedCategory!.title,
                                       onSelected: (value) =>
-                                          onSelectCategory(item.title),
+                                          onSelectCategory(item),
                                     );
                                   },
                                 ).toList(),

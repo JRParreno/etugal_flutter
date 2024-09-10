@@ -20,4 +20,6 @@ final class GetHomeTaskEvent extends HomeTaskEvent {
   List<Object> get props => [search];
 }
 
+final class RefreshHomeTaskEvent extends HomeTaskEvent {}
+
 final class GetHomeTaskPaginateEvent extends HomeTaskEvent {}

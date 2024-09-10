@@ -1,14 +1,20 @@
 import 'dart:async';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:etugal_flutter/core/common/widgets/loader.dart';
 import 'package:etugal_flutter/core/enums/work_type.dart';
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
+import 'package:etugal_flutter/features/task/domain/usecase/index.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/add_task/add_task_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task_category/add_task_category_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/index.dart';
 import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
+import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_places_autocomplete_text_field/model/prediction.dart';
+import 'package:intl/intl.dart';
 
 class AddPostTaskPage extends StatefulWidget {
   const AddPostTaskPage({super.key});
@@ -19,10 +25,15 @@ class AddPostTaskPage extends StatefulWidget {
 
 class _AddPostTaskPageState extends State<AddPostTaskPage> {
   int _index = 0;
-  String? _selectedCategory;
+  TaskCategoryEntity? _selectedCategory;
   WorkType? _workType;
+  late DateTime _dateSelected;
+  TimeOfDay? _timeSelected;
+  LatLng latLng = const LatLng(13.2907648, 123.4908591);
+  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _describeController = TextEditingController();
   final TextEditingController _searchLocationCtrl = TextEditingController();
+  final TextEditingController _rewardCtrl = TextEditingController();
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -31,7 +42,8 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
   @override
   void initState() {
     super.initState();
-    _setMarker(const LatLng(13.2907648, 123.4908591));
+    _dateSelected = DateTime.now();
+    _setMarker(latLng);
     context.read<AddTaskCategoryBloc>().add(GetAddTaskCategoryEvent());
   }
 
@@ -39,6 +51,9 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
   void dispose() {
     super.dispose();
     _describeController.dispose();
+    _searchLocationCtrl.dispose();
+    _rewardCtrl.dispose();
+    _titleController.dispose();
   }
 
   @override
@@ -46,6 +61,7 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
           'Post a task',
@@ -72,23 +88,72 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
           )
         ],
       ),
-      body: SizedBox(
-        height: double.infinity,
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FormSteps(
-              currentStep: _index,
-              numSteps: 4,
-            ),
-            Flexible(
-              child: handleFormWidgets(),
-            ),
-          ],
+      body: BlocListener<AddTaskBloc, AddTaskState>(
+        listener: blocListener,
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FormSteps(
+                currentStep: _index,
+                numSteps: 4,
+              ),
+              Flexible(
+                child: handleFormWidgets(),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void blocListener(BuildContext context, AddTaskState state) {
+    if (state is AddTaskLoading) {
+      LoadingScreen.instance().show(context: context);
+    }
+
+    if (state is AddTaskFailure || state is AddTaskSuccess) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        LoadingScreen.instance().hide();
+      });
+    }
+
+    if (state is AddTaskSuccess) {
+      onFormDialog(
+        message: state.message,
+        header: 'Success',
+        onTapOk: () {
+          context.go(AppRoutes.home.path);
+        },
+      );
+    }
+
+    if (state is AddTaskFailure) {
+      onFormDialog(message: state.message, header: 'Error');
+    }
+  }
+
+  void onFormDialog({
+    required String message,
+    required String header,
+    VoidCallback? onTapOk,
+  }) {
+    Future.delayed(const Duration(milliseconds: 600), () {
+      showOkAlertDialog(
+        context: context,
+        title: header,
+        message: message,
+      ).whenComplete(
+        () {
+          if (onTapOk != null) {
+            onTapOk();
+          }
+        },
+      );
+    });
   }
 
   Widget handleFormWidgets() {
@@ -106,11 +171,71 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
         return SecondStepForm(
           controller: _describeController,
           googleMapController: _controller,
-          initialCameraPosition: _kGooglePlex,
+          initialCameraPosition: CameraPosition(
+            target: latLng,
+            zoom: 14.4746,
+          ),
           searchLocationCtrl: _searchLocationCtrl,
           onNext: handleNext,
-          onPrediction: (prediction) => _goToTheLocation(prediction),
+          onPrediction: (prediction) {
+            if (prediction.lat != null && prediction.lng != null) {
+              final latitude = double.parse(prediction.lat!);
+              final longitude = double.parse(prediction.lng!);
+
+              _goToTheLocation(LatLng(latitude, longitude));
+            }
+          },
           markers: _markers,
+          titleController: _titleController,
+        );
+
+      case 2:
+        return ThirdStepForm(
+          dateSelected: _dateSelected,
+          timeSelected: _timeSelected,
+          onNext: handleNext,
+          onSetDate: (value) async {
+            final date = await value;
+            if (date != null) {
+              setState(() {
+                _dateSelected = date;
+              });
+            }
+          },
+          onSetTime: (value) async {
+            final time = await value;
+            if (time != null) {
+              setState(() {
+                _timeSelected = time;
+              });
+            }
+          },
+        );
+      case 3:
+        return FourthStepForm(
+          rewardCtrl: _rewardCtrl,
+          onSubmit: () {
+            setState(() {});
+          },
+          onNext: () {
+            context.read<AddTaskBloc>().add(
+                  SubmitAddTaskEvent(
+                    AddNewTaskParams(
+                      title: _titleController.value.text,
+                      taskCategory: _selectedCategory!.id,
+                      reward: double.parse(_rewardCtrl.value.text),
+                      doneDate: DateFormat('y-M-d').format(_dateSelected),
+                      scheduleTime:
+                          '${_timeSelected!.hour}:${_timeSelected!.minute}',
+                      description: _describeController.value.text,
+                      workType: getWorkTypeFromEnum(_workType!),
+                      address: _searchLocationCtrl.value.text,
+                      longitude: latLng.longitude,
+                      latitude: latLng.latitude,
+                    ),
+                  ),
+                );
+          },
         );
 
       default:
@@ -118,40 +243,33 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
     }
   }
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(13.2907648, 123.4908591),
-    zoom: 14.4746,
-  );
+  Future<void> _goToTheLocation(LatLng prediction) async {
+    final tempLatLng = LatLng(prediction.latitude, prediction.longitude);
 
-  Future<void> _goToTheLocation(Prediction prediction) async {
-    if (prediction.lat != null && prediction.lng != null) {
-      final latitude = double.parse(prediction.lat!);
-      final longitude = double.parse(prediction.lng!);
-      final latLng = LatLng(latitude, longitude);
+    setState(() {
+      latLng = tempLatLng;
 
-      setState(() {
-        _markers.add(
-          Marker(
-            markerId: MarkerId(latLng.toString()),
-            position: latLng,
-            infoWindow: InfoWindow(
-              title: 'Selected Location',
-              snippet: '${latLng.latitude}, ${latLng.longitude}',
-            ),
-          ),
-        );
-      });
-
-      final GoogleMapController controller = await _controller.future;
-      await controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: latLng,
-            zoom: 14.4746,
+      _markers.add(
+        Marker(
+          markerId: MarkerId(tempLatLng.toString()),
+          position: tempLatLng,
+          infoWindow: InfoWindow(
+            title: 'Selected Location',
+            snippet: '${tempLatLng.latitude}, ${tempLatLng.longitude}',
           ),
         ),
       );
-    }
+    });
+
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: tempLatLng,
+          zoom: 14.4746,
+        ),
+      ),
+    );
   }
 
   void _setMarker(LatLng point) {
@@ -169,11 +287,29 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
     });
   }
 
+  void handleOnTapBirthdate() async {
+    final date = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900, 1, 1),
+      lastDate: DateTime(3000, 1, 1),
+      currentDate: DateTime.now(),
+    );
+
+    if (date != null) {
+      _dateSelected = date;
+    }
+  }
+
   void handleNext() {
     if (_index >= 0 && _index < 4) {
       setState(() {
         _index += 1;
       });
+      if (_index == 1) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _goToTheLocation(latLng);
+        });
+      }
     }
   }
 
@@ -182,6 +318,11 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
       setState(() {
         _index -= 1;
       });
+      if (_index == 1) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _goToTheLocation(latLng);
+        });
+      }
     }
   }
 }

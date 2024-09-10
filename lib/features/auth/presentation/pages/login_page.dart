@@ -23,10 +23,10 @@ class _LoginPageState extends State<LoginPage> {
   bool isObscureText = true;
 
   @override
-  void initState() {
-    super.initState();
-    // emailCtrl.text = 'jhonrhayparreno22@gmail.com';
-    // passwordCtrl.text = '2020Rtutest@';
+  void dispose() {
+    super.dispose();
+    emailCtrl.dispose();
+    passwordCtrl.dispose();
   }
 
   @override

@@ -20,9 +20,12 @@ class SecondStepForm extends StatelessWidget {
     required this.searchLocationCtrl,
     required this.onPrediction,
     required this.markers,
+    required this.titleController,
   });
 
   final TextEditingController controller;
+  final TextEditingController titleController;
+
   final Completer<GoogleMapController> googleMapController;
   final CameraPosition initialCameraPosition;
   final TextEditingController searchLocationCtrl;
@@ -43,6 +46,19 @@ class SecondStepForm extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Task Title',
+                        style: textTheme.bodyLarge,
+                      ),
+                      CustomTextFormField(
+                        hintText: 'Enter task title',
+                        controller: titleController,
+                      ),
+                    ].withSpaceBetween(height: 10),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

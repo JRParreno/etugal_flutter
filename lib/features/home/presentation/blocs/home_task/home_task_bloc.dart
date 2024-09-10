@@ -18,6 +18,13 @@ class HomeTaskBloc extends Bloc<HomeTaskEvent, HomeTaskState> {
     on<GetHomeTaskEvent>(onGetHomeTaskEvent, transformer: restartable());
     on<GetHomeTaskPaginateEvent>(onGetHomeTaskPaginateEvent,
         transformer: restartable());
+    on<RefreshHomeTaskEvent>(onRefreshHomeTaskEvent,
+        transformer: restartable());
+  }
+
+  FutureOr<void> onRefreshHomeTaskEvent(
+      RefreshHomeTaskEvent event, Emitter<HomeTaskState> emit) async {
+    emit(HomeTaskLoading());
   }
 
   FutureOr<void> onGetHomeTaskEvent(

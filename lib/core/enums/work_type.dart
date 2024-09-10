@@ -10,3 +10,14 @@ WorkType getWorkTypeFromString(String status) {
       throw Exception('Unknown status: $status');
   }
 }
+
+String getWorkTypeFromEnum(WorkType status) {
+  switch (status) {
+    case WorkType.inPerson:
+      return 'IN_PERSON';
+    case WorkType.online:
+      return 'ONLINE';
+    default:
+      throw Exception('Unknown status: $status');
+  }
+}

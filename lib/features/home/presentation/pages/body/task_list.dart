@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:etugal_flutter/features/home/presentation/blocs/home_task_category/home_task_category_bloc.dart';
 import 'package:etugal_flutter/features/home/presentation/widgets/task/task_card.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -40,17 +41,26 @@ class TaskList extends StatelessWidget {
               );
             }
 
-            return ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final item = state.data.results[index];
-
-                return TaskCard(taskEntity: item);
+            return RefreshIndicator(
+              onRefresh: () {
+                context.read<HomeTaskBloc>().add(RefreshHomeTaskEvent());
+                context
+                    .read<HomeTaskCategoryBloc>()
+                    .add(GetHomeTaskCategoryEvent());
+                return Future<void>.value();
               },
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 15,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = state.data.results[index];
+
+                  return TaskCard(taskEntity: item);
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 15,
+                ),
+                itemCount: state.data.results.length,
               ),
-              itemCount: state.data.results.length,
             );
           }
 
