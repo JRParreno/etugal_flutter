@@ -120,19 +120,33 @@ class ProviderTasks extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListView.separated(
+                      controller: scrollController,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final item = state.data.results[index];
 
-                        return TaskCard(
-                          taskEntity: item,
-                          onTap: () {
-                            context.pushNamed(
-                              AppRoutes.myTaskDetail.name,
-                              extra: item,
-                            );
-                          },
-                          performer: item.performer,
+                        return Column(
+                          children: [
+                            TaskCard(
+                              taskEntity: item,
+                              onTap: () {
+                                context.pushNamed(
+                                  AppRoutes.myTaskDetail.name,
+                                  extra: item,
+                                );
+                              },
+                              performer: item.performer,
+                            ),
+                            if (index == (state.data.results.length - 1) &&
+                                state.isPaginate)
+                              const SizedBox(
+                                height: 15,
+                                child: ShimmerLoading(
+                                  width: double.infinity,
+                                  height: 124,
+                                ),
+                              ),
+                          ],
                         );
                       },
                       separatorBuilder: (context, index) => const SizedBox(

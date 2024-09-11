@@ -9,9 +9,11 @@ class PerformerInfo extends StatelessWidget {
   const PerformerInfo({
     super.key,
     required this.taskUserProfile,
+    this.isHideHeader = false,
   });
 
   final TaskUserProfileEntity taskUserProfile;
+  final bool isHideHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,11 @@ class PerformerInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Performer's Info",
-          style: textTheme.titleSmall,
-        ),
+        if (!isHideHeader)
+          Text(
+            "Performer's Info",
+            style: textTheme.titleSmall,
+          ),
         rowInfoText(
             info: "Full name",
             text:

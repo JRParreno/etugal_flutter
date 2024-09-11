@@ -28,3 +28,4 @@ class UploadImageParams {
     required this.imagePath,
   });
 }
+

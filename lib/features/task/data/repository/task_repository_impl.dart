@@ -3,6 +3,7 @@ import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/home/domain/entities/task_list_reponse_entity.dart';
 import 'package:etugal_flutter/features/task/data/datasource/task_remote_data_source.dart';
+import 'package:etugal_flutter/features/task/domain/entities/task_review_list_entity.dart';
 import 'package:etugal_flutter/features/task/domain/repository/task_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -83,6 +84,38 @@ class TaskRepositoryImpl implements TaskRepository {
         taskId: taskId,
         taskStatus: taskStatus,
       );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskReviewListEntity>> getTaskPerformerReview(
+      {required int id, String? previous, String? next}) async {
+    try {
+      final response = await taskRemoteDataSource.getTaskPerformerReview(
+        id: id,
+        next: next,
+        previous: previous,
+      );
+
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskReviewListEntity>> getTaskProviderReview(
+      {required int id, String? previous, String? next}) async {
+    try {
+      final response = await taskRemoteDataSource.getTaskProviderReview(
+        id: id,
+        next: next,
+        previous: previous,
+      );
+
       return right(response);
     } on ServerException catch (e) {
       return left(Failure(e.toString()));

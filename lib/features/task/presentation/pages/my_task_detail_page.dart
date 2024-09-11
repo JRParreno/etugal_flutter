@@ -10,6 +10,7 @@ import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_de
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
+import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/material.dart';
 
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
@@ -125,7 +126,12 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                         ...task.applicants!.map(
                           (e) => TaskApplicantInfo(
                             performer: e,
-                            onViewPerformer: () {},
+                            onViewPerformer: () {
+                              context.pushNamed(
+                                AppRoutes.taskApplicantDetail.name,
+                                extra: e,
+                              );
+                            },
                             onTapAccept: () => handleOnTapAccept(
                               fullName:
                                   '${e.user.firstName} ${e.user.lastName}',

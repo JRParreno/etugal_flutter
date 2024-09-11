@@ -1,6 +1,7 @@
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/home/domain/entities/index.dart';
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class TaskRepository {
@@ -28,5 +29,15 @@ abstract interface class TaskRepository {
   Future<Either<Failure, void>> updateTaskStatus({
     required String taskStatus,
     required int taskId,
+  });
+  Future<Either<Failure, TaskReviewListEntity>> getTaskPerformerReview({
+    required int id,
+    String? previous,
+    String? next,
+  });
+  Future<Either<Failure, TaskReviewListEntity>> getTaskProviderReview({
+    required int id,
+    String? previous,
+    String? next,
   });
 }

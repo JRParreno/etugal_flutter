@@ -4,6 +4,7 @@ import 'package:etugal_flutter/core/env/env.dart';
 import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/interceptor/api_interceptor.dart';
 import 'package:etugal_flutter/features/home/data/models/index.dart';
+import 'package:etugal_flutter/features/task/data/models/index.dart';
 
 abstract interface class TaskRemoteDataSource {
   Future<String> addNewTask({
@@ -30,6 +31,16 @@ abstract interface class TaskRemoteDataSource {
   Future<void> updateTaskStatus({
     required String taskStatus,
     required int taskId,
+  });
+  Future<TaskReviewListModel> getTaskPerformerReview({
+    required int id,
+    String? previous,
+    String? next,
+  });
+  Future<TaskReviewListModel> getTaskProviderReview({
+    required int id,
+    String? previous,
+    String? next,
   });
 }
 
@@ -138,6 +149,40 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       await apiInstance.patch(url, data: data);
       return;
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskReviewListModel> getTaskPerformerReview(
+      {required int id, String? previous, String? next}) async {
+    String url = '$baseUrl/api/task/review/list?performer=$id';
+
+    try {
+      final response = await apiInstance.get(next ?? previous ?? url);
+      return TaskReviewListModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskReviewListModel> getTaskProviderReview(
+      {required int id, String? previous, String? next}) async {
+    String url = '$baseUrl/api/task/review/list?provider=$id';
+
+    try {
+      final response = await apiInstance.get(next ?? previous ?? url);
+      return TaskReviewListModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

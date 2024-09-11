@@ -26,6 +26,7 @@ class _MyTaskListPageState extends State<MyTaskListPage>
     _providerTabCtrl = TabController(length: 5, vsync: this);
     _performerTabCtrl = TabController(length: 5, vsync: this);
     handleProviderOnTapTab(0);
+    handleEventScrollListener();
   }
 
   @override
@@ -124,5 +125,16 @@ class _MyTaskListPageState extends State<MyTaskListPage>
             taskStatus: taskStatusEnum,
           ),
         );
+  }
+
+  void handleEventScrollListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >
+          (scrollController.position.pixels * 0.75)) {
+        context.read<ProviderTaskListBloc>().add(
+              GetProviderTaskListTaskPaginateEvent(),
+            );
+      }
+    });
   }
 }

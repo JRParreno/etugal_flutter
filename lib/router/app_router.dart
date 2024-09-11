@@ -17,6 +17,7 @@ import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_list_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/task_applicant_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/task_detail_page.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/foundation.dart';
@@ -229,6 +230,18 @@ GoRouter routerConfig() {
             localKey: state.pageKey,
             child: MyTaskDetailPage(
               task: state.extra! as TaskEntity,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.taskApplicantDetail.path,
+        name: AppRoutes.taskApplicantDetail.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: TaskApplicantDetailPage(
+              userProfile: state.extra! as TaskUserProfileEntity,
             ),
           );
         },
