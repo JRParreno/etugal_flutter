@@ -70,6 +70,8 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 color: ColorName.borderColor,
               ),
               TaskInfo(
+                scheduleTime: task.scheduleTime,
+                doneDate: task.doneDate,
                 reward: task.reward,
                 workType: task.workType,
                 description: task.description,

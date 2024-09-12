@@ -152,6 +152,8 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                   )
                 ],
                 TaskInfo(
+                  scheduleTime: task.scheduleTime,
+                  doneDate: task.doneDate,
                   reward: task.reward,
                   workType: task.workType,
                   description: task.description,
@@ -203,7 +205,9 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                       onTap: getTaskStatusFromString(task.status) ==
                               TaskStatusEnum.pending
                           ? handleOnTapCancel
-                          : null,
+                          : task.isDonePerform
+                              ? () {}
+                              : null,
                       title: getTaskStatusFromString(task.status) ==
                               TaskStatusEnum.pending
                           ? 'Cancel'

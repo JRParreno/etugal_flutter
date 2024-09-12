@@ -16,8 +16,11 @@ class TaskEntity {
     required this.latitude,
     required this.status,
     required this.rejectionReason,
+    required this.doneDate,
+    this.scheduleTime,
     this.performer,
     this.applicants,
+    this.isDonePerform = false,
   });
 
   final int id;
@@ -33,6 +36,9 @@ class TaskEntity {
   final double longitude;
   final double latitude;
   final String status;
+  final DateTime doneDate;
+  final bool isDonePerform;
+  final String? scheduleTime;
   final String? rejectionReason;
   final TaskUserProfileEntity? performer;
   final List<TaskUserProfileEntity>? applicants;

@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
+import 'package:intl/intl.dart';
 
 class TaskInfo extends StatelessWidget {
   const TaskInfo({
@@ -13,14 +14,19 @@ class TaskInfo extends StatelessWidget {
     required this.workType,
     required this.reward,
     required this.description,
+    required this.doneDate,
     required this.googleMapController,
     required this.initialCameraPosition,
     required this.markers,
+    this.scheduleTime,
   });
 
   final String workType;
   final double reward;
   final String description;
+  final DateTime doneDate;
+
+  final String? scheduleTime;
 
   final Completer<GoogleMapController> googleMapController;
   final CameraPosition initialCameraPosition;
@@ -37,6 +43,18 @@ class TaskInfo extends StatelessWidget {
           "Task Details",
           style: textTheme.titleSmall,
         ),
+        rowInfoText(
+          textTheme: textTheme,
+          info: 'Deadline Date',
+          text: DateFormat.yMMMMd('en_US').format(doneDate),
+        ),
+        if (scheduleTime != null)
+          rowInfoText(
+            textTheme: textTheme,
+            info: 'Schedule Time',
+            text: DateFormat('h:mm a')
+                .format(DateFormat('HH:mm:ss').parse(scheduleTime!)),
+          ),
         rowInfoText(
           textTheme: textTheme,
           info: 'Type',
