@@ -8,11 +8,12 @@ class TaskUserProfileEntity {
     required this.address,
     required this.contactNumber,
     required this.gender,
-    required this.profilePhoto,
     required this.verificationStatus,
-    required this.verificationRemarks,
-    required this.idPhoto,
-    required this.facePhoto,
+    this.verificationRemarks,
+    this.idPhoto,
+    this.facePhoto,
+    this.description,
+    this.profilePhoto,
   });
 
   final int id;
@@ -26,4 +27,5 @@ class TaskUserProfileEntity {
   final String? verificationRemarks;
   final String? idPhoto;
   final String? facePhoto;
+  final String? description;
 }

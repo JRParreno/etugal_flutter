@@ -14,9 +14,11 @@ class TaskUserProfileModel extends TaskUserProfileEntity {
     required super.verificationRemarks,
     required super.idPhoto,
     required super.facePhoto,
+    required super.description,
   });
 
-  factory TaskUserProfileModel.fromJson(Map<String, dynamic> json) {
+  factory TaskUserProfileModel.fromJson(Map<String, dynamic> json,
+      [String? description]) {
     return TaskUserProfileModel(
       id: json["id"],
       user: TaskUserModel.fromJson(json["user"]),
@@ -29,6 +31,7 @@ class TaskUserProfileModel extends TaskUserProfileEntity {
       verificationRemarks: json["verification_remarks"],
       idPhoto: json["id_photo"],
       facePhoto: json["face_photo"],
+      description: description,
     );
   }
 }

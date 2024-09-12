@@ -2,7 +2,9 @@
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
+import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class PerformerInfo extends StatelessWidget {
@@ -23,9 +25,27 @@ class PerformerInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (!isHideHeader)
-          Text(
-            "Performer's Info",
-            style: textTheme.titleSmall,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Performer's Info",
+                style: textTheme.titleSmall,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(
+                    AppRoutes.taskApplicantDetail.name,
+                    extra: taskUserProfile,
+                  );
+                },
+                child: Text(
+                  'View Profile',
+                  style:
+                      textTheme.titleSmall?.copyWith(color: ColorName.primary),
+                ),
+              ),
+            ].withSpaceBetween(height: 11),
           ),
         rowInfoText(
             info: "Full name",
@@ -39,7 +59,7 @@ class PerformerInfo extends StatelessWidget {
         ),
         rowInfoText(
           info: "Birthdate",
-          text: DateFormat.yMd().format(taskUserProfile.birthdate),
+          text: DateFormat.yMMMMd('en_US').format(taskUserProfile.birthdate),
           textTheme: textTheme,
         ),
         rowInfoText(

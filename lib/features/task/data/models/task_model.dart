@@ -44,7 +44,8 @@ class TaskModel extends TaskEntity {
           ? null
           : List.from(json["task_applicants"])
               .map(
-                (e) => TaskUserProfileModel.fromJson(e["performer"]),
+                (e) => TaskUserProfileModel.fromJson(
+                    e["performer"], e["description"]),
               )
               .toList(),
     );

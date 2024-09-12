@@ -120,7 +120,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     String url = '$baseUrl/api/provider/tasks/$taskId/patch_performer/';
 
     final data = {
-      "performer": performerId,
+      "performer_id": performerId,
     };
 
     try {

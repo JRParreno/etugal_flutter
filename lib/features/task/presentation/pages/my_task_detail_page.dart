@@ -127,16 +127,12 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                           (e) => TaskApplicantInfo(
                             performer: e,
                             onViewPerformer: () {
-                              context.pushNamed(
-                                AppRoutes.taskApplicantDetail.name,
-                                extra: e,
+                              commonBottomSheetDialog(
+                                performer: e,
+                                context: context,
+                                title: 'Test',
                               );
                             },
-                            onTapAccept: () => handleOnTapAccept(
-                              fullName:
-                                  '${e.user.firstName} ${e.user.lastName}',
-                              performerId: e.id,
-                            ),
                           ),
                         ),
                       ] else ...[
@@ -313,5 +309,99 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
     Future.delayed(const Duration(milliseconds: 500), () {
       context.pop();
     });
+  }
+
+  Future<void> commonBottomSheetDialog({
+    required BuildContext context,
+    required String title,
+    required TaskUserProfileEntity performer,
+    VoidCallback? onClose,
+  }) {
+    return showModalBottomSheet<String>(
+      context: context,
+      enableDrag: true,
+      isDismissible: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(15),
+          height: MediaQuery.of(context).size.height * 0.75,
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Applicant',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    PerformerInfo(
+                      taskUserProfile: performer,
+                      isHideHeader: true,
+                    ),
+                    if (performer.description != null)
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 15),
+                          Text(
+                            'Initial Message',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: ColorName.darkerGreyFont),
+                          ),
+                          Text(
+                            performer.description!,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.justify,
+                          )
+                        ].withSpaceBetween(height: 10),
+                      ),
+                  ],
+                ),
+              ),
+              CustomElevatedBtn(
+                onTap: () => context.pop('accept'),
+                title: 'Accept',
+              ),
+              CustomElevatedBtn(
+                onTap: () => context.pop('viewProfile'),
+                buttonType: ButtonType.outline,
+                title: 'View Profile',
+              ),
+            ].withSpaceBetween(height: 15),
+          ),
+        );
+      },
+    ).then(
+      (value) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (value == 'accept') {
+            handleOnTapAccept(
+              fullName: performer.user.getFullName!,
+              performerId: performer.id,
+            );
+            return;
+          }
+          if (value == 'viewProfile') {
+            context.pushNamed(
+              AppRoutes.taskApplicantDetail.name,
+              extra: performer,
+            );
+          }
+        });
+      },
+    );
   }
 }

@@ -7,49 +7,42 @@ class TaskApplicantInfo extends StatelessWidget {
   const TaskApplicantInfo({
     super.key,
     required this.performer,
-    required this.onTapAccept,
     required this.onViewPerformer,
   });
 
   final TaskUserProfileEntity performer;
-  final VoidCallback onTapAccept;
   final VoidCallback onViewPerformer;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: onViewPerformer,
-            child: Text(
+    return GestureDetector(
+      onTap: onViewPerformer,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
               '${performer.user.firstName} ${performer.user.lastName} ',
-              style: textTheme.bodyMedium?.copyWith(
-                decoration: TextDecoration.underline,
-              ),
+              style: textTheme.bodyMedium,
             ),
-          ),
-          GestureDetector(
-            onTap: onTapAccept,
-            child: Container(
+            Container(
               decoration: BoxDecoration(
                 color: ColorName.primary,
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
               child: Text(
-                'Accept',
+                'View Applicant',
                 style: textTheme.bodySmall?.copyWith(
                   color: Colors.white,
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
