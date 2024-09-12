@@ -42,8 +42,6 @@ class MyTaskDetailBloc extends Bloc<MyTaskDetailEvent, MyTaskDetailState> {
         ),
       );
 
-      await Future.delayed(const Duration(seconds: 1));
-
       response.fold(
         (l) => emit(MyTaskDetailFailure(l.message)),
         (r) => emit(const MyTaskDetailSuccess(isAccept: true)),
@@ -67,8 +65,6 @@ class MyTaskDetailBloc extends Bloc<MyTaskDetailEvent, MyTaskDetailState> {
           taskId: state.taskId,
         ),
       );
-
-      await Future.delayed(const Duration(seconds: 1));
 
       response.fold(
         (l) => emit(MyTaskDetailFailure(l.message)),

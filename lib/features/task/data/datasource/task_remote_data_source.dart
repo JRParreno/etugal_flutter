@@ -12,12 +12,12 @@ abstract interface class TaskRemoteDataSource {
     required int taskCategory,
     required double reward,
     required String doneDate,
-    required String scheduleTime,
     required String description,
     required String workType,
     required String address,
     required double longitude,
     required double latitude,
+    String? scheduleTime,
   });
   Future<TaskListResponseModel> getProviderTaskList({
     TaskStatusEnum? taskStatus,
@@ -54,12 +54,12 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required int taskCategory,
     required double reward,
     required String doneDate,
-    required String scheduleTime,
     required String description,
     required String workType,
     required String address,
     required double longitude,
     required double latitude,
+    String? scheduleTime,
   }) async {
     String url = '$baseUrl/api/provider/tasks/';
 

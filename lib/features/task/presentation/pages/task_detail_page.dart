@@ -62,9 +62,9 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                 color: ColorName.borderColor,
               ),
               ProviderInfo(
-                fullName:
-                    '${task.provider.user.firstName} ${task.provider.user.lastName}',
+                fullName: task.provider.user.getFullName!,
                 gender: task.provider.gender,
+                provider: task.provider,
               ),
               const Divider(
                 color: ColorName.borderColor,

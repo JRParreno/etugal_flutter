@@ -18,12 +18,12 @@ class TaskRepositoryImpl implements TaskRepository {
     required int taskCategory,
     required double reward,
     required String doneDate,
-    required String scheduleTime,
     required String description,
     required String workType,
     required String address,
     required double longitude,
     required double latitude,
+    String? scheduleTime,
   }) async {
     try {
       final response = await taskRemoteDataSource.addNewTask(

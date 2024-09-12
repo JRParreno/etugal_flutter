@@ -31,23 +31,23 @@ class AddNewTaskParams {
   final int taskCategory;
   final double reward;
   final String doneDate;
-  final String scheduleTime;
   final String description;
   final String workType;
   final String address;
   final double longitude;
   final double latitude;
+  final String? scheduleTime;
 
   AddNewTaskParams({
     required this.title,
     required this.taskCategory,
     required this.reward,
     required this.doneDate,
-    required this.scheduleTime,
     required this.description,
     required this.workType,
     required this.address,
     required this.longitude,
     required this.latitude,
+    this.scheduleTime,
   });
 }

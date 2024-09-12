@@ -64,6 +64,10 @@ enum AppRoutes {
     name: 'task_applicant_detail',
     path: '/task_applicant_detail',
   ),
+  taskProviderDetail(
+    name: 'task_provider_detail',
+    path: '/task_provider_detail',
+  ),
   ;
 
   const AppRoutes({

@@ -28,8 +28,6 @@ class ProviderTaskListBloc
     final response = await _getProviderTaskList
         .call(GetProviderTaskListParams(taskStatus: event.taskStatus));
 
-    await Future.delayed(const Duration(seconds: 1));
-
     response.fold(
       (l) => emit(ProviderTaskListFailure(l.message)),
       (r) => emit(ProviderTaskListSuccess(data: r)),

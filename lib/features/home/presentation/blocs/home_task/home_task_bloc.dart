@@ -39,8 +39,6 @@ class HomeTaskBloc extends Bloc<HomeTaskEvent, HomeTaskState> {
       ),
     );
 
-    await Future.delayed(const Duration(seconds: 1));
-
     response.fold(
       (l) => emit(HomeTaskFailure(l.message)),
       (r) => emit(HomeTaskSuccess(

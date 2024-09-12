@@ -8,6 +8,7 @@ import 'package:etugal_flutter/features/task/presentation/blocs/add_task_categor
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_applicant_review/task_applicant_review_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_provider_review/task_provider_review_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -43,6 +44,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<TaskApplicantReviewBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<TaskProviderReviewBloc>(),
       ),
     ];
   }

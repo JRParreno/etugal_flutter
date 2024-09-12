@@ -236,8 +236,9 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
                       taskCategory: _selectedCategory!.id,
                       reward: double.parse(_rewardCtrl.value.text),
                       doneDate: DateFormat('y-M-d').format(_dateSelected),
-                      scheduleTime:
-                          '${_timeSelected!.hour}:${_timeSelected!.minute}',
+                      scheduleTime: _timeSelected != null
+                          ? '${_timeSelected!.hour}:${_timeSelected!.minute}'
+                          : null,
                       description: _describeController.value.text,
                       workType: getWorkTypeFromEnum(_workType!),
                       address: _searchLocationCtrl.value.text,

@@ -22,8 +22,6 @@ class AddTaskBloc extends Bloc<AddTaskEvent, AddTaskState> {
 
     final response = await _addNewTask.call(event.params);
 
-    await Future.delayed(const Duration(seconds: 1));
-
     response.fold(
       (l) => emit(AddTaskFailure(l.message)),
       (r) => emit(AddTaskSuccess(r)),

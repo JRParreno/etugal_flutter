@@ -27,8 +27,6 @@ class TaskApplicantReviewBloc
     final response = await _getTaskPerformerReview
         .call(GetTaskPerformerReviewParams(id: event.performerId));
 
-    await Future.delayed(const Duration(seconds: 1));
-
     response.fold(
       (l) => emit(TaskApplicantReviewFailure(l.message)),
       (r) => emit(TaskApplicantReviewSuccess(data: r)),

@@ -10,12 +10,12 @@ abstract interface class TaskRepository {
     required int taskCategory,
     required double reward,
     required String doneDate,
-    required String scheduleTime,
     required String description,
     required String workType,
     required String address,
     required double longitude,
     required double latitude,
+    String? scheduleTime,
   });
   Future<Either<Failure, TaskListResponseEntity>> getProviderTaskList({
     TaskStatusEnum? taskStatus,
