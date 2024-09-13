@@ -1,7 +1,7 @@
 name: etugal_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -49,16 +49,6 @@ flutter:
     - assets/images/on_boarding/
     - assets/images/verification/
     - assets/images/task/
-
-  # fonts:
-  #   - family: Signika
-  #     fonts:
-  #       - asset: assets/fonts/Signika-Regular.ttf
-  #       - asset: assets/fonts/Signika-Bold.ttf
-  #       - asset: assets/fonts/Signika-Light.ttf
-  #       - asset: assets/fonts/Signika-Medium.ttf
-  #       - asset: assets/fonts/Signika-SemiBold.ttf
-
 
 flutter_gen:
   output: lib/gen/
