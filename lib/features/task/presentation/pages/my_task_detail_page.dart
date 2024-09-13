@@ -127,10 +127,9 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                           (e) => TaskApplicantInfo(
                             performer: e,
                             onViewPerformer: () {
-                              commonBottomSheetDialog(
+                              viewApplicantBottomSheetDialog(
                                 performer: e,
                                 context: context,
-                                title: 'Test',
                               );
                             },
                           ),
@@ -315,9 +314,8 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
     });
   }
 
-  Future<void> commonBottomSheetDialog({
+  Future<void> viewApplicantBottomSheetDialog({
     required BuildContext context,
-    required String title,
     required TaskUserProfileEntity performer,
     VoidCallback? onClose,
   }) {

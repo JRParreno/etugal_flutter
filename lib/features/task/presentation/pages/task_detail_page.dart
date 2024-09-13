@@ -1,13 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
 import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
+import 'package:etugal_flutter/core/helper/verification_helper.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
+import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TaskDetailPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   final Set<Marker> _markers = {};
+  final TextEditingController intialMessage = TextEditingController();
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: true,
       ),
@@ -117,14 +121,26 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
               Expanded(
                 child: CustomElevatedBtn(
                   buttonType: ButtonType.outline,
-                  onTap: () {},
+                  onTap: () {
+                    VerificationHelper.handleOnTapPostAdd(
+                        context: context,
+                        defaultAction: () {
+                          // TODO Chat
+                        });
+                  },
                   title: 'Message',
                 ),
               ),
               const SizedBox(width: 25),
               Expanded(
                 child: CustomElevatedBtn(
-                  onTap: () {},
+                  onTap: () {
+                    VerificationHelper.handleOnTapPostAdd(
+                        context: context,
+                        defaultAction: () {
+                          applyBottomSheetDialog(context: context, task: task);
+                        });
+                  },
                   title: 'Apply',
                 ),
               )
@@ -148,5 +164,82 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
         ),
       );
     });
+  }
+
+  Future<void> applyBottomSheetDialog({
+    required BuildContext context,
+    required TaskEntity task,
+    VoidCallback? onClose,
+  }) {
+    return showModalBottomSheet<String>(
+      context: context,
+      enableDrag: true,
+      isDismissible: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return AnimatedPadding(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Center(
+                      child: Text(
+                        'Easy Apply',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'Initial Message',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: ColorName.darkerGreyFont),
+                    ),
+                    const SizedBox(height: 15),
+                    CustomTextFormField(
+                      keyboardType: TextInputType.multiline,
+                      hintText: 'Write a short pitch about yourself!',
+                      controller: intialMessage,
+                      minLines: 6,
+                      maxLines: 20,
+                      maxLength: 500,
+                    ),
+                  ],
+                ),
+                CustomElevatedBtn(
+                  onTap: () => context.pop('submit'),
+                  title: 'Submit',
+                ),
+              ].withSpaceBetween(height: 15),
+            ),
+          ),
+        );
+      },
+    ).then(
+      (value) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (value == 'submit') {
+            // TODO Apply
+            return;
+          }
+        });
+      },
+    );
   }
 }

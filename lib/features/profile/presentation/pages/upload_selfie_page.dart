@@ -45,8 +45,8 @@ class _UploadSelfiePageState extends State<UploadSelfiePage> {
           image: image,
           imagePicker: () async {
             final ImagePicker picker = ImagePicker();
-            final XFile? pickImage =
-                await picker.pickImage(source: ImageSource.gallery);
+            final XFile? pickImage = await picker.pickImage(
+                source: ImageSource.gallery, imageQuality: 75);
             setState(() {
               image = pickImage;
             });
