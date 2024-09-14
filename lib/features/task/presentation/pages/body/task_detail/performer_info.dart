@@ -12,10 +12,12 @@ class PerformerInfo extends StatelessWidget {
     super.key,
     required this.taskUserProfile,
     this.isHideHeader = false,
+    this.isHideViewProfile = false,
   });
 
   final TaskUserProfileEntity taskUserProfile;
   final bool isHideHeader;
+  final bool isHideViewProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +34,20 @@ class PerformerInfo extends StatelessWidget {
                 "Performer's Info",
                 style: textTheme.titleSmall,
               ),
-              GestureDetector(
-                onTap: () {
-                  context.pushNamed(
-                    AppRoutes.taskApplicantDetail.name,
-                    extra: taskUserProfile,
-                  );
-                },
-                child: Text(
-                  'View Profile',
-                  style:
-                      textTheme.titleSmall?.copyWith(color: ColorName.primary),
+              if (!isHideViewProfile)
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(
+                      AppRoutes.taskApplicantDetail.name,
+                      extra: taskUserProfile,
+                    );
+                  },
+                  child: Text(
+                    'View Profile',
+                    style: textTheme.titleSmall
+                        ?.copyWith(color: ColorName.primary),
+                  ),
                 ),
-              ),
             ].withSpaceBetween(height: 11),
           ),
         rowInfoText(

@@ -45,87 +45,91 @@ class TaskCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  taskEntity.title,
-                  style: textTheme.labelMedium,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                iconWithText(
-                  icon: Icons.location_pin,
-                  title: taskEntity.address,
-                  textTheme: textTheme,
-                ),
-                iconWithText(
-                  icon: Icons.date_range,
-                  title:
-                      DateFormat.yMMMMd('en_US').format(taskEntity.createdAt),
-                  textTheme: textTheme,
-                ),
-                if (performer != null) ...[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    taskEntity.title,
+                    style: textTheme.labelMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   iconWithText(
-                    icon: Icons.person,
+                    icon: Icons.location_pin,
+                    title: taskEntity.address,
+                    textTheme: textTheme,
+                  ),
+                  iconWithText(
+                    icon: Icons.date_range,
                     title:
-                        '${performer!.user.firstName} ${performer!.user.lastName}',
+                        DateFormat.yMMMMd('en_US').format(taskEntity.createdAt),
                     textTheme: textTheme,
                   ),
-                ] else ...[
-                  iconWithText(
-                    icon: Icons.schedule,
-                    title: getTimeAgo(taskEntity.createdAt),
-                    textTheme: textTheme,
-                  ),
-                ]
-              ],
+                  if (performer != null) ...[
+                    iconWithText(
+                      icon: Icons.person,
+                      title:
+                          '${performer!.user.firstName} ${performer!.user.lastName}',
+                      textTheme: textTheme,
+                    ),
+                  ] else ...[
+                    iconWithText(
+                      icon: Icons.schedule,
+                      title: getTimeAgo(taskEntity.createdAt),
+                      textTheme: textTheme,
+                    ),
+                  ]
+                ],
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'PHP ${taskEntity.reward.toString()}',
-                  style: textTheme.labelLarge?.copyWith(
-                    color: ColorName.darkerGreyFont,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: "Type: ",
-                    style: textTheme.labelSmall?.copyWith(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'PHP ${taskEntity.reward.toString()}',
+                    style: textTheme.labelLarge?.copyWith(
                       color: ColorName.darkerGreyFont,
                     ),
-                    children: [
-                      TextSpan(
-                        text: taskEntity.workType
-                            .toUpperCase()
-                            .replaceAll('_', ' '),
-                        style: textTheme.labelSmall?.copyWith(
-                          color: ColorName.primary,
-                        ),
-                      )
-                    ],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                SizedBox(
-                  height: 25,
-                  width: 105,
-                  child: CustomElevatedBtn(
-                    borderWidth: 0.5,
-                    onTap: () {},
-                    title: 'Details',
-                    buttonType: ButtonType.outline,
-                    textStyle: textTheme.labelSmall?.copyWith(
-                      color: ColorName.primary,
+                  RichText(
+                    text: TextSpan(
+                      text: "Type: ",
+                      style: textTheme.labelSmall?.copyWith(
+                        color: ColorName.darkerGreyFont,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: taskEntity.workType
+                              .toUpperCase()
+                              .replaceAll('_', ' '),
+                          style: textTheme.labelSmall?.copyWith(
+                            color: ColorName.primary,
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 25,
+                    width: 105,
+                    child: CustomElevatedBtn(
+                      borderWidth: 0.5,
+                      onTap: () {},
+                      title: 'Details',
+                      buttonType: ButtonType.outline,
+                      textStyle: textTheme.labelSmall?.copyWith(
+                        color: ColorName.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -146,13 +150,15 @@ class TaskCard extends StatelessWidget {
           color: ColorName.primary,
         ),
         const SizedBox(width: 5),
-        Text(
-          title,
-          style: textTheme.labelSmall?.copyWith(
-            color: ColorName.darkerGreyFont,
+        Expanded(
+          child: Text(
+            title,
+            style: textTheme.labelSmall?.copyWith(
+              color: ColorName.darkerGreyFont,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
         )
       ],
     );

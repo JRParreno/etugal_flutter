@@ -47,6 +47,11 @@ abstract interface class TaskRemoteDataSource {
     required int taskId,
     String? description,
   });
+  Future<TaskListResponseModel> getPerformerTaskList({
+    TaskStatusEnum? taskStatus,
+    String? previous,
+    String? next,
+  });
 }
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
@@ -214,6 +219,27 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       await apiInstance.post(url, data: data);
       return;
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskListResponseModel> getPerformerTaskList({
+    TaskStatusEnum? taskStatus,
+    String? previous,
+    String? next,
+  }) async {
+    String url =
+        '$baseUrl/api/taskapplicant/list/?status=${getTaskStatusFromEnum(taskStatus ?? TaskStatusEnum.pending)}';
+
+    try {
+      final response = await apiInstance.get(next ?? previous ?? url);
+      return TaskListResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

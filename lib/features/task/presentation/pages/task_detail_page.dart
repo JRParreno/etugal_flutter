@@ -4,12 +4,16 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
+import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/core/helper/verification_helper.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_detail/task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/my_task_list_page.dart';
 import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
+import 'package:etugal_flutter/router/index.dart';
 import 'package:flutter/material.dart';
 
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
@@ -187,12 +191,22 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
     }
 
     if (state is TaskDetailSuccess) {
-      // TODO handle redirection
+      handleRedirection();
     }
 
     if (state is TaskDetailFailure) {
       onFormError(state.message);
     }
+  }
+
+  void handleRedirection() {
+    context.read<PerformerTaskListBloc>().add(
+          const GetPerformerTaskListTaskEvent(
+            taskStatus: TaskStatusEnum.pending,
+            index: 0,
+          ),
+        );
+    context.go(AppRoutes.myTaskList.path, extra: const MyTaskListParams(1));
   }
 
   void onFormError(String message) {

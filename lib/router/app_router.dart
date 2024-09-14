@@ -15,6 +15,7 @@ import 'package:etugal_flutter/features/profile/presentation/pages/upload_govern
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/my_performer_task_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_list_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/task_applicant_detail_page.dart';
@@ -125,9 +126,15 @@ GoRouter routerConfig() {
                 path: AppRoutes.myTaskList.path,
                 name: AppRoutes.myTaskList.name,
                 pageBuilder: (context, state) {
+                  MyTaskListParams params = const MyTaskListParams(0);
+                  if (state.extra != null) {
+                    params = state.extra! as MyTaskListParams;
+                  }
                   return buildTransitionPage(
                     localKey: state.pageKey,
-                    child: const MyTaskListPage(),
+                    child: MyTaskListPage(
+                      params: params,
+                    ),
                   );
                 },
               ),
@@ -230,6 +237,18 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: MyTaskDetailPage(
+              task: state.extra! as TaskEntity,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.performerTaskDetail.path,
+        name: AppRoutes.performerTaskDetail.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: MyPerformerTaskDetailPage(
               task: state.extra! as TaskEntity,
             ),
           );

@@ -45,4 +45,9 @@ abstract interface class TaskRepository {
     required int taskId,
     String? description,
   });
+  Future<Either<Failure, TaskListResponseEntity>> getPerformerTaskList({
+    TaskStatusEnum? taskStatus,
+    String? previous,
+    String? next,
+  });
 }

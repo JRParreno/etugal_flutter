@@ -1,5 +1,6 @@
 import 'package:etugal_flutter/features/task/domain/usecase/index.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_applicant_review/task_applicant_review_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_detail/task_detail_bloc.dart';
@@ -11,6 +12,9 @@ void initTasks(GetIt serviceLocator) {
     // Usecase
     ..registerFactory(
       () => GetProviderTaskList(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetPerformerTaskList(serviceLocator()),
     )
     ..registerFactory(
       () => SetTaskPerformer(serviceLocator()),
@@ -30,6 +34,9 @@ void initTasks(GetIt serviceLocator) {
     // Bloc
     ..registerFactory(
       () => ProviderTaskListBloc(getProviderTaskList: serviceLocator()),
+    )
+    ..registerFactory(
+      () => PerformerTaskListBloc(getPerformerTaskList: serviceLocator()),
     )
     ..registerFactory(
       () => MyTaskDetailBloc(
