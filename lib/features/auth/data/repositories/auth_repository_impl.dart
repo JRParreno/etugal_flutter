@@ -66,4 +66,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> setPushToken(String token) async {
+    try {
+      final response = await remoteDataSource.setPushToken(token);
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

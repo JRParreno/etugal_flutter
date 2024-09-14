@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "459833227166",
+    "project_id": "etugal-6ceba",
+    "storage_bucket": "etugal-6ceba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459833227166:android:09e51d6335687096ff488f",
+        "android_client_info": {
+          "package_name": "com.thesis.etugal_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPOycHn7BMfI6avNzgFQAMaaM7WworPuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

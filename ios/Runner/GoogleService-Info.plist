@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyB1SXzmn1Y570bd0TJc0KFdlsUwEsOFe9s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>459833227166</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.etugalFlutter</string>
+	<key>PROJECT_ID</key>
+	<string>etugal-6ceba</string>
+	<key>STORAGE_BUCKET</key>
+	<string>etugal-6ceba.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:459833227166:ios:aa6e7856c640f623ff488f</string>
+</dict>
+</plist>

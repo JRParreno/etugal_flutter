@@ -1,16 +1,25 @@
+import 'dart:developer';
+
 import 'package:etugal_flutter/core/common/entities/user.dart';
+import 'package:etugal_flutter/features/auth/domain/usecase/index.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'app_user_state.dart';
 
 class AppUserCubit extends Cubit<AppUserState> {
-  AppUserCubit() : super(GettingAppUser());
+  final SetPushToken _setPushToken;
+
+  AppUserCubit(SetPushToken setPushToken)
+      : _setPushToken = setPushToken,
+        super(GettingAppUser());
 
   void updateUser(User? user) {
     if (user == null) {
       emit(AppUserInitial());
     } else {
+      onCreateFirebaseToken();
       emit(AppUserLoggedIn(user));
     }
   }
@@ -49,6 +58,16 @@ class AppUserCubit extends Cubit<AppUserState> {
           state.user.copyWith(idPhoto: ''),
         ),
       );
+    }
+  }
+
+  Future<void> onCreateFirebaseToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+
+    if (token != null) {
+      log('Successfully created token', name: 'Firebase Messaging');
+      await _setPushToken(token);
+      return;
     }
   }
 }

@@ -26,6 +26,10 @@ void initAuth(GetIt serviceLocator) {
     ..registerFactory(
       () => CurrentUser(serviceLocator()),
     )
+    ..registerFactory(
+      () => SetPushToken(serviceLocator()),
+    )
+
     // Bloc
     ..registerFactory(
       () => AuthBloc(
@@ -36,5 +40,5 @@ void initAuth(GetIt serviceLocator) {
         appUserCubit: serviceLocator(),
       ),
     )
-    ..registerLazySingleton(() => AppUserCubit());
+    ..registerLazySingleton(() => AppUserCubit(serviceLocator()));
 }

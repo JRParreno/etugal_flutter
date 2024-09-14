@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:etugal_flutter/core/blocs/bloc_providers.dart';
 import 'package:etugal_flutter/core/config/shared_prefences_keys.dart';
 import 'package:etugal_flutter/core/notifier/shared_preferences_notifier.dart';
+import 'package:etugal_flutter/core/provider/custom_notification.dart';
 import 'package:etugal_flutter/core/theme/theme.dart';
 import 'package:etugal_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:etugal_flutter/router/index.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:etugal_flutter/dependency_injection_config.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +19,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await di.initDependencies();
 
   runApp(
@@ -23,6 +28,12 @@ void main() async {
       child: const MyApp(),
     ),
   );
+}
+
+Future<void> firebaseNotificationHandler(RemoteMessage? message) async {
+  if (message != null) {
+    CustomNotification.show(message);
+  }
 }
 
 final router = routerConfig();
@@ -45,7 +56,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkInternetConnection();
     checkIsUserLoggedIn();
-
+    initFirebaseMessaging();
     // Future.delayed(const Duration(seconds: 2), () {
     //   FlutterNativeSplash.remove();
     // });
@@ -55,6 +66,32 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     _internetConnectionStreamSubscription?.cancel();
     super.dispose();
+  }
+
+  Future<void> initFirebaseMessaging() async {
+    await Firebase.initializeApp();
+    await CustomNotification.initialize();
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    // FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+    //   return;
+    // });
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message == null) return;
+      CustomNotification.onSelectNotification(jsonEncode(message.data));
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      CustomNotification.onSelectNotification(jsonEncode(message.data));
+      // TODO handling notifications
+    });
+
+    FirebaseMessaging.onMessage.listen(firebaseNotificationHandler);
   }
 
   // This widget is the root of your application.

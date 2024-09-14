@@ -121,4 +121,22 @@ class TaskRepositoryImpl implements TaskRepository {
       return left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> easyApplyTask({
+    required int performerId,
+    required int taskId,
+    String? description,
+  }) async {
+    try {
+      final response = await taskRemoteDataSource.easyApplyTask(
+        performerId: performerId,
+        taskId: taskId,
+        description: description,
+      );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

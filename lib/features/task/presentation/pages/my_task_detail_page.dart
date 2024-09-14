@@ -53,28 +53,7 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
         automaticallyImplyLeading: true,
       ),
       body: BlocListener<MyTaskDetailBloc, MyTaskDetailState>(
-        listener: (context, state) {
-          if (state is MyTaskDetailLoading) {
-            LoadingScreen.instance().show(context: context);
-          }
-
-          if (state is MyTaskDetailFailure || state is MyTaskDetailSuccess) {
-            Future.delayed(const Duration(milliseconds: 500), () {
-              LoadingScreen.instance().hide();
-            });
-          }
-
-          if (state is MyTaskDetailSuccess) {
-            handleRedirection(
-              isAccept: state.isAccept,
-              taskStatus: state.taskStatusEnum,
-            );
-          }
-
-          if (state is MyTaskDetailFailure) {
-            onFormError(state.message);
-          }
-        },
+        listener: blocListener,
         child: Container(
           width: double.infinity,
           margin: const EdgeInsets.all(16),
@@ -216,6 +195,29 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                 )
               : null,
     );
+  }
+
+  void blocListener(BuildContext context, MyTaskDetailState state) {
+    if (state is MyTaskDetailLoading) {
+      LoadingScreen.instance().show(context: context);
+    }
+
+    if (state is MyTaskDetailFailure || state is MyTaskDetailSuccess) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        LoadingScreen.instance().hide();
+      });
+    }
+
+    if (state is MyTaskDetailSuccess) {
+      handleRedirection(
+        isAccept: state.isAccept,
+        taskStatus: state.taskStatusEnum,
+      );
+    }
+
+    if (state is MyTaskDetailFailure) {
+      onFormError(state.message);
+    }
   }
 
   void _setMarker(LatLng point) {

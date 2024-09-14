@@ -40,4 +40,9 @@ abstract interface class TaskRepository {
     String? previous,
     String? next,
   });
+  Future<Either<Failure, void>> easyApplyTask({
+    required int performerId,
+    required int taskId,
+    String? description,
+  });
 }

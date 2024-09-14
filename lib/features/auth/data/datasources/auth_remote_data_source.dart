@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:etugal_flutter/core/env/env.dart';
 import 'package:etugal_flutter/core/error/exceptions.dart';
@@ -23,6 +25,7 @@ abstract interface class AuthRemoteDataSource {
   });
 
   Future<UserModel> currentUser();
+  Future<void> setPushToken(String token);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -97,6 +100,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final response = await apiInstance.get(url);
       return UserModel.fromMap(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> setPushToken(String token) async {
+    const String url = '${Env.apiURL}/devices/';
+    try {
+      final data = {
+        "registration_id": token,
+        "type": Platform.isAndroid ? "android" : "ios"
+      };
+
+      await apiInstance.post(url, data: data);
+      return;
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',
