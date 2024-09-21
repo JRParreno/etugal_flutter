@@ -8,6 +8,7 @@ import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/body/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -90,6 +91,7 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
                     color: ColorName.borderColor,
                   ),
                 ],
+                if (task.review != null) TaskShortReview(review: task.review!),
                 TaskInfo(
                   scheduleTime: task.scheduleTime,
                   doneDate: task.doneDate,

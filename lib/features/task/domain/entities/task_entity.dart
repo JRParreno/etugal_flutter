@@ -22,6 +22,7 @@ class TaskEntity {
     this.performer,
     this.applicants,
     this.isDonePerform = false,
+    this.review,
   });
 
   final int id;
@@ -43,6 +44,7 @@ class TaskEntity {
   final String? rejectionReason;
   final TaskUserProfileEntity? performer;
   final List<TaskUserProfileEntity>? applicants;
+  final TaskShortReviewEntity? review;
 
   TaskEntity copyWith({
     int? id,
@@ -64,6 +66,7 @@ class TaskEntity {
     String? rejectionReason,
     TaskUserProfileEntity? performer,
     List<TaskUserProfileEntity>? applicants,
+    TaskShortReviewEntity? review,
   }) {
     return TaskEntity(
       id: id ?? this.id,
@@ -85,6 +88,7 @@ class TaskEntity {
       rejectionReason: rejectionReason ?? this.rejectionReason,
       performer: performer ?? this.performer,
       applicants: applicants ?? this.applicants,
+      review: review ?? this.review,
     );
   }
 }

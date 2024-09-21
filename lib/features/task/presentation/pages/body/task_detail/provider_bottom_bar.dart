@@ -22,8 +22,10 @@ class ProviderBottomBar extends StatelessWidget {
       builder: (context, state) {
         if (state is MyTaskDetailInitial && state.taskEntity != null) {
           final task = state.taskEntity!;
-
-          if (getTaskStatusFromString(task.status) != TaskStatusEnum.canceled) {
+          final hasReview = task.review == null ||
+              (task.review != null && task.review!.providerRate > 0);
+          if (getTaskStatusFromString(task.status) != TaskStatusEnum.canceled &&
+              hasReview) {
             return Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
@@ -95,7 +97,7 @@ class ProviderBottomBar extends StatelessWidget {
 
     if (getTaskStatusFromString(task.status) == TaskStatusEnum.competed &&
         task.isDonePerform) {
-      // TODO add review action
+      return () => {};
     }
 
     return null;

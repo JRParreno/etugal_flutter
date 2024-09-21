@@ -8,6 +8,7 @@ import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/body/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:etugal_flutter/router/index.dart';
@@ -129,6 +130,7 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                     ],
                   )
                 ],
+                if (task.review != null) TaskShortReview(review: task.review!),
                 TaskInfo(
                   scheduleTime: task.scheduleTime,
                   doneDate: task.doneDate,

@@ -21,8 +21,12 @@ class PerformerBottomBar extends StatelessWidget {
         if (state is MyTaskDetailInitial && state.taskEntity != null) {
           final task = state.taskEntity!;
 
+          final hasReview = task.review == null ||
+              (task.review != null && task.review!.performerRate > 0);
+
           if (getTaskStatusFromString(task.status) != TaskStatusEnum.canceled &&
-              getTaskStatusFromString(task.status) != TaskStatusEnum.pending) {
+              getTaskStatusFromString(task.status) != TaskStatusEnum.pending &&
+              hasReview) {
             return Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
