@@ -51,4 +51,14 @@ abstract interface class TaskRepository {
     String? next,
   });
   Future<Either<Failure, TaskEntity>> setPerformIsDone(int taskId);
+  Future<Either<Failure, TaskShortReviewEntity>> providerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  });
+  Future<Either<Failure, TaskShortReviewEntity>> performerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  });
 }

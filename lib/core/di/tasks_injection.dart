@@ -1,4 +1,5 @@
 import 'package:etugal_flutter/features/task/domain/usecase/index.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/cubit/review_star_cubit.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
@@ -34,6 +35,12 @@ void initTasks(GetIt serviceLocator) {
     ..registerFactory(
       () => SetPerformerIsDone(serviceLocator()),
     )
+    ..registerFactory(
+      () => PerformerReview(serviceLocator()),
+    )
+    ..registerFactory(
+      () => ProviderReview(serviceLocator()),
+    )
     // Bloc
     ..registerFactory(
       () => ProviderTaskListBloc(getProviderTaskList: serviceLocator()),
@@ -43,6 +50,8 @@ void initTasks(GetIt serviceLocator) {
     )
     ..registerFactory(
       () => MyTaskDetailBloc(
+        performerReview: serviceLocator(),
+        providerReview: serviceLocator(),
         setPerformerIsDone: serviceLocator(),
         setTaskPerformer: serviceLocator(),
         updateTaskStatus: serviceLocator(),
@@ -56,5 +65,8 @@ void initTasks(GetIt serviceLocator) {
     )
     ..registerFactory(
       () => TaskProviderReviewBloc(serviceLocator()),
+    )
+    ..registerFactory(
+      () => ReviewStarCubit(),
     );
 }

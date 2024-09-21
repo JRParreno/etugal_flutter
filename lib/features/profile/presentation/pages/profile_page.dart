@@ -120,6 +120,7 @@ class _ProfilePageState extends State<ProfilePage>
                               children: <Widget>[
                                 ProviderReviewList(
                                   controller: scrollController,
+                                  userId: userProfile.id,
                                 ),
                                 Container(
                                   padding: const EdgeInsets.all(25),

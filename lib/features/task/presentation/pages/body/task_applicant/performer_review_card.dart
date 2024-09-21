@@ -13,7 +13,7 @@ class PerformerReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final profile = taskReview.task.performer!;
+    final profile = taskReview.task.provider;
 
     return Container(
       padding: const EdgeInsets.all(21),

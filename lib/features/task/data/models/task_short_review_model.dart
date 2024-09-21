@@ -17,9 +17,13 @@ class TaskShortReviewModel extends TaskShortReviewEntity {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       providerRate: json['provider_rate'] as int,
-      providerFeedback: json['provider_feedback'] as String,
+      providerFeedback: json['provider_feedback'] == null
+          ? ''
+          : json['provider_feedback'] as String,
       performerRate: json['performer_rate'] as int,
-      performerFeedback: json['performer_feedback'] as String,
+      performerFeedback: json['performer_feedback'] == null
+          ? ''
+          : json['performer_feedback'] as String,
     );
   }
 }

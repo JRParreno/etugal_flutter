@@ -5,11 +5,13 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/cubit/review_star_cubit.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
+import 'package:etugal_flutter/features/task/presentation/widgets/review_form_bottom_modal.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +38,7 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   final Set<Marker> _markers = {};
+  final TextEditingController feedController = TextEditingController();
 
   @override
   void initState() {
@@ -51,67 +54,98 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
       ),
-      body: BlocListener<MyTaskDetailBloc, MyTaskDetailState>(
+      body: BlocConsumer<MyTaskDetailBloc, MyTaskDetailState>(
         listener: blocListener,
-        child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.all(16),
-          padding: const EdgeInsets.all(27),
-          decoration: BoxDecoration(
-            border: Border.all(color: ColorName.borderColor),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ProviderProfile(
-                  title: task.title,
-                  address: task.address,
-                  createdAt: task.createdAt,
-                  profilePhoto: task.provider.profilePhoto,
-                ),
-                const Divider(
-                  color: ColorName.borderColor,
-                ),
-                ProviderInfo(
-                  fullName:
-                      '${task.provider.user.firstName} ${task.provider.user.lastName}',
-                  gender: task.provider.gender,
-                  provider: task.provider,
-                ),
-                const Divider(
-                  color: ColorName.borderColor,
-                ),
-                if (task.performer != null) ...[
-                  PerformerInfo(
-                    taskUserProfile: task.performer!,
-                    isHideViewProfile: true,
+        builder: (context, state) {
+          TaskEntity temp = task;
+          if (state is MyTaskDetailInitial) {
+            temp = state.taskEntity ?? task;
+          }
+          return Container(
+            width: double.infinity,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(27),
+            decoration: BoxDecoration(
+              border: Border.all(color: ColorName.borderColor),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ProviderProfile(
+                    title: task.title,
+                    address: task.address,
+                    createdAt: task.createdAt,
+                    profilePhoto: task.provider.profilePhoto,
                   ),
                   const Divider(
                     color: ColorName.borderColor,
                   ),
-                ],
-                if (task.review != null) TaskShortReview(review: task.review!),
-                TaskInfo(
-                  scheduleTime: task.scheduleTime,
-                  doneDate: task.doneDate,
-                  reward: task.reward,
-                  workType: task.workType,
-                  description: task.description,
-                  googleMapController: _controller,
-                  markers: _markers,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(task.latitude, task.longitude),
-                    zoom: 14.4746,
+                  ProviderInfo(
+                    fullName:
+                        '${task.provider.user.firstName} ${task.provider.user.lastName}',
+                    gender: task.provider.gender,
+                    provider: task.provider,
                   ),
-                ),
-              ].withSpaceBetween(height: 20),
+                  const Divider(
+                    color: ColorName.borderColor,
+                  ),
+                  if (task.performer != null) ...[
+                    PerformerInfo(
+                      taskUserProfile: task.performer!,
+                      isHideViewProfile: true,
+                    ),
+                    const Divider(
+                      color: ColorName.borderColor,
+                    ),
+                  ],
+                  if (temp.review != null)
+                    TaskShortReview(
+                      review: temp.review!,
+                      isPerformerEdit: true,
+                      onTapEdit: () {
+                        context.read<ReviewStarCubit>().onChangeStars(
+                            temp.review?.performerRate.toDouble() ?? 0);
+                        feedController.text =
+                            temp.review?.performerFeedback ?? '';
+                        addFeedbackBottomSheetDialog(
+                          task: task,
+                          context: context,
+                          controller: feedController,
+                          isProvider: false,
+                        );
+                      },
+                    ),
+                  TaskInfo(
+                    scheduleTime: task.scheduleTime,
+                    doneDate: task.doneDate,
+                    reward: task.reward,
+                    workType: task.workType,
+                    description: task.description,
+                    googleMapController: _controller,
+                    markers: _markers,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(task.latitude, task.longitude),
+                      zoom: 14.4746,
+                    ),
+                  ),
+                ].withSpaceBetween(height: 20),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
       bottomNavigationBar: PerformerBottomBar(
         onSetPerformDone: handleOnTapSetPerformDone,
+        onAddReview: () {
+          context.read<ReviewStarCubit>().onChangeStars(0);
+          addFeedbackBottomSheetDialog(
+            task: task,
+            context: context,
+            controller: feedController,
+            isProvider: false,
+          );
+        },
       ),
     );
   }
@@ -131,7 +165,8 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
       final myTaskEntity = state.taskEntity;
 
       if (myTaskEntity != null) {
-        if (myTaskEntity.isDonePerform != task.isDonePerform) {
+        if (myTaskEntity.isDonePerform != task.isDonePerform ||
+            task.review != myTaskEntity.review) {
           handleSetPerformerTaskUpdate(myTaskEntity);
           Future.delayed(const Duration(milliseconds: 500), () {
             LoadingScreen.instance().hide();

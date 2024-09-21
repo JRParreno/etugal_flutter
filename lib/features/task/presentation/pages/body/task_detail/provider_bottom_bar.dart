@@ -11,10 +11,12 @@ class ProviderBottomBar extends StatelessWidget {
     super.key,
     required this.onSetMarkAsCompleted,
     required this.onSetCancel,
+    required this.onAddReview,
   });
 
   final VoidCallback onSetMarkAsCompleted;
   final VoidCallback onSetCancel;
+  final VoidCallback onAddReview;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class ProviderBottomBar extends StatelessWidget {
         if (state is MyTaskDetailInitial && state.taskEntity != null) {
           final task = state.taskEntity!;
           final hasReview = task.review == null ||
-              (task.review != null && task.review!.providerRate > 0);
+              (task.review != null && task.review!.providerRate == 0);
           if (getTaskStatusFromString(task.status) != TaskStatusEnum.canceled &&
               hasReview) {
             return Container(
@@ -97,7 +99,7 @@ class ProviderBottomBar extends StatelessWidget {
 
     if (getTaskStatusFromString(task.status) == TaskStatusEnum.competed &&
         task.isDonePerform) {
-      return () => {};
+      return () => onAddReview();
     }
 
     return null;

@@ -7,3 +7,5 @@ export 'get_task_provider_review.dart';
 export 'easy_apply_task.dart';
 export 'get_performer_task_list.dart';
 export 'set_performer_is_done.dart';
+export 'provider_review.dart';
+export 'performer_review.dart';

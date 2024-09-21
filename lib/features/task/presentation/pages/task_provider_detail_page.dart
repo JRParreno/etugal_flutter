@@ -91,6 +91,7 @@ class _TaskProviderDetailPageState extends State<TaskProviderDetailPage>
                         children: <Widget>[
                           ProviderReviewList(
                             controller: scrollController,
+                            userId: userProfile.id,
                           ),
                           Container(
                             padding: const EdgeInsets.all(25),

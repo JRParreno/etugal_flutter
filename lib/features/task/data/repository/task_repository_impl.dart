@@ -5,6 +5,7 @@ import 'package:etugal_flutter/features/home/domain/entities/task_list_reponse_e
 import 'package:etugal_flutter/features/task/data/datasource/task_remote_data_source.dart';
 import 'package:etugal_flutter/features/task/domain/entities/task_entity.dart';
 import 'package:etugal_flutter/features/task/domain/entities/task_review_list_entity.dart';
+import 'package:etugal_flutter/features/task/domain/entities/task_short_review_entity.dart';
 import 'package:etugal_flutter/features/task/domain/repository/task_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -161,6 +162,42 @@ class TaskRepositoryImpl implements TaskRepository {
   Future<Either<Failure, TaskEntity>> setPerformIsDone(int taskId) async {
     try {
       final response = await taskRemoteDataSource.setPerformIsDone(taskId);
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskShortReviewEntity>> performerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  }) async {
+    try {
+      final response = await taskRemoteDataSource.performerReview(
+        feedback: feedback,
+        rate: rate,
+        taskId: taskId,
+      );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskShortReviewEntity>> providerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  }) async {
+    try {
+      final response = await taskRemoteDataSource.providerReview(
+        feedback: feedback,
+        rate: rate,
+        taskId: taskId,
+      );
       return right(response);
     } on ServerException catch (e) {
       return left(Failure(e.toString()));

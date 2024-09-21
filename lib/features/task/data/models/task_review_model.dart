@@ -33,9 +33,13 @@ class TaskReviewModel extends TaskReviewEntity {
       createdAt: DateTime.parse(map['created_at']),
       updatedAt: DateTime.parse(map['updated_at']),
       providerRate: map['provider_rate'] as int,
-      providerFeedback: map['provider_feedback'] as String,
+      providerFeedback: map['provider_feedback'] == null
+          ? ''
+          : map['provider_feedback'] as String,
       performerRate: map['performer_rate'] as int,
-      performerFeedback: map['performer_feedback'] as String,
+      performerFeedback: map['performer_feedback'] == null
+          ? ''
+          : map['performer_feedback'] as String,
     );
   }
 }

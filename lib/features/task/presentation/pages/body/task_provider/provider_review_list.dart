@@ -1,16 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:etugal_flutter/core/common/widgets/shimmer_loading.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_provider_review/task_provider_review_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_provider/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProviderReviewList extends StatelessWidget {
-  const ProviderReviewList({super.key, required this.controller});
+  const ProviderReviewList({
+    super.key,
+    required this.controller,
+    required this.userId,
+  });
 
   final ScrollController controller;
-
+  final int userId;
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -42,32 +48,41 @@ class ProviderReviewList extends StatelessWidget {
                 ),
                 if (state.data.results.isNotEmpty) ...[
                   Expanded(
-                    child: ListView.separated(
-                      controller: controller,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final review = state.data.results[index];
-                        return Column(
-                          children: [
-                            ProviderReviewCard(
-                              taskReview: review,
-                            ),
-                            if (index == (state.data.results.length - 1) &&
-                                state.isPaginate)
-                              const SizedBox(
-                                height: 15,
-                                child: ShimmerLoading(
-                                  width: double.infinity,
-                                  height: 124,
-                                ),
-                              ),
-                          ],
-                        );
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        context.read<TaskProviderReviewBloc>().add(
+                              GetTaskProviderReviewEvent(userId),
+                            );
+                        return Future<void>.value();
                       },
-                      separatorBuilder: (context, index) => const SizedBox(
-                        height: 15,
+                      child: ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        controller: controller,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final review = state.data.results[index];
+                          return Column(
+                            children: [
+                              ProviderReviewCard(
+                                taskReview: review,
+                              ),
+                              if (index == (state.data.results.length - 1) &&
+                                  state.isPaginate)
+                                const SizedBox(
+                                  height: 15,
+                                  child: ShimmerLoading(
+                                    width: double.infinity,
+                                    height: 124,
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => const SizedBox(
+                          height: 15,
+                        ),
+                        itemCount: state.data.results.length,
                       ),
-                      itemCount: state.data.results.length,
                     ),
                   ),
                 ] else ...[

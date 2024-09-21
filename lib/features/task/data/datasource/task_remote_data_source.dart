@@ -53,6 +53,16 @@ abstract interface class TaskRemoteDataSource {
     String? next,
   });
   Future<TaskModel> setPerformIsDone(int taskId);
+  Future<TaskShortReviewModel> providerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  });
+  Future<TaskShortReviewModel> performerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  });
 }
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
@@ -261,6 +271,56 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       final response = await apiInstance.patch(url, data: data);
       return TaskModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskShortReviewModel> performerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  }) async {
+    String url = '$baseUrl/api/task/$taskId/review/';
+
+    final data = {
+      "performer_rate": rate,
+      "performer_feedback": feedback,
+    };
+
+    try {
+      final response = await apiInstance.post(url, data: data);
+      return TaskShortReviewModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskShortReviewModel> providerReview({
+    required int rate,
+    required String feedback,
+    required int taskId,
+  }) async {
+    String url = '$baseUrl/api/task/$taskId/review/';
+
+    final data = {
+      "provider_rate": rate,
+      "provider_feedback": feedback,
+    };
+
+    try {
+      final response = await apiInstance.post(url, data: data);
+      return TaskShortReviewModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

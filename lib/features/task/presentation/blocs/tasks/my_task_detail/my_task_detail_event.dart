@@ -35,3 +35,19 @@ final class UpdateStatusMyTaskDetailEvent extends MyTaskDetailEvent {
 }
 
 final class SetPerformIsDoneTaskDetailEvent extends MyTaskDetailEvent {}
+
+final class AddFeedbackTaskDetailEvent extends MyTaskDetailEvent {
+  final bool isProvider;
+  final String feedback;
+  final int rate;
+
+  const AddFeedbackTaskDetailEvent(
+      {required this.feedback, required this.rate, this.isProvider = true});
+
+  @override
+  List<Object> get props => [
+        isProvider,
+        rate,
+        feedback,
+      ];
+}

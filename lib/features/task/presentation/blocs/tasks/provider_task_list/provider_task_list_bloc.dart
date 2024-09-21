@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/features/home/domain/entities/index.dart';
+import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/domain/usecase/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,9 @@ class ProviderTaskListBloc
   })  : _getProviderTaskList = getProviderTaskList,
         super(ProviderTaskListInitial()) {
     on<GetProviderTaskListTaskEvent>(onGetProviderTaskListTaskEvent);
+    on<UpdateProviderTaskEvent>(onUpdateProviderTaskEvent);
+    on<GetProviderTaskListTaskPaginateEvent>(
+        onGetProviderTaskListTaskPaginateEvent);
   }
 
   FutureOr<void> onGetProviderTaskListTaskEvent(
@@ -32,6 +36,27 @@ class ProviderTaskListBloc
       (l) => emit(ProviderTaskListFailure(l.message)),
       (r) => emit(ProviderTaskListSuccess(data: r)),
     );
+  }
+
+  FutureOr<void> onUpdateProviderTaskEvent(UpdateProviderTaskEvent event,
+      Emitter<ProviderTaskListState> emit) async {
+    final state = this.state;
+    if (state is ProviderTaskListSuccess) {
+      final taskList = [...state.data.results];
+
+      final index = taskList.indexWhere(
+        (element) => element.id == event.task.id,
+      );
+
+      if (index > -1) {
+        taskList[index] = event.task;
+        emit(
+          state.copyWith(
+            data: state.data.copyWith(results: taskList),
+          ),
+        );
+      }
+    }
   }
 
   FutureOr<void> onGetProviderTaskListTaskPaginateEvent(

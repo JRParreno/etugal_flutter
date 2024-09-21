@@ -13,7 +13,9 @@ class ProviderReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final profile = taskReview.task.performer!;
+    final profile = taskReview.task.performer;
+
+    if (profile == null) return const SizedBox();
 
     return Container(
       padding: const EdgeInsets.all(21),
@@ -55,7 +57,7 @@ class ProviderReviewCard extends StatelessWidget {
                   ],
                 ),
                 RatingStars(
-                  value: taskReview.performerRate.toDouble(),
+                  value: taskReview.providerRate.toDouble(),
                   onValueChanged: (v) {},
                   starBuilder: (index, color) => Icon(
                     Icons.star,

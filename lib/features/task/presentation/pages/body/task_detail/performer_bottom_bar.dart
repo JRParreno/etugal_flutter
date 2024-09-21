@@ -10,9 +10,11 @@ class PerformerBottomBar extends StatelessWidget {
   const PerformerBottomBar({
     super.key,
     required this.onSetPerformDone,
+    required this.onAddReview,
   });
 
   final VoidCallback onSetPerformDone;
+  final VoidCallback onAddReview;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class PerformerBottomBar extends StatelessWidget {
           final task = state.taskEntity!;
 
           final hasReview = task.review == null ||
-              (task.review != null && task.review!.performerRate > 0);
+              (task.review != null && task.review!.performerRate == 0);
 
           if (getTaskStatusFromString(task.status) != TaskStatusEnum.canceled &&
               getTaskStatusFromString(task.status) != TaskStatusEnum.pending &&
@@ -92,7 +94,7 @@ class PerformerBottomBar extends StatelessWidget {
     }
     if (getTaskStatusFromString(task.status) == TaskStatusEnum.competed &&
         task.isDonePerform) {
-      // TODO add review action
+      return () => onAddReview();
     }
 
     return null;
