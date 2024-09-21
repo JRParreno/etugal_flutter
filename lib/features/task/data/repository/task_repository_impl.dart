@@ -3,6 +3,7 @@ import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/home/domain/entities/task_list_reponse_entity.dart';
 import 'package:etugal_flutter/features/task/data/datasource/task_remote_data_source.dart';
+import 'package:etugal_flutter/features/task/domain/entities/task_entity.dart';
 import 'package:etugal_flutter/features/task/domain/entities/task_review_list_entity.dart';
 import 'package:etugal_flutter/features/task/domain/repository/task_repository.dart';
 import 'package:fpdart/fpdart.dart';
@@ -150,6 +151,16 @@ class TaskRepositoryImpl implements TaskRepository {
       final response = await taskRemoteDataSource.getPerformerTaskList(
           taskStatus: taskStatus, next: next, previous: previous);
 
+      return right(response);
+    } on ServerException catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TaskEntity>> setPerformIsDone(int taskId) async {
+    try {
+      final response = await taskRemoteDataSource.setPerformIsDone(taskId);
       return right(response);
     } on ServerException catch (e) {
       return left(Failure(e.toString()));

@@ -41,7 +41,7 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
     super.initState();
     task = widget.task;
     _setMarker(LatLng(widget.task.latitude, widget.task.longitude));
-    context.read<MyTaskDetailBloc>().add(InitialMyTaskDetailEvent(task.id));
+    context.read<MyTaskDetailBloc>().add(InitialMyTaskDetailEvent(task));
   }
 
   @override
@@ -147,53 +147,10 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
           ),
         ),
       ),
-      bottomNavigationBar:
-          getTaskStatusFromString(task.status) != TaskStatusEnum.canceled
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                    boxShadow: [
-                      // so here your custom shadow goes:
-                      BoxShadow(
-                        color: Colors.black.withAlpha(
-                            20), // the color of a shadow, you can adjust it
-                        spreadRadius:
-                            3, //also play with this two values to achieve your ideal result
-                        blurRadius: 7,
-                        offset: const Offset(0,
-                            -7), // changes position of shadow, negative value on y-axis makes it appering only on the top of a container
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 23,
-                      vertical: 20,
-                    ),
-                    color: Colors.white,
-                    child: CustomElevatedBtn(
-                      backgroundColor: getTaskStatusFromString(task.status) ==
-                              TaskStatusEnum.pending
-                          ? Colors.red
-                          : null,
-                      onTap: getTaskStatusFromString(task.status) ==
-                              TaskStatusEnum.pending
-                          ? handleOnTapCancel
-                          : task.isDonePerform
-                              ? () {}
-                              : null,
-                      title: getTaskStatusFromString(task.status) ==
-                              TaskStatusEnum.pending
-                          ? 'Cancel'
-                          : 'Mark as Completed',
-                    ),
-                  ),
-                )
-              : null,
+      bottomNavigationBar: ProviderBottomBar(
+        onSetCancel: handleOnTapCancel,
+        onSetMarkAsCompleted: handleOnTapMarkAsCompleted,
+      ),
     );
   }
 
@@ -253,6 +210,26 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
       if (mounted) {
         context.read<MyTaskDetailBloc>().add(
               AcceptMyTaskDetailEvent(performerId),
+            );
+      }
+    }
+  }
+
+  void handleOnTapMarkAsCompleted() async {
+    final result = await showOkCancelAlertDialog(
+      context: context,
+      style: AdaptiveStyle.iOS,
+      title: 'E-Tugal',
+      message: 'Are you sure you want to mark as completed the task?',
+      canPop: true,
+      okLabel: 'Ok',
+      cancelLabel: 'Cancel',
+    );
+
+    if (result.name != OkCancelResult.cancel.name) {
+      if (mounted) {
+        context.read<MyTaskDetailBloc>().add(
+              const UpdateStatusMyTaskDetailEvent(TaskStatusEnum.competed),
             );
       }
     }

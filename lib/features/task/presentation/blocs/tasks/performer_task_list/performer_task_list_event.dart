@@ -27,3 +27,14 @@ final class RefreshPerformerTaskListTaskEvent extends PerformerTaskListEvent {}
 
 final class GetPerformerTaskListTaskPaginateEvent
     extends PerformerTaskListEvent {}
+
+final class UpdateTaskEvent extends PerformerTaskListEvent {
+  final TaskEntity task;
+
+  const UpdateTaskEvent(this.task);
+
+  @override
+  List<Object> get props => [
+        task,
+      ];
+}

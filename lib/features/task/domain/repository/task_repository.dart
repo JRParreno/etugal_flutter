@@ -50,4 +50,5 @@ abstract interface class TaskRepository {
     String? previous,
     String? next,
   });
+  Future<Either<Failure, TaskEntity>> setPerformIsDone(int taskId);
 }

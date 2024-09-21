@@ -2,11 +2,11 @@
 import 'dart:async';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:etugal_flutter/core/common/widgets/custom_elevated_btn.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
@@ -41,7 +41,7 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
     super.initState();
     task = widget.task;
     _setMarker(LatLng(widget.task.latitude, widget.task.longitude));
-    context.read<MyTaskDetailBloc>().add(InitialMyTaskDetailEvent(task.id));
+    context.read<MyTaskDetailBloc>().add(InitialMyTaskDetailEvent(task));
   }
 
   @override
@@ -108,61 +108,9 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
           ),
         ),
       ),
-      bottomNavigationBar:
-          getTaskStatusFromString(task.status) != TaskStatusEnum.canceled &&
-                  getTaskStatusFromString(task.status) != TaskStatusEnum.pending
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    ),
-                    boxShadow: [
-                      // so here your custom shadow goes:
-                      BoxShadow(
-                        color: Colors.black.withAlpha(
-                            20), // the color of a shadow, you can adjust it
-                        spreadRadius:
-                            3, //also play with this two values to achieve your ideal result
-                        blurRadius: 7,
-                        offset: const Offset(0,
-                            -7), // changes position of shadow, negative value on y-axis makes it appering only on the top of a container
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 23,
-                      vertical: 20,
-                    ),
-                    color: Colors.white,
-                    child: CustomElevatedBtn(
-                      backgroundColor: getTaskStatusFromString(task.status) ==
-                              TaskStatusEnum.inProgres
-                          ? Colors.red
-                          : null,
-                      onTap: getTaskStatusFromString(task.status) ==
-                              TaskStatusEnum.inProgres
-                          ? () {
-                              // TODO mark as completed
-                            }
-                          : task.isDonePerform &&
-                                  getTaskStatusFromString(task.status) ==
-                                      TaskStatusEnum.competed
-                              ? () {
-                                  // TODO add review
-                                }
-                              : null,
-                      title: getTaskStatusFromString(task.status) ==
-                                  TaskStatusEnum.inProgres &&
-                              !task.isDonePerform
-                          ? 'Mark as Completed'
-                          : 'Add Review',
-                    ),
-                  ),
-                )
-              : null,
+      bottomNavigationBar: PerformerBottomBar(
+        onSetPerformDone: handleOnTapSetPerformDone,
+      ),
     );
   }
 
@@ -175,6 +123,19 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
       Future.delayed(const Duration(milliseconds: 500), () {
         LoadingScreen.instance().hide();
       });
+    }
+
+    if (state is MyTaskDetailInitial) {
+      final myTaskEntity = state.taskEntity;
+
+      if (myTaskEntity != null) {
+        if (myTaskEntity.isDonePerform != task.isDonePerform) {
+          handleSetPerformerTaskUpdate(myTaskEntity);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            LoadingScreen.instance().hide();
+          });
+        }
+      }
     }
 
     if (state is MyTaskDetailSuccess) {
@@ -213,6 +174,30 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
         message: message,
       );
     });
+  }
+
+  void handleOnTapSetPerformDone() async {
+    final result = await showOkCancelAlertDialog(
+      context: context,
+      style: AdaptiveStyle.iOS,
+      title: 'E-Tugal',
+      message: 'Are you sure you want to set as perform done?',
+      canPop: true,
+      okLabel: 'Ok',
+      cancelLabel: 'Cancel',
+    );
+
+    if (result.name != OkCancelResult.cancel.name) {
+      handleSetPerformDone();
+    }
+  }
+
+  void handleSetPerformerTaskUpdate(TaskEntity updatedTask) {
+    context.read<PerformerTaskListBloc>().add(UpdateTaskEvent(updatedTask));
+  }
+
+  void handleSetPerformDone() {
+    context.read<MyTaskDetailBloc>().add(SetPerformIsDoneTaskDetailEvent());
   }
 
   void handleRedirection({

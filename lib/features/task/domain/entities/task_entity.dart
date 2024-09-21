@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 
 class TaskEntity {
@@ -42,4 +43,48 @@ class TaskEntity {
   final String? rejectionReason;
   final TaskUserProfileEntity? performer;
   final List<TaskUserProfileEntity>? applicants;
+
+  TaskEntity copyWith({
+    int? id,
+    TaskCategoryEntity? taskCategory,
+    TaskUserProfileEntity? provider,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? title,
+    String? description,
+    String? workType,
+    double? reward,
+    String? address,
+    double? longitude,
+    double? latitude,
+    String? status,
+    DateTime? doneDate,
+    bool? isDonePerform,
+    String? scheduleTime,
+    String? rejectionReason,
+    TaskUserProfileEntity? performer,
+    List<TaskUserProfileEntity>? applicants,
+  }) {
+    return TaskEntity(
+      id: id ?? this.id,
+      taskCategory: taskCategory ?? this.taskCategory,
+      provider: provider ?? this.provider,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      workType: workType ?? this.workType,
+      reward: reward ?? this.reward,
+      address: address ?? this.address,
+      longitude: longitude ?? this.longitude,
+      latitude: latitude ?? this.latitude,
+      status: status ?? this.status,
+      doneDate: doneDate ?? this.doneDate,
+      isDonePerform: isDonePerform ?? this.isDonePerform,
+      scheduleTime: scheduleTime ?? this.scheduleTime,
+      rejectionReason: rejectionReason ?? this.rejectionReason,
+      performer: performer ?? this.performer,
+      applicants: applicants ?? this.applicants,
+    );
+  }
 }

@@ -15,11 +15,11 @@ class AppUserCubit extends Cubit<AppUserState> {
       : _setPushToken = setPushToken,
         super(GettingAppUser());
 
-  void updateUser(User? user) {
+  void updateUser(User? user) async {
     if (user == null) {
       emit(AppUserInitial());
     } else {
-      onCreateFirebaseToken();
+      await onCreateFirebaseToken();
       emit(AppUserLoggedIn(user));
     }
   }

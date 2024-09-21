@@ -8,12 +8,12 @@ sealed class MyTaskDetailEvent extends Equatable {
 }
 
 final class InitialMyTaskDetailEvent extends MyTaskDetailEvent {
-  final int taskId;
+  final TaskEntity taskEntity;
 
-  const InitialMyTaskDetailEvent(this.taskId);
+  const InitialMyTaskDetailEvent(this.taskEntity);
 
   @override
-  List<Object> get props => [taskId];
+  List<Object> get props => [taskEntity];
 }
 
 final class AcceptMyTaskDetailEvent extends MyTaskDetailEvent {
@@ -33,3 +33,5 @@ final class UpdateStatusMyTaskDetailEvent extends MyTaskDetailEvent {
   @override
   List<Object> get props => [taskStatus];
 }
+
+final class SetPerformIsDoneTaskDetailEvent extends MyTaskDetailEvent {}

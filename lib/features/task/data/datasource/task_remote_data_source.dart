@@ -52,6 +52,7 @@ abstract interface class TaskRemoteDataSource {
     String? previous,
     String? next,
   });
+  Future<TaskModel> setPerformIsDone(int taskId);
 }
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
@@ -71,7 +72,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required double latitude,
     String? scheduleTime,
   }) async {
-    String url = '$baseUrl/api/provider/tasks/';
+    String url = '$baseUrl/api/provider/task/';
 
     final data = {
       "title": title,
@@ -104,7 +105,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     String? previous,
     String? next,
   }) async {
-    String url = '$baseUrl/api/provider/tasks/';
+    String url = '$baseUrl/api/provider/task/';
 
     if (taskStatus != null) {
       url += '?status=${getTaskStatusFromEnum(taskStatus)}';
@@ -127,7 +128,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required int performerId,
     required int taskId,
   }) async {
-    String url = '$baseUrl/api/provider/tasks/$taskId/patch_performer/';
+    String url = '$baseUrl/api/provider/task/$taskId/patch_performer/';
 
     final data = {
       "performer_id": performerId,
@@ -150,7 +151,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required String taskStatus,
     required int taskId,
   }) async {
-    String url = '$baseUrl/api/provider/tasks/$taskId/patch_status/';
+    String url = '$baseUrl/api/provider/task/$taskId/patch_status/';
 
     final data = {
       "status": taskStatus,
@@ -240,6 +241,26 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       final response = await apiInstance.get(next ?? previous ?? url);
       return TaskListResponseModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskModel> setPerformIsDone(int taskId) async {
+    String url = '$baseUrl/api/performer/task/$taskId/patch_is_done_perform/';
+
+    final data = {
+      "is_done_perform": true,
+    };
+
+    try {
+      final response = await apiInstance.patch(url, data: data);
+      return TaskModel.fromJson(response.data);
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

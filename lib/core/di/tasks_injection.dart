@@ -31,6 +31,9 @@ void initTasks(GetIt serviceLocator) {
     ..registerFactory(
       () => EasyApplyTask(serviceLocator()),
     )
+    ..registerFactory(
+      () => SetPerformerIsDone(serviceLocator()),
+    )
     // Bloc
     ..registerFactory(
       () => ProviderTaskListBloc(getProviderTaskList: serviceLocator()),
@@ -40,6 +43,7 @@ void initTasks(GetIt serviceLocator) {
     )
     ..registerFactory(
       () => MyTaskDetailBloc(
+        setPerformerIsDone: serviceLocator(),
         setTaskPerformer: serviceLocator(),
         updateTaskStatus: serviceLocator(),
       ),
