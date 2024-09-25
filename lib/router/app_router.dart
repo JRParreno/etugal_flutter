@@ -5,11 +5,13 @@ import 'package:etugal_flutter/core/config/shared_prefences_keys.dart';
 import 'package:etugal_flutter/core/error/error_page.dart';
 import 'package:etugal_flutter/core/notifier/shared_preferences_notifier.dart';
 import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
+import 'package:etugal_flutter/features/change_password/presentation/pages/change_password_screen.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/process_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
@@ -275,6 +277,26 @@ GoRouter routerConfig() {
             child: TaskProviderDetailPage(
               userProfile: state.extra! as TaskUserProfileEntity,
             ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.profileSettings.path,
+        name: AppRoutes.profileSettings.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const ProfileSettingsPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.changePassword.path,
+        name: AppRoutes.changePassword.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const ChangePasswordScreen(),
           );
         },
       ),

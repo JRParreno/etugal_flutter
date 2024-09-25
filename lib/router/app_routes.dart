@@ -24,6 +24,14 @@ enum AppRoutes {
     name: 'profile',
     path: '/profile',
   ),
+  profileSettings(
+    name: 'profile_settings',
+    path: '/profile_settings',
+  ),
+  changePassword(
+    name: 'change_password',
+    path: '/change_password',
+  ),
   updateProfile(
     name: 'update_profile',
     path: 'update_profile',

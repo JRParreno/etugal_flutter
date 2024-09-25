@@ -145,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage>
                     top: mediaQuery.size.height * 0.19,
                     right: 10,
                     child: IconButton(
-                      onPressed: handleOnTapLogout,
+                      onPressed: handleOnTapProfileSettings,
                       icon: const Icon(
                         Icons.settings_outlined,
                         size: 32,
@@ -174,6 +174,10 @@ class _ProfilePageState extends State<ProfilePage>
         ),
       ),
     );
+  }
+
+  void handleOnTapProfileSettings() {
+    GoRouter.of(context).pushNamed(AppRoutes.profileSettings.name);
   }
 
   void handleOnTapLogout() async {
