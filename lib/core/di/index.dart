@@ -4,3 +4,4 @@ export 'home_injection.dart';
 export 'profile_injection.dart';
 export 'add_post_injection.dart';
 export 'tasks_injection.dart';
+export 'edit_post_injection.dart';

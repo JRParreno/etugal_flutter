@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "--dart-define-from-file=stg.env"
+                "--dart-define-from-file=.env"
             ]
         },
         {

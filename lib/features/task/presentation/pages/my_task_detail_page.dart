@@ -56,6 +56,17 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: true,
+        actions: [
+          if (task.status.toLowerCase() ==
+              TaskStatusEnum.pending.name.toLowerCase())
+            IconButton(
+              iconSize: 23,
+              onPressed: () {
+                context.pushNamed(AppRoutes.myEditTaskDetail.name, extra: task);
+              },
+              icon: const Icon(Icons.edit),
+            )
+        ],
       ),
       body: BlocConsumer<MyTaskDetailBloc, MyTaskDetailState>(
         listener: blocListener,

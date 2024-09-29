@@ -8,6 +8,7 @@ import 'package:etugal_flutter/features/profile/presentation/blocs/verification_
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task/add_task_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task_category/add_task_category_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/cubit/review_star_cubit.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/edit_task/edit_task_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/provider_task_list/provider_task_list_bloc.dart';
@@ -61,6 +62,9 @@ class BlocProviders {
       ),
       BlocProvider(
         create: (context) => serviceLocator<ReviewStarCubit>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<EditTaskBloc>(),
       ),
       BlocProvider(
         create: (context) => ChangePasswordBloc(

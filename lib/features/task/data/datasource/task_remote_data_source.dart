@@ -19,6 +19,19 @@ abstract interface class TaskRemoteDataSource {
     required double latitude,
     String? scheduleTime,
   });
+  Future<String> editTask({
+    required int taskId,
+    required String title,
+    required int taskCategory,
+    required double reward,
+    required String doneDate,
+    required String description,
+    required String workType,
+    required String address,
+    required double longitude,
+    required double latitude,
+    String? scheduleTime,
+  });
   Future<TaskListResponseModel> getProviderTaskList({
     TaskStatusEnum? taskStatus,
     String? previous,
@@ -100,6 +113,47 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       await apiInstance.post(url, data: data);
       return 'Successfully add new task!';
+    } on DioException catch (e) {
+      throw ServerException(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<String> editTask({
+    required int taskId,
+    required String title,
+    required int taskCategory,
+    required double reward,
+    required String doneDate,
+    required String description,
+    required String workType,
+    required String address,
+    required double longitude,
+    required double latitude,
+    String? scheduleTime,
+  }) async {
+    String url = '$baseUrl/api/provider/task/$taskId/';
+
+    final data = {
+      "title": title,
+      "task_category_id": taskCategory,
+      "reward": reward,
+      "done_date": doneDate,
+      "schedule_time": scheduleTime,
+      "description": description,
+      "work_type": workType,
+      "address": address,
+      "longitude": longitude,
+      "latitude": latitude
+    };
+
+    try {
+      await apiInstance.patch(url, data: data);
+      return 'Successfully update task!';
     } on DioException catch (e) {
       throw ServerException(
         e.response?.data['error_message'] ?? 'Something went wrong.',

@@ -17,6 +17,7 @@ import 'package:etugal_flutter/features/profile/presentation/pages/upload_govern
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/add_post_task_page.dart';
+import 'package:etugal_flutter/features/task/presentation/pages/edit_post_task_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_performer_task_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_detail_page.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/my_task_list_page.dart';
@@ -297,6 +298,18 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const ChangePasswordScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.myEditTaskDetail.path,
+        name: AppRoutes.myEditTaskDetail.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: EditPostTaskPage(
+              task: state.extra as TaskEntity,
+            ),
           );
         },
       ),

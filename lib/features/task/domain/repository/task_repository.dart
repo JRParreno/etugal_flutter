@@ -17,6 +17,19 @@ abstract interface class TaskRepository {
     required double latitude,
     String? scheduleTime,
   });
+  Future<Either<Failure, String>> editTask({
+    required int taskId,
+    required String title,
+    required int taskCategory,
+    required double reward,
+    required String doneDate,
+    required String description,
+    required String workType,
+    required String address,
+    required double longitude,
+    required double latitude,
+    String? scheduleTime,
+  });
   Future<Either<Failure, TaskListResponseEntity>> getProviderTaskList({
     TaskStatusEnum? taskStatus,
     String? previous,

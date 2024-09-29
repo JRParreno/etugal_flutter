@@ -15,6 +15,8 @@ Future<void> initDependencies() async {
   initProfile(serviceLocator);
   // Add Post
   initAddPost(serviceLocator);
+// Edit Post
+  initEditPost(serviceLocator);
   // Tasks
   initTasks(serviceLocator);
 }

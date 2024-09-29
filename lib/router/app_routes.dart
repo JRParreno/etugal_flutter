@@ -68,6 +68,10 @@ enum AppRoutes {
     name: 'my_task_detail',
     path: '/my_task_detail',
   ),
+  myEditTaskDetail(
+    name: 'my_edit_task_detail',
+    path: '/my_edit_task_detail',
+  ),
   performerTaskDetail(
     name: 'performer_task_detail',
     path: '/performer_task_detail',
