@@ -84,6 +84,10 @@ enum AppRoutes {
     name: 'task_provider_detail',
     path: '/task_provider_detail',
   ),
+  chat(
+    name: 'chat',
+    path: '/chat',
+  ),
   ;
 
   const AppRoutes({

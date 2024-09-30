@@ -7,6 +7,7 @@ import 'package:etugal_flutter/core/common/widgets/loader.dart';
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/core/helper/verification_helper.dart';
+import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_detail/task_detail_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/pages/body/task_detail/index.dart';
@@ -138,7 +139,20 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                     VerificationHelper.handleOnTapPostAdd(
                         context: context,
                         defaultAction: () {
-                          // TODO Chat
+                          final appUserState =
+                              context.read<AppUserCubit>().state;
+
+                          if (appUserState is AppUserLoggedIn) {
+                            context.pushNamed(
+                              AppRoutes.chat.name,
+                              extra: ChatArgs(
+                                performerId:
+                                    int.parse(appUserState.user.profilePk),
+                                providerId: task.provider.id,
+                                taskEntity: task,
+                              ),
+                            );
+                          }
                         });
                   },
                   title: 'Message',

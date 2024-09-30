@@ -2,6 +2,8 @@ import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:etugal_flutter/features/change_password/data/blocs/bloc/change_password_bloc.dart';
 import 'package:etugal_flutter/features/change_password/data/repository/change_password_repository_impl.dart';
+import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
+import 'package:etugal_flutter/features/chat/presentation/blocs/chat_list/chat_list_bloc.dart';
 import 'package:etugal_flutter/features/home/presentation/blocs/home_task/home_task_bloc.dart';
 import 'package:etugal_flutter/features/home/presentation/blocs/home_task_category/home_task_category_bloc.dart';
 import 'package:etugal_flutter/features/profile/presentation/blocs/verification_image_upload/verification_image_upload_bloc.dart';
@@ -70,6 +72,12 @@ class BlocProviders {
         create: (context) => ChangePasswordBloc(
           changePasswordRepository: ChangePasswordRepositoryImpl(),
         ),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<ChatBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<ChatListBloc>(),
       ),
     ];
   }

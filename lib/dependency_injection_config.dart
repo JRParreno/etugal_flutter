@@ -19,4 +19,6 @@ Future<void> initDependencies() async {
   initEditPost(serviceLocator);
   // Tasks
   initTasks(serviceLocator);
+  // Chat
+  initChat(serviceLocator);
 }

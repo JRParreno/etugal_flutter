@@ -6,6 +6,7 @@ import 'package:etugal_flutter/core/error/error_page.dart';
 import 'package:etugal_flutter/core/notifier/shared_preferences_notifier.dart';
 import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
 import 'package:etugal_flutter/features/change_password/presentation/pages/change_password_screen.dart';
+import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
@@ -309,6 +310,18 @@ GoRouter routerConfig() {
             localKey: state.pageKey,
             child: EditPostTaskPage(
               task: state.extra as TaskEntity,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.chat.path,
+        name: AppRoutes.chat.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: ChatPage(
+              args: state.extra as ChatArgs,
             ),
           );
         },
