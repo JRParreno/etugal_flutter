@@ -6,6 +6,7 @@ import 'package:etugal_flutter/core/error/error_page.dart';
 import 'package:etugal_flutter/core/notifier/shared_preferences_notifier.dart';
 import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
 import 'package:etugal_flutter/features/change_password/presentation/pages/change_password_screen.dart';
+import 'package:etugal_flutter/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
@@ -42,6 +43,8 @@ GoRouter routerConfig() {
       GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorTaskKey');
   final shellNavigatorProfileKey =
       GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorProfileKey');
+  final shellNavigatorChatKey =
+      GlobalKey<NavigatorState>(debugLabel: 'shellNavigatorChatKey');
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -168,6 +171,21 @@ GoRouter routerConfig() {
                       },
                     ),
                   ]),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: shellNavigatorChatKey,
+            routes: [
+              GoRoute(
+                path: AppRoutes.chatList.path,
+                name: AppRoutes.chatList.name,
+                pageBuilder: (context, state) {
+                  return buildTransitionPage(
+                    localKey: state.pageKey,
+                    child: const ChatListPage(),
+                  );
+                },
+              ),
             ],
           ),
         ],

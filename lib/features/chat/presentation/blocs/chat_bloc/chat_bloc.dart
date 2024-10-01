@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:etugal_flutter/core/enums/view_status.dart';
@@ -56,17 +57,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     OnReceivedMessageChat event,
     Emitter<ChatState> emit,
   ) async {
-    try {
-      emit(
-        state.copyWith(
-          chats: state.chats.copyWith(
-            chats: [ChatModel.fromJson(event.message), ...state.chats.chats],
-          ),
-        ),
-      );
-    } catch (e) {
-      // handle error when trying to parse the message
-    }
+    final chats = [...state.chats.chats];
+    Map<String, dynamic> json = jsonDecode(event.message);
+
+    emit(ChatState(
+        chats: state.chats.copyWith(chats: [
+      ChatModel(
+        message: json['message'],
+        timeStamp: json['time_stamp'],
+        username: json['username'],
+      ),
+      ...chats
+    ])));
   }
 
   FutureOr<void> _onGetInitialChat(

@@ -91,6 +91,9 @@ class _ScaffoldWithBottomNavState extends State<ScaffoldWithBottomNav> {
       case 2:
         VerificationHelper.handleOnTapPostAdd(context: context);
         break;
+      case 3:
+        context.go(AppRoutes.chatList.path);
+        break;
       case 4:
         context.go(AppRoutes.profile.path);
         break;

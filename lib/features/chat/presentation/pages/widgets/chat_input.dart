@@ -1,3 +1,4 @@
+import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 
 class ChatInput extends StatelessWidget {
@@ -19,7 +20,6 @@ class ChatInput extends StatelessWidget {
         minHeight: 100,
         maxHeight: 300,
       ),
-      color: Colors.lightBlue[100],
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
@@ -31,7 +31,7 @@ class ChatInput extends StatelessWidget {
               decoration: const InputDecoration(
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.grey,
+                    color: ColorName.borderColor,
                   ),
                   borderRadius: BorderRadius.all(
                     Radius.circular(

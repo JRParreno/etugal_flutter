@@ -88,6 +88,10 @@ enum AppRoutes {
     name: 'chat',
     path: '/chat',
   ),
+  chatList(
+    name: 'chat_list',
+    path: '/chat_list',
+  ),
   ;
 
   const AppRoutes({

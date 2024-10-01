@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -64,9 +66,15 @@ class ChatBubble extends StatelessWidget {
 
   String timeAgoStr() {
     final DateTime currentDate = DateTime.now();
-    final chatTimeStamp = DateTime.parse(timeStamp);
-    final duration =
-        Duration(hours: chatTimeStamp.hour - 8, minutes: chatTimeStamp.minute);
+    final DateTime chatTimeStamp =
+        DateTime.parse(timeStamp).toLocal(); // Convert to local time zone
+    log(currentDate.toString(), name: 'CurrentDate');
+    log(chatTimeStamp.toString(), name: 'chatTimeStamp');
+
+    // Calculate the time difference
+    final duration = currentDate.difference(chatTimeStamp);
+
+    // Return the time ago string
     return timeago.format(currentDate.subtract(duration));
   }
 }

@@ -124,7 +124,7 @@ class _ChatPageState extends State<ChatPage> {
                       final chat = state.chats.chats[index];
 
                       return ChatBubble(
-                        isSender: !(getUserName() == chat.username),
+                        isSender: getUserName() == chat.username,
                         message: chat.message,
                         timeStamp: chat.timeStamp,
                       );
