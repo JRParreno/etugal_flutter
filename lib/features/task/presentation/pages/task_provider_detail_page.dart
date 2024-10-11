@@ -125,6 +125,7 @@ class _TaskProviderDetailPageState extends State<TaskProviderDetailPage>
                   address: userProfile.address,
                   gender: userProfile.address,
                   verificationStatus: userProfile.verificationStatus,
+                  birthdate: userProfile.birthdate,
                 ),
               ),
             ),

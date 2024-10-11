@@ -14,6 +14,7 @@ class UserModel extends User {
     required super.address,
     required super.gender,
     required super.verificationStatus,
+    required super.birthdate,
     super.verificationRemarks,
     super.profilePhoto,
     super.idPhoto,
@@ -34,6 +35,7 @@ class UserModel extends User {
       profilePhoto: '',
       verificationRemarks: '',
       idPhoto: '',
+      birthdate: DateTime.now(),
     );
   }
 
@@ -55,6 +57,7 @@ class UserModel extends User {
       profilePhoto:
           map['profilePhoto'] != null ? map['profilePhoto'] as String : null,
       idPhoto: map['idPhoto'] != null ? map['idPhoto'] as String : null,
+      birthdate: DateTime.parse(map['birthdate']),
     );
   }
 

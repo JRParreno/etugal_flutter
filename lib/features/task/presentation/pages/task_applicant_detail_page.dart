@@ -125,6 +125,7 @@ class _TaskApplicantDetailPageState extends State<TaskApplicantDetailPage>
                   address: userProfile.address,
                   gender: userProfile.address,
                   verificationStatus: userProfile.verificationStatus,
+                  birthdate: userProfile.birthdate,
                 ),
               ),
             ),

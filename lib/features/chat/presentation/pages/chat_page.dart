@@ -7,6 +7,7 @@ import 'package:etugal_flutter/features/chat/domain/entities/index.dart';
 import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/widgets/index.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
+import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:web_socket_channel/io.dart';
@@ -73,6 +74,8 @@ class _ChatPageState extends State<ChatPage> {
     textEditingController.addListener(() {
       isDisabled.value = textEditingController.value.text.trim().isEmpty;
     });
+
+    handleEventScrollListener();
   }
 
   @override
@@ -87,11 +90,50 @@ class _ChatPageState extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.args.taskEntity.title,
-          style: textTheme.titleLarge,
+        title: BlocSelector<ChatBloc, ChatState, ChatSessionEntity?>(
+          selector: (state) {
+            return state.chatSession;
+          },
+          builder: (context, state) {
+            final chatSession = state;
+            if (chatSession == null) return const SizedBox.shrink();
+            final chatUser = chatSession.provider.user.username != getUserName()
+                ? chatSession.provider
+                : chatSession.performer;
+            return Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: ColorName.primary,
+                  backgroundImage: chatUser.profilePhoto != null
+                      ? Image.network(chatUser.profilePhoto!).image
+                      : null,
+                  radius: 20,
+                  child: chatUser.profilePhoto == null
+                      ? const Icon(
+                          Icons.person_outline,
+                          size: 20 * 0.75,
+                          color: ColorName.whiteNotMuch,
+                        )
+                      : null,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  chatUser.user.getFullName ?? '',
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.error),
+          ),
+        ],
       ),
       body: BlocConsumer<ChatBloc, ChatState>(
         listener: (context, state) {
@@ -103,19 +145,50 @@ class _ChatPageState extends State<ChatPage> {
         },
         builder: (context, state) {
           if (state.viewStatus == ViewStatus.loading) {
-            return const Center(
-              child: Column(
-                children: [
-                  CircularProgressIndicator(),
-                ],
-              ),
+            return const Expanded(
+              child: Center(child: CircularProgressIndicator()),
             );
           }
           return SizedBox.expand(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.104,
+                  child: Card(
+                    color: ColorName.whiteNotMuch,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.args.taskEntity.title,
+                            style: textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            'Reward: PHP ${widget.args.taskEntity.reward}',
+                            style: textTheme.labelLarge
+                                ?.copyWith(color: ColorName.primary),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (state.viewStatus.name == ViewStatus.isPaginated.name) ...[
+                  const Center(
+                      child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
+                  )),
+                ],
                 Expanded(
                   child: ListView.separated(
+                    controller: scrollController,
                     keyboardDismissBehavior:
                         ScrollViewKeyboardDismissBehavior.onDrag,
                     shrinkWrap: true,
@@ -203,5 +276,18 @@ class _ChatPageState extends State<ChatPage> {
       return state.user.username;
     }
     return '';
+  }
+
+  void handleEventScrollListener() {
+    scrollController.addListener(
+      () {
+        if (scrollController.position.pixels >
+            (scrollController.position.pixels * 0.75)) {
+          context.read<ChatBloc>().add(
+                OnPaginateChat(),
+              );
+        }
+      },
+    );
   }
 }

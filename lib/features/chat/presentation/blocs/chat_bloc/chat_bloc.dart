@@ -136,6 +136,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     if (state.viewStatus != ViewStatus.isPaginated &&
         state.chats.nextPage != null) {
+      emit(state.copyWith(viewStatus: ViewStatus.isPaginated));
+
       final response = await _getChats.call(
         GetChatsParams(
           sessionId: state.chatSession?.id.toString() ?? '',
@@ -147,7 +149,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
         (r) => emit(
           state.copyWith(
-            viewStatus: ViewStatus.isPaginated,
+            viewStatus: ViewStatus.none,
             chats: r.copyWith(
               chats: [...state.chats.chats, ...r.chats],
             ),

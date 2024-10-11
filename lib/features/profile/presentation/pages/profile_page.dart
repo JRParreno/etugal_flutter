@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage>
             username: userCubitState.user.username,
             getFullName:
                 '${userCubitState.user.firstName} ${userCubitState.user.lastName}'),
-        birthdate: DateTime.now(),
+        birthdate: userCubitState.user.birthdate,
         address: userCubitState.user.address,
         contactNumber: userCubitState.user.contactNumber,
         gender: userCubitState.user.gender,

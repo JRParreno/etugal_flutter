@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     handleGetInitialTask();
+    handleEventScrollListener();
   }
 
   @override
@@ -81,5 +82,17 @@ class _HomePageState extends State<HomePage> {
             ),
           );
     }
+  }
+
+  void handleEventScrollListener() {
+    taskScroll.addListener(
+      () {
+        if (taskScroll.position.pixels > (taskScroll.position.pixels * 0.75)) {
+          context.read<HomeTaskBloc>().add(
+                GetHomeTaskPaginateEvent(),
+              );
+        }
+      },
+    );
   }
 }

@@ -56,6 +56,7 @@ class SecondStepForm extends StatelessWidget {
                       CustomTextFormField(
                         hintText: 'Enter task title',
                         controller: titleController,
+                        maxLength: 30,
                       ),
                     ].withSpaceBetween(height: 10),
                   ),

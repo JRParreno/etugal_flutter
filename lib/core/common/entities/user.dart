@@ -13,6 +13,7 @@ class User {
   final String? verificationRemarks;
   final String? profilePhoto;
   final String? idPhoto;
+  final DateTime birthdate;
 
   User({
     required this.pk,
@@ -25,6 +26,7 @@ class User {
     required this.address,
     required this.gender,
     required this.verificationStatus,
+    required this.birthdate,
     this.verificationRemarks,
     this.profilePhoto,
     this.idPhoto,
@@ -44,6 +46,7 @@ class User {
     String? verificationRemarks,
     String? profilePhoto,
     String? idPhoto,
+    DateTime? birthdate,
   }) {
     return User(
       pk: pk ?? this.pk,
@@ -59,6 +62,7 @@ class User {
       verificationRemarks: verificationRemarks ?? this.verificationRemarks,
       profilePhoto: profilePhoto ?? this.profilePhoto,
       idPhoto: idPhoto ?? this.idPhoto,
+      birthdate: birthdate ?? this.birthdate,
     );
   }
 }
