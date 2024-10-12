@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/enums/view_status.dart';
 import 'package:etugal_flutter/core/env/env.dart';
@@ -8,8 +9,10 @@ import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_b
 import 'package:etugal_flutter/features/chat/presentation/pages/widgets/index.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
+import 'package:etugal_flutter/router/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
@@ -130,7 +133,18 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              final chatUser =
+                  chatSession?.provider.user.username != getUserName()
+                      ? chatSession?.provider
+                      : chatSession?.performer;
+              if (chatUser != null && chatUser.report == null) {
+                context.pushNamed(AppRoutes.chatReportUser.name,
+                    extra: {"id": chatUser.user.pk});
+                return;
+              }
+              handleReportMessage();
+            },
             icon: const Icon(Icons.error),
           ),
         ],
@@ -141,6 +155,10 @@ class _ChatPageState extends State<ChatPage> {
             setState(() {
               chatSession = state.chatSession;
             });
+          }
+
+          if (state.viewStatus == ViewStatus.failed) {
+            onFormError(state.errorMessage ?? 'Something went wrong');
           }
         },
         builder: (context, state) {
@@ -207,18 +225,34 @@ class _ChatPageState extends State<ChatPage> {
                     itemCount: state.chats.chats.length,
                   ),
                 ),
-                ValueListenableBuilder(
-                  valueListenable: isDisabled,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return ChatInput(
-                      controller: textEditingController,
-                      onSend: (value) {
-                        onSendChatMessage(value);
-                      },
-                      isDisabled: value,
-                    );
-                  },
-                ),
+                if (!isCanChat()) ...[
+                  ValueListenableBuilder(
+                    valueListenable: isDisabled,
+                    builder: (BuildContext context, bool value, Widget? child) {
+                      return ChatInput(
+                        controller: textEditingController,
+                        onSend: (value) {
+                          onSendChatMessage(value);
+                        },
+                        isDisabled: value,
+                      );
+                    },
+                  ),
+                ] else ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: ColorName.primary)),
+                    child: const Text(
+                      'This account is either suspended or terminated',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ],
             ),
           );
@@ -289,5 +323,40 @@ class _ChatPageState extends State<ChatPage> {
         }
       },
     );
+  }
+
+  void handleReportMessage() {
+    Future.delayed(const Duration(milliseconds: 600), () {
+      showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
+        context: context,
+        title: 'E-Tugal',
+        message:
+            'You already report this user please wait for the admin to review.',
+      );
+    });
+  }
+
+  bool isCanChat() {
+    final performer = widget.args.chatSession?.performer;
+    final provider = widget.args.chatSession?.provider;
+
+    return (performer?.isSuspeneded ?? false) ||
+        (performer?.isTerminated ?? false) ||
+        (provider?.isSuspeneded ?? false) ||
+        (provider?.isTerminated ?? false);
+  }
+
+  void onFormError(String message) {
+    Future.delayed(const Duration(milliseconds: 600), () {
+      showOkAlertDialog(
+        style: AdaptiveStyle.iOS,
+        context: context,
+        title: 'E-Tugal',
+        message: message,
+      ).whenComplete(() {
+        context.pop();
+      });
+    });
   }
 }

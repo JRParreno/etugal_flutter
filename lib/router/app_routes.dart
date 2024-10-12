@@ -92,6 +92,10 @@ enum AppRoutes {
     name: 'chat_list',
     path: '/chat_list',
   ),
+  chatReportUser(
+    name: 'chat_report_user',
+    path: '/chat_report_user',
+  ),
   ;
 
   const AppRoutes({

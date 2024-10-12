@@ -71,6 +71,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     res.fold(
       (l) => emit(AuthFailure(l.message)),
       (r) {
+        if (r.user.isTerminated) {
+          handleFailSetUserCubit(
+              message: 'Your account is terminated', emit: emit);
+          return;
+        }
         // this will save token in localstorage
         handleSetInfo(accessToken: r.accessToken, refreshToken: r.refreshToken);
         // handle set user cubit and emit
@@ -117,6 +122,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void handleSetUserCubit(
       {required User user, required Emitter<AuthState> emit}) {
+    if (user.isTerminated) {
+      _sharedPreferencesNotifier.setValue(
+          SharedPreferencesKeys.isLoggedIn, false);
+      _appUserCubit.logout();
+      handleFailSetUserCubit(message: 'Your account is terminated', emit: emit);
+      return;
+    }
     _appUserCubit.updateUser(user);
     emit(AuthSuccess(user));
   }

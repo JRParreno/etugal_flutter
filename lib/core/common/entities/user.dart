@@ -14,6 +14,11 @@ class User {
   final String? profilePhoto;
   final String? idPhoto;
   final DateTime birthdate;
+  final bool isSuspeneded;
+  final String? suspensionReason;
+  final DateTime? suspendedUntil;
+  final bool isTerminated;
+  final String? terminationReason;
 
   User({
     required this.pk,
@@ -27,6 +32,11 @@ class User {
     required this.gender,
     required this.verificationStatus,
     required this.birthdate,
+    required this.suspensionReason,
+    required this.terminationReason,
+    this.isSuspeneded = false,
+    this.isTerminated = false,
+    this.suspendedUntil,
     this.verificationRemarks,
     this.profilePhoto,
     this.idPhoto,
@@ -47,6 +57,11 @@ class User {
     String? profilePhoto,
     String? idPhoto,
     DateTime? birthdate,
+    bool? isSuspeneded,
+    String? suspensionReason,
+    DateTime? suspendedUntil,
+    bool? isTerminated,
+    String? terminationReason,
   }) {
     return User(
       pk: pk ?? this.pk,
@@ -63,6 +78,11 @@ class User {
       profilePhoto: profilePhoto ?? this.profilePhoto,
       idPhoto: idPhoto ?? this.idPhoto,
       birthdate: birthdate ?? this.birthdate,
+      isSuspeneded: isSuspeneded ?? this.isSuspeneded,
+      suspensionReason: suspensionReason ?? this.suspensionReason,
+      suspendedUntil: suspendedUntil ?? this.suspendedUntil,
+      isTerminated: isTerminated ?? this.isTerminated,
+      terminationReason: terminationReason ?? this.terminationReason,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
-import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/home/domain/entities/task_list_reponse_entity.dart';
 import 'package:etugal_flutter/features/task/data/datasource/task_remote_data_source.dart';
@@ -42,8 +41,8 @@ class TaskRepositoryImpl implements TaskRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -55,8 +54,8 @@ class TaskRepositoryImpl implements TaskRepository {
           taskStatus: taskStatus, next: next, previous: previous);
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -71,8 +70,8 @@ class TaskRepositoryImpl implements TaskRepository {
         taskId: taskId,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -87,8 +86,8 @@ class TaskRepositoryImpl implements TaskRepository {
         taskStatus: taskStatus,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -103,8 +102,8 @@ class TaskRepositoryImpl implements TaskRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -119,8 +118,8 @@ class TaskRepositoryImpl implements TaskRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -137,8 +136,8 @@ class TaskRepositoryImpl implements TaskRepository {
         description: description,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -153,8 +152,8 @@ class TaskRepositoryImpl implements TaskRepository {
           taskStatus: taskStatus, next: next, previous: previous);
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -163,8 +162,8 @@ class TaskRepositoryImpl implements TaskRepository {
     try {
       final response = await taskRemoteDataSource.setPerformIsDone(taskId);
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -181,8 +180,8 @@ class TaskRepositoryImpl implements TaskRepository {
         taskId: taskId,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -199,8 +198,8 @@ class TaskRepositoryImpl implements TaskRepository {
         taskId: taskId,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -234,8 +233,8 @@ class TaskRepositoryImpl implements TaskRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 }

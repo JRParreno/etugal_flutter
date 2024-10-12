@@ -1,3 +1,4 @@
+import 'package:etugal_flutter/features/profile/data/models/user_report_model.dart';
 import 'package:etugal_flutter/features/task/data/models/index.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 
@@ -15,6 +16,12 @@ class TaskUserProfileModel extends TaskUserProfileEntity {
     required super.idPhoto,
     required super.facePhoto,
     required super.description,
+    required super.isTerminated,
+    required super.terminationReason,
+    required super.isSuspeneded,
+    required super.suspensionReason,
+    super.suspendedUntil,
+    super.report,
   });
 
   factory TaskUserProfileModel.fromJson(Map<String, dynamic> json,
@@ -32,6 +39,16 @@ class TaskUserProfileModel extends TaskUserProfileEntity {
       idPhoto: json["id_photo"],
       facePhoto: json["face_photo"],
       description: description,
+      suspensionReason: json['suspension_reason'],
+      terminationReason: json['termination_reason'],
+      isSuspeneded: json['is_suspended'] as bool,
+      isTerminated: json['is_terminated'] as bool,
+      suspendedUntil: json['suspended_until'] != null
+          ? DateTime.parse(json['suspended_until'])
+          : null,
+      report: json['report'] != null
+          ? UserReportModel.fromJson(json['report'])
+          : null,
     );
   }
 }

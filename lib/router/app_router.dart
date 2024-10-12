@@ -8,6 +8,7 @@ import 'package:etugal_flutter/features/auth/presentation/pages/index.dart';
 import 'package:etugal_flutter/features/change_password/presentation/pages/change_password_screen.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
+import 'package:etugal_flutter/features/chat/presentation/pages/chat_report_user_page.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
@@ -66,12 +67,13 @@ GoRouter routerConfig() {
 
       final onBoardingPath = state.matchedLocation == AppRoutes.onBoarding.path;
       final profilePath = state.matchedLocation == AppRoutes.profile.path;
+      final homePath = state.matchedLocation == AppRoutes.home.path;
 
       if (isLoggedIn && onBoardingPath) {
         return AppRoutes.home.path;
       }
 
-      if (!isLoggedIn && (onBoardingPath || profilePath)) {
+      if (!isLoggedIn && (onBoardingPath || profilePath || homePath)) {
         return AppRoutes.onBoarding.path;
       }
 
@@ -340,6 +342,20 @@ GoRouter routerConfig() {
             localKey: state.pageKey,
             child: ChatPage(
               args: state.extra as ChatArgs,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.chatReportUser.path,
+        name: AppRoutes.chatReportUser.name,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: ChatReportUserPage(
+              reportUserId: extra['id'] as int,
             ),
           );
         },

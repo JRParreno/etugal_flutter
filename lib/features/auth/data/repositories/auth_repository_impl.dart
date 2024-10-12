@@ -1,5 +1,4 @@
 import 'package:etugal_flutter/core/common/entities/user.dart';
-import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:etugal_flutter/features/auth/domain/entities/login_response.dart';
@@ -22,8 +21,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -52,8 +51,8 @@ class AuthRepositoryImpl implements AuthRepository {
         birthdate: birthdate,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -62,8 +61,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await remoteDataSource.currentUser();
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -72,8 +71,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await remoteDataSource.setPushToken(token);
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 }

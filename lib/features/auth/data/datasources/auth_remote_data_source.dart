@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:etugal_flutter/core/env/env.dart';
-import 'package:etugal_flutter/core/error/exceptions.dart';
+import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/core/interceptor/api_interceptor.dart';
 import 'package:etugal_flutter/features/auth/data/models/index.dart';
 
@@ -48,11 +48,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post(url, data: data);
       return LoginResponseModel.fromMap(response.data);
     } on DioException catch (e) {
-      throw ServerException(
+      throw Failure(
         e.response?.data['error_description'] ?? 'Something went wrong.',
       );
     } catch (e) {
-      throw ServerException(e.toString());
+      throw Failure(e.toString());
     }
   }
 
@@ -85,11 +85,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await dio.post(url, data: data);
       return SignupResponseModel.fromMap(response.data);
     } on DioException catch (e) {
-      throw ServerException(
+      throw Failure(
         e.response?.data['error_message'] ?? 'Something went wrong.',
       );
     } catch (e) {
-      throw ServerException(e.toString());
+      throw Failure(e.toString());
     }
   }
 
@@ -101,11 +101,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await apiInstance.get(url);
       return UserModel.fromMap(response.data);
     } on DioException catch (e) {
-      throw ServerException(
+      throw Failure(
         e.response?.data['error_message'] ?? 'Something went wrong.',
       );
     } catch (e) {
-      throw ServerException(e.toString());
+      throw Failure(e.toString());
     }
   }
 
@@ -121,11 +121,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await apiInstance.post(url, data: data);
       return;
     } on DioException catch (e) {
-      throw ServerException(
+      throw Failure(
         e.response?.data['error_message'] ?? 'Something went wrong.',
       );
     } catch (e) {
-      throw ServerException(e.toString());
+      throw Failure(e.toString());
     }
   }
 }

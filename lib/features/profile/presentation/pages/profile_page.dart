@@ -50,6 +50,12 @@ class _ProfilePageState extends State<ProfilePage>
         verificationStatus: userCubitState.user.verificationStatus,
         profilePhoto: userCubitState.user.profilePhoto,
         verificationRemarks: userCubitState.user.verificationRemarks,
+        suspensionReason: userCubitState.user.suspensionReason,
+        terminationReason: userCubitState.user.terminationReason,
+        idPhoto: userCubitState.user.idPhoto,
+        isSuspeneded: userCubitState.user.isSuspeneded,
+        isTerminated: userCubitState.user.isTerminated,
+        suspendedUntil: userCubitState.user.suspendedUntil,
       );
 
       context.read<TaskProviderReviewBloc>().add(

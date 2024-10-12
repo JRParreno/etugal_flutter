@@ -6,13 +6,14 @@ class ChatState extends Equatable {
   final ChatSessionEntity? chatSession;
   final bool isSending;
   final bool isWebSocketConnected;
-
+  final String? errorMessage;
   const ChatState({
     required this.chats,
     this.chatSession,
     this.isSending = false,
     this.isWebSocketConnected = false,
     this.viewStatus = ViewStatus.none,
+    this.errorMessage,
   });
 
   ChatState copyWith({
@@ -21,6 +22,7 @@ class ChatState extends Equatable {
     bool? isSending,
     bool? isWebSocketConnected,
     ChatSessionEntity? chatSession,
+    String? errorMessage,
   }) {
     return ChatState(
       viewStatus: viewStatus ?? this.viewStatus,
@@ -28,6 +30,7 @@ class ChatState extends Equatable {
       isSending: isSending ?? this.isSending,
       isWebSocketConnected: isWebSocketConnected ?? this.isWebSocketConnected,
       chatSession: chatSession ?? this.chatSession,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -38,6 +41,7 @@ class ChatState extends Equatable {
         isSending,
         isWebSocketConnected,
         chatSession,
+        errorMessage,
       ];
 }
 

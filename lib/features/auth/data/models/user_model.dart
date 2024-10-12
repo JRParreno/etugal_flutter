@@ -15,6 +15,11 @@ class UserModel extends User {
     required super.gender,
     required super.verificationStatus,
     required super.birthdate,
+    required super.suspensionReason,
+    required super.terminationReason,
+    super.isSuspeneded,
+    super.isTerminated,
+    super.suspendedUntil,
     super.verificationRemarks,
     super.profilePhoto,
     super.idPhoto,
@@ -22,21 +27,22 @@ class UserModel extends User {
 
   factory UserModel.empty() {
     return UserModel(
-      pk: '',
-      username: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      profilePk: '',
-      address: '',
-      contactNumber: '',
-      gender: '',
-      verificationStatus: '',
-      profilePhoto: '',
-      verificationRemarks: '',
-      idPhoto: '',
-      birthdate: DateTime.now(),
-    );
+        pk: '',
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        profilePk: '',
+        address: '',
+        contactNumber: '',
+        gender: '',
+        verificationStatus: '',
+        profilePhoto: '',
+        verificationRemarks: '',
+        idPhoto: '',
+        birthdate: DateTime.now(),
+        suspensionReason: '',
+        terminationReason: '');
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -58,6 +64,13 @@ class UserModel extends User {
           map['profilePhoto'] != null ? map['profilePhoto'] as String : null,
       idPhoto: map['idPhoto'] != null ? map['idPhoto'] as String : null,
       birthdate: DateTime.parse(map['birthdate']),
+      suspensionReason: map['suspension_reason'],
+      terminationReason: map['termination_reason'],
+      isSuspeneded: map['is_suspended'] as bool,
+      isTerminated: map['is_terminated'] as bool,
+      suspendedUntil: map['suspended_until'] != null
+          ? DateTime.parse(map['suspended_until'])
+          : null,
     );
   }
 

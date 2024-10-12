@@ -87,8 +87,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final chatSeesionResponse = await _getChatSession.call(event.roomName);
 
       chatSeesionResponse.fold((l) {
-        if (l.message.toLowerCase() != "not found") {
-          return emit(state.copyWith(viewStatus: ViewStatus.failed));
+        if (l.message.toLowerCase() != "not found" ||
+            l.message.toLowerCase().contains('your account')) {
+          return emit(state.copyWith(
+              viewStatus: ViewStatus.failed, errorMessage: l.message));
         }
       }, (r) {
         chatSession = r;
@@ -106,8 +108,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
 
       createChatSessionResponse.fold((l) {
-        if (l.message.toLowerCase() != "not found") {
-          return emit(state.copyWith(viewStatus: ViewStatus.failed));
+        if (l.message.toLowerCase() != "not found" ||
+            l.message.toLowerCase().contains('your account')) {
+          return emit(state.copyWith(
+              viewStatus: ViewStatus.failed, errorMessage: l.message));
         }
       }, (r) {
         chatSession = r;
@@ -119,7 +123,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     );
 
     chatResponse.fold(
-      (l) => emit(state.copyWith(viewStatus: ViewStatus.failed)),
+      (l) => emit(state.copyWith(
+          viewStatus: ViewStatus.failed, errorMessage: l.message)),
       (r) => emit(
         state.copyWith(
           viewStatus: ViewStatus.successful,

@@ -21,6 +21,9 @@ class AppTheme with ThemeMixin {
     iconTheme: const IconThemeData(
       color: ColorName.darkerGreyFont,
     ),
+    radioTheme: RadioThemeData(
+      fillColor: WidgetStateProperty.all(ColorName.darkerGreyFont),
+    ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: ColorName.whiteNotMuch,
       elevation: 1,

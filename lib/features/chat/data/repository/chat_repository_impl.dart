@@ -1,11 +1,10 @@
 import 'dart:async';
-
-import 'package:etugal_flutter/core/error/exceptions.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/chat/data/datasource/chat_remote_data_source.dart';
 import 'package:etugal_flutter/features/chat/domain/entities/index.dart';
 import 'package:etugal_flutter/features/chat/domain/repository/chat_repository.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource _remoteDataSource;
@@ -28,8 +27,8 @@ class ChatRepositoryImpl implements ChatRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -38,8 +37,8 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final response = await _remoteDataSource.getChatList(nextPage);
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -49,8 +48,8 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       final response = await _remoteDataSource.getChatSession(roomName);
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 
@@ -63,8 +62,28 @@ class ChatRepositoryImpl implements ChatRepository {
         next: next,
       );
       return right(response);
-    } on ServerException catch (e) {
-      return left(Failure(e.toString()));
+    } on Failure catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> createReportUser({
+    required int reportedUserId,
+    required String reason,
+    List<XFile>? images,
+    String? additionalInfo,
+  }) async {
+    try {
+      final response = await _remoteDataSource.createReportUser(
+        reportedUserId: reportedUserId,
+        reason: reason,
+        additionalInfo: additionalInfo,
+        images: images,
+      );
+      return right(response);
+    } on Failure catch (e) {
+      return left(e);
     }
   }
 }
