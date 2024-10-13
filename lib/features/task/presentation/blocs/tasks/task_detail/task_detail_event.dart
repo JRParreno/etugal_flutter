@@ -19,9 +19,11 @@ final class InitialTaskDetailEvent extends TaskDetailEvent {
 final class EasyApplyTaskDetailEvent extends TaskDetailEvent {
   final int performerId;
   final String? description;
+  final int task;
 
   const EasyApplyTaskDetailEvent({
     required this.performerId,
+    required this.task,
     this.description,
   });
 
@@ -29,5 +31,6 @@ final class EasyApplyTaskDetailEvent extends TaskDetailEvent {
   List<Object?> get props => [
         performerId,
         description,
+        task,
       ];
 }

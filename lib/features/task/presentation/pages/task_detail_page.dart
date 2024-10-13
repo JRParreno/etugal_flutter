@@ -307,6 +307,7 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
             if (appUserCubit is AppUserLoggedIn) {
               context.read<TaskDetailBloc>().add(
                     EasyApplyTaskDetailEvent(
+                      task: widget.task.id,
                       performerId: int.parse(appUserCubit.user.profilePk),
                       description: intialMessage.value.text,
                     ),

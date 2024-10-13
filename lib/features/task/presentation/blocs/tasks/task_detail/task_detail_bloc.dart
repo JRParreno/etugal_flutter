@@ -26,24 +26,18 @@ class TaskDetailBloc extends Bloc<TaskDetailEvent, TaskDetailState> {
 
   FutureOr<void> onEasyApplyTaskDetailEvent(
       EasyApplyTaskDetailEvent event, Emitter<TaskDetailState> emit) async {
-    final state = this.state;
+    final response = await _easyApplyTask.call(
+      EasyApplyTaskParams(
+        taskId: event.task,
+        performer: event.performerId,
+        description: event.description,
+      ),
+    );
 
-    if (state is TaskDetailInitial) {
-      emit(TaskDetailLoading());
-
-      final response = await _easyApplyTask.call(
-        EasyApplyTaskParams(
-          taskId: state.taskId,
-          performer: event.performerId,
-          description: event.description,
-        ),
-      );
-
-      response.fold(
-        (l) => emit(TaskDetailFailure(l.message)),
-        (r) => emit(TaskDetailSuccess()),
-      );
-    }
-    return null;
+    response.fold(
+      (l) => emit(TaskDetailFailure(l.message)),
+      (r) => emit(TaskDetailSuccess()),
+    );
+    emit(TaskDetailLoading());
   }
 }

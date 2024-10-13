@@ -282,17 +282,20 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     };
 
     try {
-      final response = await apiInstance.post(url, data: data);
-      if (response.statusCode != 200) {
-        throw Failure(
-          response.data['error_message'] ?? 'Something went wrong.',
-        );
-      }
+      await apiInstance.post(url, data: data);
       return;
     } on DioException catch (e) {
-      throw Failure(
-        e.response?.data['error_message'] ?? 'Something went wrong.',
-      );
+      // Extract error message from either 'error_message' or 'non_field_errors'
+      final errorResponse = e.response?.data;
+
+      // Check for specific error keys and set a fallback message
+      final errorMessage = errorResponse?['error_message'] ??
+          (errorResponse?['non_field_errors']?.isNotEmpty == true
+              ? errorResponse['non_field_errors']
+                  .join(', ') // Join non_field_errors if it's a list
+              : 'Something went wrong.');
+
+      throw Failure(errorMessage);
     } catch (e) {
       throw Failure(e.toString());
     }
