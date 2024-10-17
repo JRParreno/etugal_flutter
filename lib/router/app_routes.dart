@@ -32,9 +32,13 @@ enum AppRoutes {
     name: 'change_password',
     path: '/change_password',
   ),
+  changeProfilePhoto(
+    name: 'change_profile_photo',
+    path: '/change_profile_photo',
+  ),
   updateProfile(
     name: 'update_profile',
-    path: 'update_profile',
+    path: '/update_profile',
   ),
   uploadGovernmentId(
     name: 'upload-government-id',
@@ -95,6 +99,10 @@ enum AppRoutes {
   chatReportUser(
     name: 'chat_report_user',
     path: '/chat_report_user',
+  ),
+  forgotPassword(
+    name: 'forgot_password',
+    path: '/forgot_password',
   ),
   ;
 

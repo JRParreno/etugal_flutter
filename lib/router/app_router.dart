@@ -9,6 +9,7 @@ import 'package:etugal_flutter/features/change_password/presentation/pages/chang
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_report_user_page.dart';
+import 'package:etugal_flutter/features/forgot_password/forgot_password_page.dart';
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
@@ -16,6 +17,8 @@ import 'package:etugal_flutter/features/profile/presentation/pages/process_verif
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_picture_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_selfie_page.dart';
 import 'package:etugal_flutter/features/task/domain/entities/index.dart';
@@ -153,26 +156,15 @@ GoRouter routerConfig() {
             navigatorKey: shellNavigatorProfileKey,
             routes: [
               GoRoute(
-                  path: AppRoutes.profile.path,
-                  name: AppRoutes.profile.name,
-                  pageBuilder: (context, state) {
-                    return buildTransitionPage(
-                      localKey: state.pageKey,
-                      child: const ProfilePage(),
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                      path: AppRoutes.updateProfile.path,
-                      name: AppRoutes.updateProfile.name,
-                      pageBuilder: (context, state) {
-                        return buildTransitionPage(
-                          localKey: state.pageKey,
-                          child: const Placeholder(),
-                        );
-                      },
-                    ),
-                  ]),
+                path: AppRoutes.profile.path,
+                name: AppRoutes.profile.name,
+                pageBuilder: (context, state) {
+                  return buildTransitionPage(
+                    localKey: state.pageKey,
+                    child: const ProfilePage(),
+                  );
+                },
+              ),
             ],
           ),
           StatefulShellBranch(
@@ -357,6 +349,36 @@ GoRouter routerConfig() {
             child: ChatReportUserPage(
               reportUserId: extra['id'] as int,
             ),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.updateProfile.path,
+        name: AppRoutes.updateProfile.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const UpdateProfilePage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.changeProfilePhoto.path,
+        name: AppRoutes.changeProfilePhoto.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const UpdateProfilePciturePage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.forgotPassword.path,
+        name: AppRoutes.forgotPassword.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const ForgotPasswordPage(),
           );
         },
       ),
