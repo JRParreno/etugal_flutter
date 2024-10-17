@@ -1,7 +1,7 @@
 name: etugal_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.6+0.1.6
+version: 0.1.14+0.1.14
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -14,6 +14,7 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   dio: ^5.6.0
   easy_debounce: ^2.0.3
+  email_validator: ^3.0.0
   equatable: ^2.0.5
   firebase_core: ^3.4.1
   firebase_messaging: ^15.1.1

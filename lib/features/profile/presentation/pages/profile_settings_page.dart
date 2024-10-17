@@ -36,16 +36,25 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
         child: Column(
           children: [
             buildListTile(
+              title: 'Change Profile Photo',
+              onTap: () {
+                context.pushNamed(AppRoutes.changeProfilePhoto.name);
+              },
+              iconData: Icons.photo_size_select_actual_rounded,
+            ),
+            buildListTile(
+              title: 'Edit Profile',
+              onTap: () {
+                context.pushNamed(AppRoutes.updateProfile.name);
+              },
+              iconData: Icons.edit,
+            ),
+            buildListTile(
               title: 'Change Password',
               onTap: () {
                 context.pushNamed(AppRoutes.changePassword.name);
               },
               iconData: Icons.lock,
-            ),
-            buildListTile(
-              title: 'Edit Profile',
-              onTap: () {},
-              iconData: Icons.edit,
             ),
             buildListTile(
               title: 'Blocked',

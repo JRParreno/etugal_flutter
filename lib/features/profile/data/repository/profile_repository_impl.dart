@@ -1,4 +1,4 @@
-import 'package:etugal_flutter/core/error/exceptions.dart';
+import 'package:etugal_flutter/core/common/entities/user.dart';
 import 'package:etugal_flutter/core/error/failure.dart';
 import 'package:etugal_flutter/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:etugal_flutter/features/profile/domain/repository/profile_repository.dart';
@@ -19,7 +19,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
+    } on Failure catch (e) {
       return left(Failure(e.toString()));
     }
   }
@@ -34,7 +34,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
+    } on Failure catch (e) {
       return left(Failure(e.toString()));
     }
   }
@@ -49,8 +49,35 @@ class ProfileRepositoryImpl implements ProfileRepository {
       );
 
       return right(response);
-    } on ServerException catch (e) {
+    } on Failure catch (e) {
       return left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String address,
+    required String birthdate,
+    required String contactNumber,
+    required String gender,
+  }) async {
+    try {
+      final response = await profileRemoteDataSource.updateProfile(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        address: address,
+        birthdate: birthdate,
+        contactNumber: contactNumber,
+        gender: gender,
+      );
+
+      return right(response);
+    } on Failure catch (e) {
+      return left(Failure(e.message));
     }
   }
 }

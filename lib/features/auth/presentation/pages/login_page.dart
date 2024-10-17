@@ -8,6 +8,7 @@ import 'package:etugal_flutter/features/auth/presentation/widgets/auth_field.dar
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:etugal_flutter/router/index.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -112,7 +113,9 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(AppRoutes.forgotPassword.name);
+                      },
                       child: Text(
                         'Forgot Password?',
                         style: textTheme.titleSmall?.copyWith(

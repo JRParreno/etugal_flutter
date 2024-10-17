@@ -4,8 +4,11 @@ import 'package:etugal_flutter/features/change_password/data/blocs/bloc/change_p
 import 'package:etugal_flutter/features/change_password/data/repository/change_password_repository_impl.dart';
 import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/blocs/chat_list/chat_list_bloc.dart';
+import 'package:etugal_flutter/features/forgot_password/data/blocs/bloc/forgot_password_bloc.dart';
+import 'package:etugal_flutter/features/forgot_password/data/repository/forgot_password_repository_impl.dart';
 import 'package:etugal_flutter/features/home/presentation/blocs/home_task/home_task_bloc.dart';
 import 'package:etugal_flutter/features/home/presentation/blocs/home_task_category/home_task_category_bloc.dart';
+import 'package:etugal_flutter/features/profile/presentation/blocs/update_profile/update_profile_bloc.dart';
 import 'package:etugal_flutter/features/profile/presentation/blocs/verification_image_upload/verification_image_upload_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task/add_task_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/add_task_category/add_task_category_bloc.dart';
@@ -74,10 +77,18 @@ class BlocProviders {
         ),
       ),
       BlocProvider(
+        create: (context) => ForgotPasswordBloc(
+          forgotPasswordRepository: ForgotPasswordRepositoryImpl(),
+        ),
+      ),
+      BlocProvider(
         create: (context) => serviceLocator<ChatBloc>(),
       ),
       BlocProvider(
         create: (context) => serviceLocator<ChatListBloc>(),
+      ),
+      BlocProvider(
+        create: (context) => serviceLocator<UpdateProfileBloc>(),
       ),
     ];
   }
