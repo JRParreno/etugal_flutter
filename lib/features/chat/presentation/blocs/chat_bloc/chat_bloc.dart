@@ -61,14 +61,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Map<String, dynamic> json = jsonDecode(event.message);
 
     emit(ChatState(
+        chatSession: state.chatSession,
+        isWebSocketConnected: state.isWebSocketConnected,
+        errorMessage: state.errorMessage,
+        isSending: state.isSending,
+        viewStatus: state.viewStatus,
         chats: state.chats.copyWith(chats: [
-      ChatModel(
-        message: json['message'],
-        timeStamp: json['time_stamp'],
-        username: json['username'],
-      ),
-      ...chats
-    ])));
+          ChatModel(
+            message: json['message'],
+            timeStamp: json['time_stamp'],
+            username: json['username'],
+          ),
+          ...chats
+        ])));
   }
 
   FutureOr<void> _onGetInitialChat(

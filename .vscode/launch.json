@@ -22,7 +22,7 @@
             "name": "e_tugal (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
         }
     ]
 }

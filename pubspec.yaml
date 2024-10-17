@@ -1,7 +1,7 @@
 name: etugal_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.6+0.1.6
+version: 0.1.13+0.1.13
 
 environment:
   sdk: '>=3.4.0 <4.0.0'

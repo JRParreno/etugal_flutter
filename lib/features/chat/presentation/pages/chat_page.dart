@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/enums/view_status.dart';
-import 'package:etugal_flutter/core/env/env.dart';
 import 'package:etugal_flutter/features/chat/domain/entities/index.dart';
 import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/widgets/index.dart';
@@ -71,14 +70,17 @@ class _ChatPageState extends State<ChatPage> {
             chatSession: chatSession,
           ),
         );
-    // initialize websocket channel
-    initChannel();
 
     textEditingController.addListener(() {
       isDisabled.value = textEditingController.value.text.trim().isEmpty;
     });
 
     handleEventScrollListener();
+
+    // initialize websocket channel
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initChannel();
+    });
   }
 
   @override
@@ -149,26 +151,29 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      body: BlocConsumer<ChatBloc, ChatState>(
-        listener: (context, state) {
-          if (state.chatSession != null) {
-            setState(() {
-              chatSession = state.chatSession;
-            });
-          }
+      body: Expanded(
+        child: BlocConsumer<ChatBloc, ChatState>(
+          listener: (context, state) {
+            if (state.chatSession != null) {
+              setState(() {
+                chatSession = state.chatSession;
+              });
+            }
 
-          if (state.viewStatus == ViewStatus.failed) {
-            onFormError(state.errorMessage ?? 'Something went wrong');
-          }
-        },
-        builder: (context, state) {
-          if (state.viewStatus == ViewStatus.loading) {
-            return const Expanded(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-          return SizedBox.expand(
-            child: Column(
+            if (state.viewStatus == ViewStatus.failed) {
+              onFormError(state.errorMessage ?? 'Something went wrong');
+            }
+          },
+          builder: (context, state) {
+            if (state.viewStatus == ViewStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.viewStatus == ViewStatus.failed) {
+              return Center(child: Text(state.errorMessage ?? ''));
+            }
+
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -254,9 +259,9 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ],
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -278,20 +283,22 @@ class _ChatPageState extends State<ChatPage> {
     context.read<ChatBloc>().add(OnTryConnectToWebSocket());
 
     try {
-      const serverHost = Env.serverHost;
+      const serverHost = 'etugal-core.onrender.com';
       // wss for https otherwise http ws
-      wsUrl = Uri.parse('ws://$serverHost/ws/chat/$roomName/');
+      wsUrl = Uri.parse('wss://$serverHost/ws/chat/$roomName/');
       channel = IOWebSocketChannel.connect(wsUrl);
-
+      displaySnackbar("Websocket: connecting");
       await channel.ready;
 
       if (mounted) {
         // set isConnected to true when already connected to websocket otherwise false
 
+        // ignore: use_build_context_synchronously
         context
             .read<ChatBloc>()
             .add(const OnGetConnectWebSocket(isConnected: true));
       }
+      displaySnackbar("Websocket: connected");
 
       channel.stream.listen((message) {
         context.read<ChatBloc>().add(OnReceivedMessageChat(message: message));
@@ -301,6 +308,7 @@ class _ChatPageState extends State<ChatPage> {
       context
           .read<ChatBloc>()
           .add(const OnGetConnectWebSocket(isConnected: false));
+      displaySnackbar("Websocket: ${e.toString()}");
     }
   }
 
@@ -358,5 +366,12 @@ class _ChatPageState extends State<ChatPage> {
         context.pop();
       });
     });
+  }
+
+  void displaySnackbar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
