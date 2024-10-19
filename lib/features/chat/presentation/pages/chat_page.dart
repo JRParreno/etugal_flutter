@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/enums/view_status.dart';
 import 'package:etugal_flutter/core/env/env.dart';
@@ -11,6 +13,7 @@ import 'package:etugal_flutter/features/task/domain/entities/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:etugal_flutter/router/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:web_socket_channel/io.dart';
@@ -62,23 +65,16 @@ class _ChatPageState extends State<ChatPage> {
     final taskId = widget.args.taskEntity.id;
     roomName = '$performerId-$providerId-$taskId';
 
-    context.read<ChatBloc>().add(
-          OnGetInitialChat(
-            roomName: roomName,
-            performerId: widget.args.performerId,
-            providerId: widget.args.providerId,
-            taskId: widget.args.taskEntity.id,
-            chatSession: chatSession,
-          ),
-        );
-    // initialize websocket channel
-    initChannel();
-
     textEditingController.addListener(() {
       isDisabled.value = textEditingController.value.text.trim().isEmpty;
     });
 
     handleEventScrollListener();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // initialize websocket channel
+      initChannel();
+    });
   }
 
   @override
@@ -93,12 +89,10 @@ class _ChatPageState extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: BlocSelector<ChatBloc, ChatState, ChatSessionEntity?>(
-          selector: (state) {
-            return state.chatSession;
-          },
+        title: BlocBuilder<ChatBloc, ChatState>(
           builder: (context, state) {
-            final chatSession = state;
+            final chatSession = state.chatSession;
+
             if (chatSession == null) return const SizedBox.shrink();
             final chatUser = chatSession.provider.user.username != getUserName()
                 ? chatSession.provider
@@ -108,7 +102,9 @@ class _ChatPageState extends State<ChatPage> {
                 CircleAvatar(
                   backgroundColor: ColorName.primary,
                   backgroundImage: chatUser.profilePhoto != null
-                      ? Image.network(chatUser.profilePhoto!).image
+                      ? chatUser.profilePhoto!.contains('https')
+                          ? Image.network(chatUser.profilePhoto!).image
+                          : null
                       : null,
                   radius: 20,
                   child: chatUser.profilePhoto == null
@@ -117,7 +113,9 @@ class _ChatPageState extends State<ChatPage> {
                           size: 20 * 0.75,
                           color: ColorName.whiteNotMuch,
                         )
-                      : null,
+                      : chatUser.profilePhoto!.contains('https')
+                          ? null
+                          : null,
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -149,26 +147,27 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      body: BlocConsumer<ChatBloc, ChatState>(
-        listener: (context, state) {
-          if (state.chatSession != null) {
-            setState(() {
-              chatSession = state.chatSession;
-            });
-          }
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: BlocConsumer<ChatBloc, ChatState>(
+          listener: (context, state) {
+            if (state.chatSession != null) {
+              setState(() {
+                chatSession = state.chatSession;
+              });
+            }
 
-          if (state.viewStatus == ViewStatus.failed) {
-            onFormError(state.errorMessage ?? 'Something went wrong');
-          }
-        },
-        builder: (context, state) {
-          if (state.viewStatus == ViewStatus.loading) {
-            return const Expanded(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-          return SizedBox.expand(
-            child: Column(
+            if (state.viewStatus == ViewStatus.failed) {
+              onFormError(state.errorMessage ?? 'Something went wrong');
+            }
+          },
+          builder: (context, state) {
+            if (state.viewStatus == ViewStatus.loading ||
+                state.viewStatus == ViewStatus.none) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
@@ -254,9 +253,9 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ],
               ],
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -280,7 +279,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       const serverHost = Env.serverHost;
       // wss for https otherwise http ws
-      wsUrl = Uri.parse('ws://$serverHost/ws/chat/$roomName/');
+      wsUrl = Uri.parse('wss://$serverHost/ws/chat/$roomName/');
       channel = IOWebSocketChannel.connect(wsUrl);
 
       await channel.ready;
@@ -294,6 +293,7 @@ class _ChatPageState extends State<ChatPage> {
       }
 
       channel.stream.listen((message) {
+        log(message, name: 'Websocket: ');
         context.read<ChatBloc>().add(OnReceivedMessageChat(message: message));
       });
     } catch (e) {
@@ -313,16 +313,26 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void handleEventScrollListener() {
-    scrollController.addListener(
-      () {
-        if (scrollController.position.pixels >
-            (scrollController.position.pixels * 0.75)) {
-          context.read<ChatBloc>().add(
-                OnPaginateChat(),
-              );
-        }
-      },
-    );
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >
+              (scrollController.position.maxScrollExtent * 0.75) &&
+          scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse) {
+        EasyDebounce.debounce(
+            'chat_paginate', // <-- An ID for this particular debouncer
+            const Duration(milliseconds: 500), // <-- The debounce duration
+            () {
+          context.read<ChatBloc>().add(OnPaginateChat());
+        } // <-- The target method
+            );
+      } else if (scrollController.position.pixels <=
+              scrollController.position.minScrollExtent &&
+          scrollController.position.userScrollDirection ==
+              ScrollDirection.forward) {
+        EasyDebounce.cancel(
+            'chat_paginate'); // Cancel debounce if scrolling to top
+      }
+    });
   }
 
   void handleReportMessage() {

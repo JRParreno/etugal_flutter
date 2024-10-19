@@ -57,18 +57,18 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               iconData: Icons.lock,
             ),
             buildListTile(
-              title: 'Blocked',
-              onTap: () {},
-              iconData: Icons.block,
+              title: 'Terms & Conditions',
+              onTap: () {
+                context.pushNamed(AppRoutes.termsCondition.name);
+              },
+              iconData: Icons.info,
             ),
             buildListTile(
-                title: 'Terms & Conditions',
-                onTap: () {},
-                iconData: Icons.shield),
-            buildListTile(
-              title: 'Report',
-              onTap: () {},
-              iconData: Icons.report,
+              title: 'Privacy Policy',
+              onTap: () {
+                context.pushNamed(AppRoutes.termsCondition.name);
+              },
+              iconData: Icons.policy,
             ),
             buildListTile(
               title: 'Logout',

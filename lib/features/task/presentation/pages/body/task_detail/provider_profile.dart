@@ -102,10 +102,8 @@ class ProviderProfile extends StatelessWidget {
   }
 
   String getTimeAgo(DateTime taskDate) {
-    final fifteenAgo = DateTime.now().subtract(Duration(
-        hours: taskDate.hour,
-        minutes: taskDate.minute,
-        seconds: taskDate.second));
-    return timeago.format(fifteenAgo);
+    final duration = DateTime.now().difference(taskDate);
+
+    return timeago.format(DateTime.now().subtract(duration));
   }
 }

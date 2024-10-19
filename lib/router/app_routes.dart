@@ -104,6 +104,14 @@ enum AppRoutes {
     name: 'forgot_password',
     path: '/forgot_password',
   ),
+  termsCondition(
+    name: 'terms_condition',
+    path: '/terms_condition',
+  ),
+  privacyPolicy(
+    name: 'privacy_policy',
+    path: '/privacy_policy',
+  ),
   ;
 
   const AppRoutes({

@@ -7,6 +7,7 @@ import 'package:etugal_flutter/core/common/widgets/loader.dart';
 import 'package:etugal_flutter/core/enums/task_status_enum.dart';
 import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/core/helper/verification_helper.dart';
+import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/performer_task_list/performer_task_list_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_detail/task_detail_bloc.dart';
@@ -143,15 +144,33 @@ class _TaskDetailPageState extends State<TaskDetailPage> {
                               context.read<AppUserCubit>().state;
 
                           if (appUserState is AppUserLoggedIn) {
-                            context.pushNamed(
-                              AppRoutes.chat.name,
-                              extra: ChatArgs(
-                                performerId:
-                                    int.parse(appUserState.user.profilePk),
-                                providerId: task.provider.id,
-                                taskEntity: task,
-                              ),
-                            );
+                            final performerId =
+                                int.parse(appUserState.user.profilePk);
+                            final providerId = task.provider.id;
+                            final taskId = task.id;
+                            final roomName = '$performerId-$providerId-$taskId';
+
+                            context.read<ChatBloc>().add(
+                                  OnGetInitialChat(
+                                    roomName: roomName,
+                                    performerId: performerId,
+                                    providerId: providerId,
+                                    taskId: taskId,
+                                  ),
+                                );
+
+                            Future.delayed(const Duration(milliseconds: 200),
+                                () {
+                              context.pushNamed(
+                                AppRoutes.chat.name,
+                                extra: ChatArgs(
+                                  performerId:
+                                      int.parse(appUserState.user.profilePk),
+                                  providerId: task.provider.id,
+                                  taskEntity: task,
+                                ),
+                              );
+                            });
                           }
                         });
                   },

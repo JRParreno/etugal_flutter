@@ -1,7 +1,7 @@
 name: etugal_flutter
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.14+0.1.14
+version: 0.1.17+0.1.17
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -41,6 +41,7 @@ dependencies:
   stylish_bottom_bar: ^1.1.0
   timeago: ^3.7.0
   web_socket_channel: ^3.0.1
+  webview_flutter: ^4.8.0
 
 dev_dependencies:
   flutter_test:

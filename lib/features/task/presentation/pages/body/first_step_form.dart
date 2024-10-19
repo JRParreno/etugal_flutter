@@ -56,13 +56,13 @@ class FirstStepForm extends StatelessWidget {
             }
 
             if (state is AddTaskCategorySuccess) {
-              return Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      child: Padding(
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
                           children: [
@@ -101,13 +101,13 @@ class FirstStepForm extends StatelessWidget {
                           ],
                         ),
                       ),
-                    ),
-                    NextButton(
-                      onNext: onNext,
-                      isEnabled:
-                          selectedCategory != null && selectedWorkType != null,
-                    ),
-                  ],
+                      NextButton(
+                        onNext: onNext,
+                        isEnabled: selectedCategory != null &&
+                            selectedWorkType != null,
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

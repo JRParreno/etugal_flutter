@@ -55,7 +55,7 @@ class _UploadSelfiePageState extends State<UploadSelfiePage> {
           titleUpload: 'Photo of a selfie',
           description: RichText(
             text: TextSpan(
-              text: "Please provide a photo of your selfie",
+              text: "Please provide a photo of your selfie holding your ID",
               style: textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.normal,
                 color: ColorName.greyFont,

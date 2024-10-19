@@ -1,6 +1,7 @@
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/common/widgets/shimmer_loading.dart';
 import 'package:etugal_flutter/core/enums/view_status.dart';
+import 'package:etugal_flutter/features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/blocs/chat_list/chat_list_bloc.dart';
 import 'package:etugal_flutter/features/chat/presentation/pages/chat_page.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
@@ -92,15 +93,32 @@ class _ChatListPageState extends State<ChatListPage> {
 
                   return GestureDetector(
                     onTap: () {
-                      context.pushNamed(
-                        AppRoutes.chat.name,
-                        extra: ChatArgs(
-                          performerId: chat.performer.id,
-                          providerId: chat.provider.id,
-                          taskEntity: chat.task,
-                          chatSession: chat,
-                        ),
-                      );
+                      final performerId = chat.performer.id;
+                      final providerId = chat.provider.id;
+                      final taskId = chat.task.id;
+                      final roomName = '$performerId-$providerId-$taskId';
+
+                      context.read<ChatBloc>().add(
+                            OnGetInitialChat(
+                              roomName: roomName,
+                              performerId: performerId,
+                              providerId: providerId,
+                              taskId: taskId,
+                              chatSession: chat,
+                            ),
+                          );
+
+                      Future.delayed(const Duration(milliseconds: 200), () {
+                        context.pushNamed(
+                          AppRoutes.chat.name,
+                          extra: ChatArgs(
+                            performerId: chat.performer.id,
+                            providerId: chat.provider.id,
+                            taskEntity: chat.task,
+                            chatSession: chat,
+                          ),
+                        );
+                      });
                     },
                     child: Container(
                       height: 80,

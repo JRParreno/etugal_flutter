@@ -13,10 +13,12 @@ import 'package:etugal_flutter/features/forgot_password/forgot_password_page.dar
 import 'package:etugal_flutter/features/home/presentation/pages/home_page.dart';
 import 'package:etugal_flutter/features/navigation/presentation/scaffold_with_bottom_nav.dart';
 import 'package:etugal_flutter/features/on_boarding/on_boarding.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/privacy_policy_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/process_verification_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/terms_and_condition_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_picture_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/upload_government_id_page.dart';
@@ -379,6 +381,26 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const ForgotPasswordPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.termsCondition.path,
+        name: AppRoutes.termsCondition.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const TermsAndConditionPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.privacyPolicy.path,
+        name: AppRoutes.privacyPolicy.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const PrivacyPolicyPage(),
           );
         },
       ),
