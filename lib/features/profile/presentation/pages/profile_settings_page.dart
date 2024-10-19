@@ -71,6 +71,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               iconData: Icons.policy,
             ),
             buildListTile(
+              title: 'Safety Guide',
+              onTap: () {
+                context.pushNamed(AppRoutes.safetyGuide.name);
+              },
+              iconData: Icons.lightbulb,
+            ),
+            buildListTile(
               title: 'Logout',
               onTap: handleOnTapLogout,
               iconData: Icons.logout,

@@ -112,6 +112,10 @@ enum AppRoutes {
     name: 'privacy_policy',
     path: '/privacy_policy',
   ),
+  safetyGuide(
+    name: 'safety_guide',
+    path: '/safety_guide',
+  ),
   ;
 
   const AppRoutes({

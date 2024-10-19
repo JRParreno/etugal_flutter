@@ -55,6 +55,11 @@ abstract interface class TaskRemoteDataSource {
     String? previous,
     String? next,
   });
+  Future<TaskReviewListModel> getTaskAllReview({
+    String? previous,
+    String? next,
+  });
+
   Future<void> easyApplyTask({
     required int performerId,
     required int taskId,
@@ -383,6 +388,23 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     try {
       final response = await apiInstance.post(url, data: data);
       return TaskShortReviewModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Failure(
+        e.response?.data['error_message'] ?? 'Something went wrong.',
+      );
+    } catch (e) {
+      throw Failure(e.toString());
+    }
+  }
+
+  @override
+  Future<TaskReviewListModel> getTaskAllReview(
+      {String? previous, String? next}) async {
+    String url = '$baseUrl/api/task/review/list?my_reviews=true';
+
+    try {
+      final response = await apiInstance.get(next ?? previous ?? url);
+      return TaskReviewListModel.fromJson(response.data);
     } on DioException catch (e) {
       throw Failure(
         e.response?.data['error_message'] ?? 'Something went wrong.',

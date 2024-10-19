@@ -41,6 +41,9 @@ void initTasks(GetIt serviceLocator) {
     ..registerFactory(
       () => ProviderReview(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetTaskAllReview(serviceLocator()),
+    )
     // Bloc
     ..registerFactory(
       () => ProviderTaskListBloc(getProviderTaskList: serviceLocator()),
@@ -64,7 +67,10 @@ void initTasks(GetIt serviceLocator) {
       () => TaskApplicantReviewBloc(serviceLocator()),
     )
     ..registerFactory(
-      () => TaskProviderReviewBloc(serviceLocator()),
+      () => TaskProviderReviewBloc(
+        getTaskAllReview: serviceLocator(),
+        getTaskProviderReview: serviceLocator(),
+      ),
     )
     ..registerFactory(
       () => ReviewStarCubit(),

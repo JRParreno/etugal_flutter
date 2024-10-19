@@ -14,24 +14,28 @@ final class TaskProviderReviewLoading extends TaskProviderReviewState {}
 final class TaskProviderReviewSuccess extends TaskProviderReviewState {
   final TaskReviewListEntity data;
   final bool isPaginate;
+  final bool isAllReview;
 
   const TaskProviderReviewSuccess({
     required this.data,
     this.isPaginate = false,
+    this.isAllReview = false,
   });
 
   TaskProviderReviewSuccess copyWith({
     TaskReviewListEntity? data,
     bool? isPaginate,
+    bool? isAllReview,
   }) {
     return TaskProviderReviewSuccess(
       data: data ?? this.data,
       isPaginate: isPaginate ?? this.isPaginate,
+      isAllReview: isAllReview ?? this.isAllReview,
     );
   }
 
   @override
-  List<Object> get props => [data, isPaginate];
+  List<Object> get props => [data, isPaginate, isAllReview];
 }
 
 final class TaskProviderReviewFailure extends TaskProviderReviewState {

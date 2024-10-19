@@ -368,69 +368,77 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
   }) {
     return showModalBottomSheet<String>(
       context: context,
-      enableDrag: true,
       isDismissible: true,
       useSafeArea: true,
       showDragHandle: true,
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(15),
-          height: MediaQuery.of(context).size.height * 0.75,
-          width: double.infinity,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
+        return DraggableScrollableSheet(
+          initialChildSize: 0.6,
+          minChildSize: 0.2,
+          maxChildSize: 0.8,
+          expand: false,
+          snap: true,
+          builder: (context, scrollController) {
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: SingleChildScrollView(
+                controller: scrollController,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Applicant',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(height: 15),
-                    PerformerInfo(
-                      taskUserProfile: performer,
-                      isHideHeader: true,
-                    ),
-                    if (performer.description != null)
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 15),
-                          Text(
-                            'Initial Message',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(color: ColorName.darkerGreyFont),
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Applicant',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
-                          Text(
-                            performer.description!,
-                            style: Theme.of(context).textTheme.bodySmall,
-                            textAlign: TextAlign.justify,
-                          )
-                        ].withSpaceBetween(height: 10),
-                      ),
-                  ],
+                        ),
+                        const SizedBox(height: 15),
+                        PerformerInfo(
+                          taskUserProfile: performer,
+                          isHideHeader: true,
+                        ),
+                        if (performer.description != null)
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 15),
+                              Text(
+                                'Initial Message',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(color: ColorName.darkerGreyFont),
+                              ),
+                              Text(
+                                performer.description!,
+                                style: Theme.of(context).textTheme.bodySmall,
+                                textAlign: TextAlign.justify,
+                              )
+                            ].withSpaceBetween(height: 10),
+                          ),
+                      ],
+                    ),
+                    CustomElevatedBtn(
+                      onTap: () => context.pop('accept'),
+                      title: 'Accept',
+                    ),
+                    CustomElevatedBtn(
+                      onTap: () => context.pop('viewProfile'),
+                      buttonType: ButtonType.outline,
+                      title: 'View Profile',
+                    ),
+                  ].withSpaceBetween(height: 15),
                 ),
               ),
-              CustomElevatedBtn(
-                onTap: () => context.pop('accept'),
-                title: 'Accept',
-              ),
-              CustomElevatedBtn(
-                onTap: () => context.pop('viewProfile'),
-                buttonType: ButtonType.outline,
-                title: 'View Profile',
-              ),
-            ].withSpaceBetween(height: 15),
-          ),
+            );
+          },
         );
       },
     ).then(

@@ -59,8 +59,7 @@ class _ProfilePageState extends State<ProfilePage>
       );
 
       context.read<TaskProviderReviewBloc>().add(
-            GetTaskProviderReviewEvent(
-                int.parse(userCubitState.user.profilePk)),
+            GetTaskAllReviewEvent(),
           );
     }
 

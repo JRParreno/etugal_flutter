@@ -18,6 +18,7 @@ import 'package:etugal_flutter/features/profile/presentation/pages/process_verif
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/reject_verification_page.dart';
+import 'package:etugal_flutter/features/profile/presentation/pages/safety_guide_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/terms_and_condition_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_page.dart';
 import 'package:etugal_flutter/features/profile/presentation/pages/update_profile_picture_page.dart';
@@ -401,6 +402,16 @@ GoRouter routerConfig() {
           return buildTransitionPage(
             localKey: state.pageKey,
             child: const PrivacyPolicyPage(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.safetyGuide.path,
+        name: AppRoutes.safetyGuide.name,
+        pageBuilder: (context, state) {
+          return buildTransitionPage(
+            localKey: state.pageKey,
+            child: const SafetyGuidePage(),
           );
         },
       ),

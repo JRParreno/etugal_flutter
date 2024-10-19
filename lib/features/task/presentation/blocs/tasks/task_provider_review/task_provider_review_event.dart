@@ -16,6 +16,8 @@ final class GetTaskProviderReviewEvent extends TaskProviderReviewEvent {
   List<Object> get props => [providerId];
 }
 
+final class GetTaskAllReviewEvent extends TaskProviderReviewEvent {}
+
 final class PaginateTaskProviderReviewEvent extends TaskProviderReviewEvent {
   final int providerId;
 

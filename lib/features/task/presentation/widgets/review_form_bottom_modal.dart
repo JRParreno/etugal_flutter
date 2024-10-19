@@ -3,6 +3,7 @@ import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/task/domain/entities/task_entity.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/cubit/review_star_cubit.dart';
 import 'package:etugal_flutter/features/task/presentation/blocs/tasks/my_task_detail/my_task_detail_bloc.dart';
+import 'package:etugal_flutter/features/task/presentation/blocs/tasks/task_provider_review/task_provider_review_bloc.dart';
 import 'package:etugal_flutter/features/task/presentation/widgets/index.dart';
 import 'package:etugal_flutter/gen/colors.gen.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,9 @@ Future<void> addFeedbackBottomSheetDialog({
                   feedback: controller.value.text,
                   rate: rate.toInt(),
                 ),
+              );
+          context.read<TaskProviderReviewBloc>().add(
+                GetTaskAllReviewEvent(),
               );
           return;
         }

@@ -237,4 +237,18 @@ class TaskRepositoryImpl implements TaskRepository {
       return left(e);
     }
   }
+
+  @override
+  Future<Either<Failure, TaskReviewListEntity>> getTaskAllReview(
+      {String? previous, String? next}) async {
+    try {
+      final response = await taskRemoteDataSource.getTaskAllReview(
+        next: next,
+        previous: previous,
+      );
+      return right(response);
+    } on Failure catch (e) {
+      return left(e);
+    }
+  }
 }

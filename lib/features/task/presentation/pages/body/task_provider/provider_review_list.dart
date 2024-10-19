@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:etugal_flutter/features/task/presentation/pages/body/task_applicant/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,9 +64,25 @@ class ProviderReviewList extends StatelessWidget {
                           final review = state.data.results[index];
                           return Column(
                             children: [
-                              ProviderReviewCard(
-                                taskReview: review,
-                              ),
+                              if (state.isAllReview) ...[
+                                if (review.task.provider.id != userId) ...[
+                                  if (review.providerRate > 0) ...[
+                                    PerformerReviewCard(
+                                      taskReview: review,
+                                    ),
+                                  ]
+                                ] else ...[
+                                  if (review.performerRate > 0) ...[
+                                    ProviderReviewCard(
+                                      taskReview: review,
+                                    ),
+                                  ]
+                                ]
+                              ] else ...[
+                                ProviderReviewCard(
+                                  taskReview: review,
+                                ),
+                              ],
                               if (index == (state.data.results.length - 1) &&
                                   state.isPaginate)
                                 const SizedBox(

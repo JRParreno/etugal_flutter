@@ -4,20 +4,21 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PrivacyPolicyPage extends StatefulWidget {
-  const PrivacyPolicyPage({super.key});
+class SafetyGuidePage extends StatefulWidget {
+  const SafetyGuidePage({super.key});
 
   @override
-  State<PrivacyPolicyPage> createState() => _PrivacyPolicyPageState();
+  State<SafetyGuidePage> createState() => _SafetyGuidePageState();
 }
 
-class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
+class _SafetyGuidePageState extends State<SafetyGuidePage> {
   late WebViewController controller;
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
     Factory(() => EagerGestureRecognizer())
   };
 
   final UniqueKey _key = UniqueKey();
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +26,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
 
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('$baseUrl/privacy_policy/'));
+      ..loadRequest(Uri.parse('$baseUrl/safety_guide/'));
   }
 
   @override
@@ -35,7 +36,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Privacy Policy',
+          'Safety Guide',
           style: textTheme.titleLarge,
         ),
         centerTitle: true,

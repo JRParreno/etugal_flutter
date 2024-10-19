@@ -53,6 +53,10 @@ abstract interface class TaskRepository {
     String? previous,
     String? next,
   });
+  Future<Either<Failure, TaskReviewListEntity>> getTaskAllReview({
+    String? previous,
+    String? next,
+  });
   Future<Either<Failure, void>> easyApplyTask({
     required int performerId,
     required int taskId,
