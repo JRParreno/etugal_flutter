@@ -22,6 +22,7 @@ class AddNewTask implements UseCase<String, AddNewTaskParams> {
       address: params.address,
       longitude: params.longitude,
       latitude: params.latitude,
+      numWorker: params.numWorker,
     );
   }
 }
@@ -37,6 +38,7 @@ class AddNewTaskParams {
   final double longitude;
   final double latitude;
   final String? scheduleTime;
+  final int numWorker;
 
   AddNewTaskParams({
     required this.title,
@@ -48,6 +50,7 @@ class AddNewTaskParams {
     required this.address,
     required this.longitude,
     required this.latitude,
+    required this.numWorker,
     this.scheduleTime,
   });
 }

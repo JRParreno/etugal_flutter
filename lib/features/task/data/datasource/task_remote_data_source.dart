@@ -17,6 +17,7 @@ abstract interface class TaskRemoteDataSource {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   });
   Future<String> editTask({
@@ -30,6 +31,7 @@ abstract interface class TaskRemoteDataSource {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   });
   Future<TaskListResponseModel> getProviderTaskList({
@@ -98,6 +100,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   }) async {
     String url = '$baseUrl/api/provider/task/';
@@ -112,7 +115,8 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       "work_type": workType,
       "address": address,
       "longitude": longitude,
-      "latitude": latitude
+      "latitude": latitude,
+      "num_worker": numWorker,
     };
 
     try {
@@ -139,6 +143,7 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   }) async {
     String url = '$baseUrl/api/provider/task/$taskId/';
@@ -153,7 +158,8 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       "work_type": workType,
       "address": address,
       "longitude": longitude,
-      "latitude": latitude
+      "latitude": latitude,
+      "num_worker": numWorker,
     };
 
     try {

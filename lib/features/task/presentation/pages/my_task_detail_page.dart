@@ -168,6 +168,7 @@ class _MyTaskDetailPageState extends State<MyTaskDetailPage> {
                       isProviderEdit: true,
                     ),
                   TaskInfo(
+                    numWorker: task.numWorker,
                     scheduleTime: task.scheduleTime,
                     doneDate: task.doneDate,
                     reward: task.reward,

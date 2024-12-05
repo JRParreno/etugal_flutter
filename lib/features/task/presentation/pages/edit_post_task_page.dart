@@ -30,6 +30,7 @@ class EditPostTaskPage extends StatefulWidget {
 
 class _EditPostTaskPageState extends State<EditPostTaskPage> {
   int _index = 0;
+  int _numWorker = 1;
   TaskCategoryEntity? _selectedCategory;
   WorkType? _workType;
   late DateTime _dateSelected;
@@ -77,6 +78,7 @@ class _EditPostTaskPageState extends State<EditPostTaskPage> {
           ? WorkType.inPerson
           : WorkType.online;
       latLng = LatLng(task.latitude, task.longitude);
+      _numWorker = task.numWorker;
     });
     _describeController.text = task.description;
     _rewardCtrl.text = task.reward.toString();
@@ -198,6 +200,8 @@ class _EditPostTaskPageState extends State<EditPostTaskPage> {
     switch (_index) {
       case 0:
         return FirstStepForm(
+          numWorker: _numWorker,
+          onChangeQuantity: (value) => setState(() => _numWorker = value),
           selectedWorkType: _workType,
           selectedCategory: _selectedCategory,
           onSelectCategory: (value) =>
@@ -272,6 +276,7 @@ class _EditPostTaskPageState extends State<EditPostTaskPage> {
                       address: _searchLocationCtrl.value.text,
                       longitude: latLng.longitude,
                       latitude: latLng.latitude,
+                      numWorker: _numWorker,
                     ),
                   ),
                 );

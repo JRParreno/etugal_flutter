@@ -23,6 +23,7 @@ class EditTask implements UseCase<String, EditTaskParams> {
       address: params.address,
       longitude: params.longitude,
       latitude: params.latitude,
+      numWorker: params.numWorker,
     );
   }
 }
@@ -39,6 +40,7 @@ class EditTaskParams {
   final double longitude;
   final double latitude;
   final String? scheduleTime;
+  final int numWorker;
 
   EditTaskParams({
     required this.taskId,
@@ -51,6 +53,7 @@ class EditTaskParams {
     required this.address,
     required this.longitude,
     required this.latitude,
+    required this.numWorker,
     this.scheduleTime,
   });
 }

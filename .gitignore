@@ -44,5 +44,7 @@ app.*.map.json
 
 lib/gen/
 
-.fvm/flutter_sdk
 *.env
+
+# FVM Version Cache
+.fvm/

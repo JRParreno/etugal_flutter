@@ -24,6 +24,7 @@ class TaskRepositoryImpl implements TaskRepository {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   }) async {
     try {
@@ -38,6 +39,7 @@ class TaskRepositoryImpl implements TaskRepository {
         address: address,
         longitude: longitude,
         latitude: latitude,
+        numWorker: numWorker,
       );
 
       return right(response);
@@ -215,6 +217,7 @@ class TaskRepositoryImpl implements TaskRepository {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   }) async {
     try {
@@ -230,6 +233,7 @@ class TaskRepositoryImpl implements TaskRepository {
         address: address,
         longitude: longitude,
         latitude: latitude,
+        numWorker: numWorker,
       );
 
       return right(response);

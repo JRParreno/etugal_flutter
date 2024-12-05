@@ -18,6 +18,7 @@ class TaskInfo extends StatelessWidget {
     required this.googleMapController,
     required this.initialCameraPosition,
     required this.markers,
+    required this.numWorker,
     this.scheduleTime,
   });
 
@@ -25,6 +26,7 @@ class TaskInfo extends StatelessWidget {
   final double reward;
   final String description;
   final DateTime doneDate;
+  final int numWorker;
 
   final String? scheduleTime;
 
@@ -59,6 +61,11 @@ class TaskInfo extends StatelessWidget {
           textTheme: textTheme,
           info: 'Type',
           text: workType.toUpperCase().replaceAll('_', ' '),
+        ),
+        rowInfoText(
+          textTheme: textTheme,
+          info: 'Number of Worker (Need)',
+          text: numWorker.toString(),
         ),
         rowInfoText(
           textTheme: textTheme,

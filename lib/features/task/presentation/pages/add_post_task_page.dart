@@ -27,6 +27,7 @@ class AddPostTaskPage extends StatefulWidget {
 
 class _AddPostTaskPageState extends State<AddPostTaskPage> {
   int _index = 0;
+  int _numWorker = 1;
   TaskCategoryEntity? _selectedCategory;
   WorkType? _workType;
   late DateTime _dateSelected;
@@ -177,6 +178,10 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
               setState(() => _selectedCategory = value),
           onSelectWorkType: (value) => setState(() => _workType = value),
           onNext: handleNext,
+          onChangeQuantity: (value) {
+            setState(() => _numWorker = value);
+          },
+          numWorker: _numWorker,
         );
       case 1:
         return SecondStepForm(
@@ -244,6 +249,7 @@ class _AddPostTaskPageState extends State<AddPostTaskPage> {
                       address: _searchLocationCtrl.value.text,
                       longitude: latLng.longitude,
                       latitude: latLng.latitude,
+                      numWorker: _numWorker,
                     ),
                   ),
                 );

@@ -18,6 +18,7 @@ class TaskModel extends TaskEntity {
     required super.status,
     required super.rejectionReason,
     required super.doneDate,
+    required super.numWorker,
     super.performer,
     super.applicants,
     super.isDonePerform,
@@ -58,6 +59,7 @@ class TaskModel extends TaskEntity {
       review: json["review"] != null
           ? TaskShortReviewModel.fromJson(json["review"])
           : null,
+      numWorker: json["num_worker"],
     );
   }
 }

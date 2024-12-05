@@ -117,6 +117,7 @@ class _MyPerformerTaskDetailPageState extends State<MyPerformerTaskDetailPage> {
                       },
                     ),
                   TaskInfo(
+                    numWorker: task.numWorker,
                     scheduleTime: task.scheduleTime,
                     doneDate: task.doneDate,
                     reward: task.reward,

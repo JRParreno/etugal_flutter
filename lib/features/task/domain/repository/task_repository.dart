@@ -15,6 +15,7 @@ abstract interface class TaskRepository {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   });
   Future<Either<Failure, String>> editTask({
@@ -28,6 +29,7 @@ abstract interface class TaskRepository {
     required String address,
     required double longitude,
     required double latitude,
+    required int numWorker,
     String? scheduleTime,
   });
   Future<Either<Failure, TaskListResponseEntity>> getProviderTaskList({
