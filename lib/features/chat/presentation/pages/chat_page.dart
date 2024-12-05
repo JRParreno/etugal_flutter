@@ -279,7 +279,7 @@ class _ChatPageState extends State<ChatPage> {
     try {
       const serverHost = Env.serverHost;
       // wss for https otherwise http ws
-      wsUrl = Uri.parse('ws://$serverHost/ws/chat/$roomName/');
+      wsUrl = Uri.parse('wss://$serverHost/ws/chat/$roomName/');
       channel = IOWebSocketChannel.connect(wsUrl);
 
       await channel.ready;
