@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
+import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/profile/presentation/blocs/verification_image_upload/verification_image_upload_bloc.dart';
 import 'package:etugal_flutter/features/profile/presentation/widgets/index.dart';
 import 'package:etugal_flutter/gen/assets.gen.dart';
@@ -60,6 +61,42 @@ class _UploadSelfiePageState extends State<UploadSelfiePage> {
                 fontWeight: FontWeight.normal,
                 color: ColorName.greyFont,
               ),
+            ),
+          ),
+          additionalText: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Note:",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• Take a selfie holding your ID next to your face.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• Make sure your face and ID are clearly visible and well-lit.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• Avoid wearing hats, sunglasses, or anything that obstructs your face.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+              ].withSpaceBetween(height: 5),
             ),
           ),
         ),

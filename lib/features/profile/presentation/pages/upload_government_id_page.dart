@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:etugal_flutter/core/common/cubits/cubit/app_user_cubit.dart';
 import 'package:etugal_flutter/core/common/widgets/loader.dart';
+import 'package:etugal_flutter/core/extensions/spacer_widget.dart';
 import 'package:etugal_flutter/features/profile/presentation/blocs/verification_image_upload/verification_image_upload_bloc.dart';
 import 'package:etugal_flutter/features/profile/presentation/widgets/index.dart';
 import 'package:etugal_flutter/gen/assets.gen.dart';
@@ -77,6 +78,42 @@ class _UploadGovernmentIdPageState extends State<UploadGovernmentIdPage> {
                   text: "of your ID",
                 )
               ],
+            ),
+          ),
+          additionalText: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Note:",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• Upload a clear photo of your government-issued ID.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• Ensure all details (name, photo, and ID number) are fully visible.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+                Text(
+                  "• The image must not be blurry, cropped, or have glare.",
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: ColorName.greyFont,
+                  ),
+                ),
+              ].withSpaceBetween(height: 5),
             ),
           ),
         ),

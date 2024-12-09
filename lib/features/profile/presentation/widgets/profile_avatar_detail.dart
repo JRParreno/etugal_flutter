@@ -91,7 +91,7 @@ class ProfileAvatarDetail extends StatelessWidget {
       case VerificationStatus.rejected:
         return verifyButton(
           context: context,
-          title: 'Rejected',
+          title: 'Dissaproved',
           backgroundColor: Colors.red,
           textColor: ColorName.whiteNotMuch,
           onTap: () => context.pushNamed(AppRoutes.rejectVerification.name),

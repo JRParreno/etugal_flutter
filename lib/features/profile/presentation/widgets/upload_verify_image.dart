@@ -14,8 +14,9 @@ class UploadVerifyImage extends StatelessWidget {
     required this.description,
     required this.titleUpload,
     required this.imagePicker,
-    this.image,
     required this.onNext,
+    this.image,
+    this.additionalText,
   });
 
   final String title;
@@ -25,6 +26,7 @@ class UploadVerifyImage extends StatelessWidget {
   final String titleUpload;
   final VoidCallback imagePicker;
   final VoidCallback onNext;
+  final Widget? additionalText;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,8 @@ class UploadVerifyImage extends StatelessWidget {
                       )
                     ].withSpaceBetween(width: 8),
                   ),
-                )
+                ),
+                if (additionalText != null) additionalText!,
               ].withSpaceBetween(height: 45),
             ),
           ),

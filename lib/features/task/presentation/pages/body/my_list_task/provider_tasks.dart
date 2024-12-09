@@ -70,7 +70,7 @@ class ProviderTasks extends StatelessWidget {
               ),
               Tab(
                 child: Text(
-                  'Rejected',
+                  'Dissaproved',
                 ),
               ),
             ],
